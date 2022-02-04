@@ -3,17 +3,17 @@
 
 .import "VisaChaseTXs.csv" FromCSV_VisaChaseTXs
 
-.import "MastercardBarclaysJetsTXs.csv" FromCSV_MastercardBarclaysJetsTXs
+--.import "MastercardBarclaysJetsTXs.csv" FromCSV_MastercardBarclaysJetsTXs
 
-.import "CheckingWellsFargoTXs.csv"  FromCSV_CheckingWellsFargoTXs
+--.import "CheckingWellsFargoTXs.csv"  FromCSV_CheckingWellsFargoTXs
 
-.import "CheckingWellsFargoTXs.csv"  FromCSV_VisaWellsFargoTXs
+--.import "CheckingWellsFargoTXs.csv"  FromCSV_VisaWellsFargoTXs
 
 .import "CheckingStarOneTXs.csv"  FromCSV_CheckingStarOneTXs
 
 .import "SavingsStarOneTXs.csv"  FromCSV_SavingsStarOneTXs
 
-.import "MastercardCitibankShellTXs.csv"  FromCSV_MastercardCitibankShellTXs
+--.import "MastercardCitibankShellTXs.csv"  FromCSV_MastercardCitibankShellTXs
 
 -- We must create the tables, obviously, before we can migrate to them...
 -- So... here we are... creating tables:
@@ -22,25 +22,25 @@
 
 -- .open taxes2020.db
 
-CREATE TABLE IF NOT EXISTS "CheckingWellsFargoTXs" (
-	"TransactionDate"	TEXT,
-	"Amount"	REAL,
-	"Unknown1"	TEXT,
-	"Unknown2"	TEXT,
-	"Description"	TEXT,
-	"BudgetCat"	TEXT,
-	"Source"	TEXT
-);
+-- CREATE TABLE IF NOT EXISTS "CheckingWellsFargoTXs" (
+-- 	"TransactionDate"	TEXT,
+-- 	"Amount"	REAL,
+-- 	"Unknown1"	TEXT,
+-- 	"Unknown2"	TEXT,
+-- 	"Description"	TEXT,
+-- 	"BudgetCat"	TEXT,
+-- 	"Source"	TEXT
+-- );
 
-CREATE TABLE IF NOT EXISTS "VisaWellsFargoTXs" (
-	"TransactionDate"	TEXT,
-	"Amount"	REAL,
-	"Unknown1"	TEXT,
-	"Unknown2"	TEXT,
-	"Description"	TEXT,
-	"BudgetCat"	TEXT,
-	"Source"	TEXT
-);
+-- CREATE TABLE IF NOT EXISTS "VisaWellsFargoTXs" (
+-- 	"TransactionDate"	TEXT,
+-- 	"Amount"	REAL,
+-- 	"Unknown1"	TEXT,
+-- 	"Unknown2"	TEXT,
+-- 	"Description"	TEXT,
+-- 	"BudgetCat"	TEXT,
+-- 	"Source"	TEXT
+-- );
 
 CREATE TABLE IF NOT EXISTS "CheckingStarOneTXs" (
 	"TransactionNumber"	INTEGER,
@@ -86,23 +86,23 @@ CREATE TABLE IF NOT EXISTS "VisaChaseTXs" (
 	"Source"	TEXT
 );
 
-CREATE TABLE IF NOT EXISTS "MastercardBarclaysJetsTXs" (
-	"TransactionDate"	TEXT,
-	"Description"	TEXT,
-	"Category"	TEXT,
-	"Amount"	REAL,
-	"BudgetCat"	TEXT,
-	"Source"	TEXT
-);
+-- CREATE TABLE IF NOT EXISTS "MastercardBarclaysJetsTXs" (
+-- 	"TransactionDate"	TEXT,
+-- 	"Description"	TEXT,
+-- 	"Category"	TEXT,
+-- 	"Amount"	REAL,
+-- 	"BudgetCat"	TEXT,
+-- 	"Source"	TEXT
+-- );
 
-CREATE TABLE IF NOT EXISTS "MastercardCitibankShellTXs" (
-	"TransactionDate"	TEXT,
-	"Amount"	REAL,
-	"Description"	TEXT,
-	"TransactionType" TEXT,
-	"BudgetCat"	TEXT,
-	"Source"	TEXT
-);
+-- CREATE TABLE IF NOT EXISTS "MastercardCitibankShellTXs" (
+-- 	"TransactionDate"	TEXT,
+-- 	"Amount"	REAL,
+-- 	"Description"	TEXT,
+-- 	"TransactionType" TEXT,
+-- 	"BudgetCat"	TEXT,
+-- 	"Source"	TEXT
+-- );
 
 --  alter table CheckingStarOneTXs add Amount REAL; 
 -- has to happen after import
@@ -110,19 +110,20 @@ CREATE TABLE IF NOT EXISTS "MastercardCitibankShellTXs" (
 
 CREATE VIEW BigTXView as
 
-select TransactionDate, Description, amount, BudgetCat, source from MastercardBarclaysJetsTXs
-union
+-- select TransactionDate, Description, amount, BudgetCat, source from MastercardBarclaysJetsTXs
+-- union
 select TransactionDate, Description, amount, BudgetCat, source from VisaChaseTXs
 union 
-select TransactionDate, Description, amount, BudgetCat, source from MastercardCitibankShellTXs
-UNION
+-- select TransactionDate, Description, amount, BudgetCat, source from MastercardCitibankShellTXs
+-- UNION
 select TransactionDate, Description, amount, BudgetCat, source from CheckingStarOneTXs
 union
 select TransactionDate, Description, amount, BudgetCat, source from SavingsStarOneTXs
-union
-select TransactionDate, Description, Amount, BudgetCat, source from CheckingWellsFargoTXs
-union
-select TransactionDate, Description, Amount, BudgetCat, source from VisaWellsFargoTXs;
+-- union
+-- select TransactionDate, Description, Amount, BudgetCat, source from CheckingWellsFargoTXs
+-- union
+-- select TransactionDate, Description, Amount, BudgetCat, source from VisaWellsFargoTXs
+;
 
 ----- ----- ----- ----- -----
 -- Done... creating tables.
@@ -137,47 +138,47 @@ select TransactionDate, Description, Amount, BudgetCat, source from VisaWellsFar
 -- -- Checking from Wells Fargo Account
 -- ----- ----- ----- ----- ----- 
 
-insert into CheckingWellsFargoTXs
-       (
-       TransactionDate,
-       Amount,
-       Unknown1,
-       Unknown2,
-       Description,
-       BudgetCat,
-       Source
-       )
+-- insert into CheckingWellsFargoTXs
+--        (
+--        TransactionDate,
+--        Amount,
+--        Unknown1,
+--        Unknown2,
+--        Description,
+--        BudgetCat,
+--        Source
+--        )
 
-select
-	TransactionDate, 
-	cast(Amount as real),
-	Unknown1,
-	Unknown2,
-	Description,
-	BudgetCat,
-	"CheckingWellsFargo"
-	from FromCSV_CheckingWellsFargoTXs;
+-- select
+-- 	TransactionDate, 
+-- 	cast(Amount as real),
+-- 	Unknown1,
+-- 	Unknown2,
+-- 	Description,
+-- 	BudgetCat,
+-- 	"CheckingWellsFargo"
+-- 	from FromCSV_CheckingWellsFargoTXs;
 
 
-insert into VisaWellsFargoTXs
-       (
-       TransactionDate,
-       Amount,
-       Unknown1,
-       Unknown2,
-       Description,
-       BudgetCat,
-       Source
-       )
-select
-	TransactionDate, 
-	cast(Amount as real),
-	Unknown1,
-	Unknown2,
-	Description,
-	BudgetCat,
-	"VisaWellsFargoTXs,"
-	from FromCSV_VisaWellsFargoTXs;
+-- insert into VisaWellsFargoTXs
+--        (
+--        TransactionDate,
+--        Amount,
+--        Unknown1,
+--        Unknown2,
+--        Description,
+--        BudgetCat,
+--        Source
+--        )
+-- select
+-- 	TransactionDate, 
+-- 	cast(Amount as real),
+-- 	Unknown1,
+-- 	Unknown2,
+-- 	Description,
+-- 	BudgetCat,
+-- 	"VisaWellsFargoTXs,"
+-- 	from FromCSV_VisaWellsFargoTXs;
 
 ----- ----- ----- ----- ----- 
 -- Checking Account from Star One
@@ -263,23 +264,23 @@ update SavingsStarOneTXs
 -- Mastercard Barclays Jets Credit Card
 ----- ----- ----- ----- ----- 
 
-insert into MastercardBarclaysJetsTXs
-(
-	TransactionDate,
-	Description,
-	Category,
-	Amount,
-	BudgetCat,
-	Source
-)
-select
-  TransactionDate,
-  Description,
-  BudgetCat,
-  cast(Amount as real),
-  BudgetCat,
-  "MastercardBarclaysJetsTXs"
-from FromCSV_MastercardBarclaysJetsTXs;
+-- insert into MastercardBarclaysJetsTXs
+-- (
+-- 	TransactionDate,
+-- 	Description,
+-- 	Category,
+-- 	Amount,
+-- 	BudgetCat,
+-- 	Source
+-- )
+-- select
+--   TransactionDate,
+--   Description,
+--   BudgetCat,
+--   cast(Amount as real),
+--   BudgetCat,
+--   "MastercardBarclaysJetsTXs"
+-- from FromCSV_MastercardBarclaysJetsTXs;
 
 ----- ----- ----- ----- ----- 
 -- TXs from Visa Chase CC
@@ -312,20 +313,20 @@ from FromCSV_VisaChaseTXs;
 ----- ----- ----- ----- -----
 -- migrate Shell transactions from CSV file
 ----- ----- ----- ----- -----
-insert into MastercardCitibankShellTXs (
-	TransactionDate,
-	Amount,
-	Description,
-	TransactionType,
-	Source
-)
-select 
-       TransactionDate,
-       cast(Amount as real),
-       Description,
-       TransactionType,
-        "MastercardCitibankShellTXs"
-from FromCSV_MastercardCitibankShellTXs;
+-- insert into MastercardCitibankShellTXs (
+-- 	TransactionDate,
+-- 	Amount,
+-- 	Description,
+-- 	TransactionType,
+-- 	Source
+-- )
+-- select 
+--        TransactionDate,
+--        cast(Amount as real),
+--        Description,
+--        TransactionType,
+--         "MastercardCitibankShellTXs"
+-- from FromCSV_MastercardCitibankShellTXs;
 
 -- ----- ----- ----- ----- -----
 -- -- Done migrating Shell transactions from csv table
