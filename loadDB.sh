@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 # Chase Visa - Chase1791_Activity20210410_20210630_20210707.CSV
 # Wells Fargo - CreditCard2-2.csv
@@ -43,7 +43,7 @@ if [ "$testing" = '1' ]
 then
     echo removing `ls Gcsvs*`
     rm -r Gcsvs*
-    read
+#    read myvar 1
 fi
 
 mkdir $subfolderLoc

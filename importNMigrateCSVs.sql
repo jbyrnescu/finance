@@ -1,6 +1,10 @@
 
 .mode csv
 
+-- open the db --
+
+.open TXs.db
+
 .import "VisaChaseTXs.csv" FromCSV_VisaChaseTXs
 
 --.import "MastercardBarclaysJetsTXs.csv" FromCSV_MastercardBarclaysJetsTXs
@@ -18,9 +22,6 @@
 -- We must create the tables, obviously, before we can migrate to them...
 -- So... here we are... creating tables:
 
--- open the db --
-
--- .open taxes2020.db
 
 -- CREATE TABLE IF NOT EXISTS "CheckingWellsFargoTXs" (
 -- 	"TransactionDate"	TEXT,
@@ -332,5 +333,6 @@ from FromCSV_VisaChaseTXs;
 -- -- Done migrating Shell transactions from csv table
 -- ----- ----- ----- ----- -----
 
-.save TXs.db
+.save
+#.save TXs.bck
 .quit
