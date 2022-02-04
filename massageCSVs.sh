@@ -58,5 +58,6 @@ sed -i -e 's/\/Users\/jbyrne\/TeamRex Dropbox\/John Byrne\/ScannedDocs\/2021_05_
 #TransactionDate,Amount,Description,TransactionType
 #' MastercardCitibankShellTXs.csv
 
+
 cat GimportCSVs${dateSuffix}.sql | sqlite3 -echo -batch
 
