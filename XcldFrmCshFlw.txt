@@ -1,4 +1,4 @@
 PURCELL
-Payment
 CRDEPAY
 TRANSFER
+Payment Thank You - Web
