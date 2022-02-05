@@ -33,6 +33,7 @@ sed -i -e 's/Transaction Date/TransactionDate/' VisaChaseTXs.csv
 sed -i -e 's/Post Date/PostDate/' VisaChaseTXs.csv
 
 
+
 #add column labels/names to WellsFargo
 #sed -i -e '1 i \
 #TransactionDate,Amount,Unknown1,Unknown2,Description,BudgetCat\
