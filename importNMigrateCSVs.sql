@@ -116,27 +116,24 @@ CREATE TABLE IF NOT EXISTS "VisaChaseTXs" (
 
 CREATE VIEW BigTXView as
 
--- select TransactionDate, Description, amount, BudgetCat, source from MastercardBarclaysJetsTXs
+-- select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from MastercardBarclaysJetsTXs
 -- union
-select TransactionDate, Description, amount, BudgetCat, source from VisaChaseTXs
+select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from VisaChaseTXs
 union 
--- select TransactionDate, Description, amount, BudgetCat, source from MastercardCitibankShellTXs
+-- select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from MastercardCitibankShellTXs
 -- UNION
-select TransactionDate, Description, amount, BudgetCat, source from CheckingStarOneTXs
+select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from CheckingStarOneTXs
 union
-select TransactionDate, Description, amount, BudgetCat, source from SavingsStarOneTXs
+select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from SavingsStarOneTXs
 -- union
--- select TransactionDate, Description, Amount, BudgetCat, source from CheckingWellsFargoTXs
+-- select TransactionDate, Description, Amount, BudgetCat, XclFrmCshFlw, source from CheckingWellsFargoTXs
 -- union
--- select TransactionDate, Description, Amount, BudgetCat, source from VisaWellsFargoTXs
+-- select TransactionDate, Description, Amount, BudgetCat, XclFrmCshFlw, source from VisaWellsFargoTXs
 ;
 
 ----- ----- ----- ----- -----
 -- Done... creating tables.
 ----- ----- ----- ----- -----
-
-
-
 
 -- -- below is the MigrateAll CSVs structured query language file that migrates FromCSV_ files to the correct tables.
 

@@ -118,7 +118,6 @@ done
 
 cat ${subfolderLoc}/GMrkNnCshFlwTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
-
 echo .save >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 echo .quit >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
