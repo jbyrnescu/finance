@@ -122,7 +122,9 @@ cat ${subfolderLoc}/GMrkNnCshFlwTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuff
 echo .save >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 echo .quit >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
-cat ${subfolderLoc}/GimportCSVs${dateSuffix}.sql | sqlite3 -echo -batch &2> Gerrors.txt
+cd ${subfolderLoc}
+
+cat GimportCSVs${dateSuffix}.sql | sqlite3 -echo -batch &2> Gerrors.txt
 
 # BEFOE
 # sqlite3 -bail -batch -init getBagOfWords.sql
