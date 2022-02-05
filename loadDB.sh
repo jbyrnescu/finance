@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 # Chase Visa - Chase1791_Activity20210410_20210630_20210707.CSV
 # Wells Fargo - CreditCard2-2.csv
@@ -108,8 +108,21 @@ dateSuffix=`date "+%Y%m%d%H%M"`
 # This doesn't work on the command line
 #echo ".quit" | sqlite3 TXs.db
 
-cat ${subfolderLoc}/GimportCSVs${dateSuffix}.sql | sqlite3 -echo -batch &2> Gerrors.txt
+# mark non cash flow/"exclusions" out of generating the cash flow
+for i in "VisaChaseTXs" "CheckingStarOneTXs" "SavingsStarOneTXs"
+do
+    sed -r -e "s/(^.*$)/update $i set XclFrmCshFlw=\'y\' where description like \'%\1%\';/" XcldFrmCshFlw.txt >> ${subfolderLoc}/GMrkNnCshFlwTXs.sql
+done
 
+#echo ".schema VisaChaseTXs" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+
+cat ${subfolderLoc}/GMrkNnCshFlwTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+
+
+echo .save >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+echo .quit >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+
+cat ${subfolderLoc}/GimportCSVs${dateSuffix}.sql | sqlite3 -echo -batch &2> Gerrors.txt
 
 # BEFOE
 # sqlite3 -bail -batch -init getBagOfWords.sql

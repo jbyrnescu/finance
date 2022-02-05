@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 # we change directory to where the csv files have been copied
 
@@ -59,5 +59,5 @@ sed -i -e 's/\/Users\/jbyrne\/TeamRex Dropbox\/John Byrne\/ScannedDocs\/2021_05_
 #' MastercardCitibankShellTXs.csv
 
 
-cat GimportCSVs${dateSuffix}.sql | sqlite3 -echo -batch
+#cat GimportCSVs${dateSuffix}.sql | sqlite3 -echo -batch
 
