@@ -30,6 +30,7 @@
 -- 	"Unknown2"	TEXT,
 -- 	"Description"	TEXT,
 -- 	"BudgetCat"	TEXT,
+--	"XclFrmCshFlw"	TEXT,
 -- 	"Source"	TEXT
 -- );
 
@@ -40,6 +41,7 @@
 -- 	"Unknown2"	TEXT,
 -- 	"Description"	TEXT,
 -- 	"BudgetCat"	TEXT,
+--	"XclFrmCshFlw"	TEXT,
 -- 	"Source"	TEXT
 -- );
 
@@ -55,6 +57,7 @@ CREATE TABLE IF NOT EXISTS "CheckingStarOneTXs" (
 	"Fees"		REAL,
 	"BudgetCat"	TEXT,
 	"Amount"	REAL,
+	"XclFrmCshFlw"	TEXT,
 	"Source"	TEXT
 
 );
@@ -71,6 +74,7 @@ CREATE TABLE IF NOT EXISTS "SavingsStarOneTXs" (
 	"Fees"		TEXT,
 	"BudgetCat"	TEXT,
 	"Amount"	REAL,
+	"XclFrmCshFlw"	TEXT,
 	"Source"	TEXT
 );
  
@@ -84,6 +88,7 @@ CREATE TABLE IF NOT EXISTS "VisaChaseTXs" (
 	"Amount"	REAL,
 	"BudgetCat"	TEXT,
 	"Memo"		TEXT,
+	"XclFrmCshFlw"	TEXT,
 	"Source"	TEXT
 );
 
@@ -333,6 +338,6 @@ from FromCSV_VisaChaseTXs;
 -- -- Done migrating Shell transactions from csv table
 -- ----- ----- ----- ----- -----
 
-.save
-#.save TXs.bck
-.quit
+-- These last two statements are added later by a script
+--.save
+--.quit
