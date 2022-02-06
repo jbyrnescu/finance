@@ -7,11 +7,11 @@
 categoryDir="/home/jbyrne/finance/CategoryFiles"
 
 dictionaryFile="${categoryDir}/words_alpha.txt"
-badWordList="${categoryDir}/GknownBadKeyWordChoices.txt"
+badWordList="${categoryDir}/knownBadKeyWordChoices.txt"
 
 echo inside createWordList.sh
 
-cat GsingleColDescr.txt | tr "\r" "\n" | tr "," " " | tr "@" " " | tr "/" " " | tr "." " " | tr -d "'" | tr "*" " " | tr -d "\"" | tr -s " " "\n" | sort | uniq > GmixedCaseWords.txt
+cat GsingleColDescr.txt | tr "\r" "\n" | tr "," " " | tr "/" " " | tr "." " " | tr -d "'" | tr "*" " " | tr -d "\"" | tr "@" " " | tr "&" " "| tr -s " " "\n" | sort | uniq > GmixedCaseWords.txt
 
 sed -E -i -e '/^&.*$/ d' GmixedCaseWords.txt
 sed -E -i -e '/^\#.*/ d' GmixedCaseWords.txt
@@ -23,17 +23,36 @@ cat GmixedCaseWords.txt | sort | uniq > GmixedCaseWords2.txt
 
 # elimate common words found in the dictionary
 
+echo before made it here
+
 rm -f GfinalWordList.txt
 
-for i in `cat GmixedCaseWords2.txt`
-do
-    grepResult=`grep -i $i "${dictionaryFile}"`
-    grepBadWord=`grep -i $i "${badWordList}"`
+echo made it here
 
-    if [ "$grepResult" == "" ] && [ "$grepBadWord" == "" ]
-    then
-       echo $i >> GfinalWordList.txt
+lineNum=0
+numLines=`wc -l GmixedCaseWords2.txt`
+
+while [ "$numLines" -lt "$lineNum" ]
+do
+
+    lineNum=[[ lineNum + 1 ]]
+    i=`cat GmixedCaseWords2.txt | sed -n -e '$lineNum p'`
+    
+    echo made it inside for statement
+
+    grepResult=`grep -i $i ${dictionaryFile}`
+    grepResult2=`echo $grepResult | tr [:lower:] [:upper:]`
+    grepresult3=`echo $grepResult2 | sed -n -e "/^$i\$/ p"`
+
+    grepBadWord=`grep -i $i "${badWordList} | tr [:lower:] [:upper:] | sed -n -e "/^$i\$/ p"`
+
+    i=`echo $i | tr [:lower:] [:upper:]`
+
+    if [[ "$grepResult" == "$i" ]] && [[ "$grepBadWord" == "$i" ]] ; then
+	echo $i >> GfinalWordList.txt
     fi
+
+    read junk 1
 done
 
 # get make sure there are no ^Ms in finalWord.txt
