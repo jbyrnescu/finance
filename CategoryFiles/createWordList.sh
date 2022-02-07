@@ -30,29 +30,41 @@ rm -f GfinalWordList.txt
 echo made it here
 
 lineNum=0
-numLines=`wc -l GmixedCaseWords2.txt`
+numLines=`wc -l GmixedCaseWords2.txt | cut -d " " -f1`
 
-while [ "$numLines" -lt "$lineNum" ]
+echo numLines : $numLines
+echo lineNum : $lineNum
+
+while [ "$lineNum" -ne "$numLines" ]
 do
+    echo $i
+    lineNum=`expr $lineNum + 1`
+    echo $i
+    i=`cat GmixedCaseWords2.txt | sed -n -e "$lineNum p"`
 
-    lineNum=[[ lineNum + 1 ]]
-    i=`cat GmixedCaseWords2.txt | sed -n -e '$lineNum p'`
+#     echo $i
     
-    echo made it inside for statement
+#     echo lineNum : $lineNum
+# done
 
-    grepResult=`grep -i $i ${dictionaryFile}`
-    grepResult2=`echo $grepResult | tr [:lower:] [:upper:]`
-    grepresult3=`echo $grepResult2 | sed -n -e "/^$i\$/ p"`
+#     lineNum=[[ lineNum + 1 ]]
 
-    grepBadWord=`grep -i $i "${badWordList} | tr [:lower:] [:upper:] | sed -n -e "/^$i\$/ p"`
+    
+#     echo made it inside for statement
 
-    i=`echo $i | tr [:lower:] [:upper:]`
+     grepResult=`grep -i $i ${dictionaryFile}`
+     grepResult2=`echo $grepResult | tr [:lower:] [:upper:]`
+     grepresult3=`echo $grepResult2 | sed -n -e "/^$i\$/ p"`
 
-    if [[ "$grepResult" == "$i" ]] && [[ "$grepBadWord" == "$i" ]] ; then
-	echo $i >> GfinalWordList.txt
-    fi
+     grepBadWord=`grep -i $i "${badWordList}" | tr [:lower:] [:upper:] | sed -n -e "/^$i\$/ p"`
 
-    read junk 1
+     i=`echo $i | tr [:lower:] [:upper:]`
+
+     if [[ "$grepResult" == "$i" ]] && [[ "$grepBadWord" == "$i" ]] ; then
+ 	echo $i >> GfinalWordList.txt
+     fi
+
+     read junk 1
 done
 
 # get make sure there are no ^Ms in finalWord.txt
