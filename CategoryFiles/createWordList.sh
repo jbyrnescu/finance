@@ -1,8 +1,16 @@
-#!/bin/sh -x
+#!/bin/sh
+
+# This program selects possible words to categorize transactions with
+# It makes it easier to categorize based on a single word
 
 # I'm thinking... These should be the filters:
 # 1) break up words as seen in the first set of tr statements
-# 2) Chop off the top with
+# 2) delete words that start with &
+# 3) delete words that start with #
+# 4) delete words that start with 0-9 or end with 0-9
+# 5) delete words that are 2 letters long
+# 6) replace words that end with 4 numbers with just the word itself
+# 7) filter out common words from the dictionary
 
 categoryDir="/home/jbyrne/finance/CategoryFiles"
 
@@ -52,19 +60,41 @@ do
     
 #     echo made it inside for statement
 
-     grepResult=`grep -i $i ${dictionaryFile}`
-     grepResult2=`echo $grepResult | tr [:lower:] [:upper:]`
-     grepresult3=`echo $grepResult2 | sed -n -e "/^$i\$/ p"`
+    wordInLower=`echo $i | tr [:upper:] [:lower:]`
 
-     grepBadWord=`grep -i $i "${badWordList}" | tr [:lower:] [:upper:] | sed -n -e "/^$i\$/ p"`
+    wordInDictionary=`sed -n -e "/^$wordInLower$/ p" ${dictionaryFile}`
+    #capsWordInDictionaryInUpper=`echo $wordInDictionary | tr [:lower:] [:upper:]`
 
-     i=`echo $i | tr [:lower:] [:upper:]`
+    #     echo capsWordInDictionary = ${capsWordInDictionary}
 
-     if [[ "$grepResult" == "$i" ]] && [[ "$grepBadWord" == "$i" ]] ; then
+    # checks to see if the whole word matches
+    # if it doesn't this should be blank and the original word is in capsWordInDictionaryInUpper
+#    capsWholeWordMatch=`echo $capsWordInDictionaryInUpper | sed -n -e "/^$i$/ p"`
+
+#    if [[ "$capsWholeWordMatch" == "" ]] ; then
+#	filterOut=${capsWholeWordMatch}
+#    fi
+
+    if expr "$wordInDictionary" != ""
+    then
+	filterOut=${wordInDictionary}
+    else
+	filterOut=""
+    fi
+     
+    grepBadWord=`sed -n -e "/^$i\$/ p" ${badWordList} | tr [:lower:] [:upper:]`
+
+    #     echo grepBadWord = $grepBadWord
+
+    i=`echo $i | tr [:lower:] [:upper:]`
+
+    if expr "$filterOut" == "" && expr "$grepBadWord" != "$i"
+    then
+	echo putting in final word list - $i
  	echo $i >> GfinalWordList.txt
-     fi
+    fi
 
-     read junk 1
+    read junk 1
 done
 
 # get make sure there are no ^Ms in finalWord.txt
