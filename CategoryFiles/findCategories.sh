@@ -11,7 +11,7 @@ dbDir=`ls -d -rt -C1 ../Gcsvs* | tail -1`
 cd $dbDir
 
 # we're going to do this later
-cat ${thisDir}/getBagOfWords.sql | sqlite3 -bail -echo &2>> errors.txt &
+cat ${thisDir}/getPotentialTxWrds.sql | sqlite3 -bail -echo &2>> errors.txt &
 
 ${thisDir}/createWordList.sh
 
