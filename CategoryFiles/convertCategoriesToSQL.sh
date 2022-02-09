@@ -6,7 +6,8 @@ stmt3="%\""
 
 tble1="CheckingStarOneTXs"
 tble2="SavingsStarOneTXs"
-tble3="CheckingWellsFargoTXs"
+tble3="VisaChaseTXs"
+# not yet. "CheckingWellsFargoTXs"
 
 #tble3="MastercardBarclaysJetsTXs"
 #tble4="MastercardCitibankShellTXs"
@@ -19,7 +20,7 @@ rm categorizeTXs.sql
 
 for curBankAcct in $tble1 $tble2 $tble3
 do
-    cat Categorized.csv | sed -E -e "s/^([^,]*),(.*)$/ update $curBankAcct set BudgetCat=\"\\2\" where Description like \"%\\1%\"; /" >> categorizeTXs.sql
+    cat Categorized.csv | sed -E -e "s/^([^,]*),(.*)$/update $curBankAcct set BudgetCat=\"\\2\" where Description like \"%\\1%\";/" >> categorizeTXs.sql
     echo --------------------------------------------- >> categorizeTXs.sql
 done
 
