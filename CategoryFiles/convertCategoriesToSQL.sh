@@ -4,6 +4,10 @@ stmt1="update $tble1 set BudgetCat="
 stmt2="where Description like \"%"
 stmt3="%\""
 
+generatedDir=`ls -C1 -rtd ../Gcsvs* | tail -1`
+
+#echo generatedDir = $generatedDir
+
 tble1="CheckingStarOneTXs"
 tble2="SavingsStarOneTXs"
 tble3="VisaChaseTXs"
@@ -24,23 +28,6 @@ do
     echo --------------------------------------------- >> categorizeTXs.sql
 done
 
-#head -n 2 Categorized.csv 
-#echo
-#echo
-# cat Categorized.csv | sed -E -e 's/^([^,]*),(.*)$/ update CheckingWellsFargoTXs set BudgetCat="\2" where Description like "%\1%"; /' > categorizeTXs.sql
-# echo --------------------------------------------- >> categorizeTXs.sql
-# cat Categorized.csv | sed -E -e 's/^([^,]*),(.*)$/ update CheckingWellsFargoTXs set BudgetCat="\2" where Description like "%\1%"; /' >> categorizeTXs.sql
-# echo --------------------------------------------- >> categorizeTXs.sql
-# cat Categorized.csv | sed -E -e 's/^([^,]*),(.*)$/ update MastercardBarclaysJetsTXs set BudgetCat="\2" where Description like "%\1%"; /' >> categorizeTXs.sql
-# echo --------------------------------------------- >> categorizeTXs.sql
-# cat Categorized.csv | sed -E -e 's/^([^,]*),(.*)$/ update MastercardCitibankShellTXs set BudgetCat="\2" where Description like "%\1%"; /' >> categorizeTXs.sql
-# echo --------------------------------------------- >> categorizeTXs.sql
-# cat Categorized.csv | sed -E -e 's/^([^,]*),(.*)$/ update SavingsStarOneTXs set BudgetCat="\2" where Description like "%\1%"; /' >> categorizeTXs.sql
-# echo --------------------------------------------- >> categorizeTXs.sql
-# cat Categorized.csv | sed -E -e 's/^([^,]*),(.*)$/ update VisaChaseTXs set BudgetCat="\2" where Description like "%\1%"; /' >> categorizeTXs.sql
-
-
-
-
-
+# now do this inside the generated directory with the file you just GENERATED!
+cat ${generatedDir}/categorizeTXs.sql | sqlite3 -echo -batch ${generatedDir}/TXs.db
 

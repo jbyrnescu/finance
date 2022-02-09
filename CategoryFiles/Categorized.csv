@@ -57,7 +57,6 @@ HTTPSSHOPIFY,Service
 INTEREST,Bank/CardFees
 Jiffy,AutoMaintenance
 JJS,DiningOut
-KeywordAddition,Category
 LIFE&HEALTHPRIMARY,HealthInsurance
 liquor,Food/Groceries
 LOVE,Gas
@@ -74,7 +73,6 @@ OBDEV,CellPhone
 OCENTURE,ComputerSoftare/Hardware
 OREILLY,Movies/Entertainment
 OVERDRAFT,Bank/CardFees
-PAYMENT,Income
 PAYPAL,Payment
 PEST,Housekeeping
 PILOT,Gas
@@ -140,3 +138,10 @@ TMOBILE,CellPhone
 UDEMY:,Books/Education
 VSP,Medical/Dental/Vision
 XXSOC,Income
+BEHAVIORAL,Medical/Dental/Vision
+OMAHA,Insurance
+EMERGENCY,Medical/Dental/Vision
+PHARMACY,Medical/Dental/Vision
+RADIOLOGY,Medical/Dental/Vision
+SPECTRUM,Internet
+HEALTH,Medical/Dental/Vision
