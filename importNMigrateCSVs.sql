@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS "CheckingStarOneTXs" (
 	"BudgetCat"	TEXT,
 	"Amount"	REAL,
 	"XclFrmCshFlw"	TEXT,
+	"Mandatory"	TEXT,
 	"Source"	TEXT
 
 );
@@ -75,6 +76,7 @@ CREATE TABLE IF NOT EXISTS "SavingsStarOneTXs" (
 	"BudgetCat"	TEXT,
 	"Amount"	REAL,
 	"XclFrmCshFlw"	TEXT,
+	"Mandatory"	TEXT,
 	"Source"	TEXT
 );
  
@@ -89,6 +91,7 @@ CREATE TABLE IF NOT EXISTS "VisaChaseTXs" (
 	"BudgetCat"	TEXT,
 	"Memo"		TEXT,
 	"XclFrmCshFlw"	TEXT,
+	"Mandatory"	TEXT,
 	"Source"	TEXT
 );
 
@@ -118,13 +121,13 @@ CREATE VIEW BigTXView as
 
 -- select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from MastercardBarclaysJetsTXs
 -- union
-select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from VisaChaseTXs
+select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from VisaChaseTXs
 union 
 -- select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from MastercardCitibankShellTXs
 -- UNION
-select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from CheckingStarOneTXs
+select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from CheckingStarOneTXs
 union
-select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from SavingsStarOneTXs
+select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from SavingsStarOneTXs
 -- union
 -- select TransactionDate, Description, Amount, BudgetCat, XclFrmCshFlw, source from CheckingWellsFargoTXs
 -- union
