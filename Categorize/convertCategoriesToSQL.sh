@@ -20,14 +20,14 @@ tble3="VisaChaseTXs"
 #echo CHECK
 #echo $stmt1 $stmt2 $stmt3
 
-rm categorizeTXs.sql
+rm ${generatedDir}/GCategorizeTXs.sql
 
 for curBankAcct in $tble1 $tble2 $tble3
 do
-    cat Categorized.csv | sed -E -e "s/^([^,]*),(.*)$/update $curBankAcct set BudgetCat=\"\\2\" where Description like \"%\\1%\";/" >> categorizeTXs.sql
-    echo --------------------------------------------- >> categorizeTXs.sql
+    cat Categorized.csv | sed -E -e "s/^([^,]*),(.*)$/update $curBankAcct set BudgetCat=\"\\2\" where Description like \"%\\1%\";/" >> ${generatedDir}/GCategorizeTXs.sql
+    echo --------------------------------------------- >> ${generatedDir}/GCategorizeTXs.sql
 done
 
 # now do this inside the generated directory with the file you just GENERATED!
-cat ${generatedDir}/categorizeTXs.sql | sqlite3 -echo -batch ${generatedDir}/TXs.db
+cat ${generatedDir}/GCategorizeTXs.sql | sqlite3 -echo -batch ${generatedDir}/TXs.db
 
