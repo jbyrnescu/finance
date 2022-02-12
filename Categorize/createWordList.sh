@@ -12,7 +12,7 @@
 # 6) replace words that end with 4 numbers with just the word itself
 # 7) filter out common words from the dictionary
 
-categoryDir="/home/jbyrne/finance/CategoryFiles"
+categoryDir="${HOME}/finance/CategoryFiles"
 
 dictionaryFile="${categoryDir}/words_alpha.txt"
 badWordList="${categoryDir}/knownBadKeyWordChoices.txt"

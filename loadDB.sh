@@ -12,7 +12,7 @@ downloadLocation="${HOME}/Downloads"
 
 dateSuffix=`date "+%Y%m%d%H%M"`
 
-rootTaxesFolder='${HOME}/finance/'
+rootTaxesFolder='${HOME}/Dropbox/finance/'
 #rootTaxesFolder='${HOME}/icloud/2021_05_04/taxes2020/'
 subfolderLoc="Gcsvs_${dateSuffix}"
 
