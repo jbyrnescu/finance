@@ -8,12 +8,12 @@
 # files that are generated are marked in the name with 'G'
 
 # /home is for Linux (Ubuntu)
-downloadLocation="/home/jbyrne/Downloads"
+downloadLocation="${HOME}/Downloads"
 
 dateSuffix=`date "+%Y%m%d%H%M"`
 
-rootTaxesFolder='/home/jbyrne/finance/'
-#rootTaxesFolder='/Users/jbyrne/icloud/2021_05_04/taxes2020/'
+rootTaxesFolder='${HOME}/finance/'
+#rootTaxesFolder='${HOME}/icloud/2021_05_04/taxes2020/'
 subfolderLoc="Gcsvs_${dateSuffix}"
 
 # testing will automatically delete old Gcsvs folders
