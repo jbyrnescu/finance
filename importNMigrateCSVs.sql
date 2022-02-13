@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS "VisaChaseTXs" (
 	"Memo"		TEXT,
 	"XclFrmCshFlw"	TEXT,
 	"Mandatory"	TEXT,
+	"balance"	REAL,
 	"Source"	TEXT
 );
 
@@ -121,13 +122,13 @@ CREATE VIEW BigTXView as
 
 -- select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from MastercardBarclaysJetsTXs
 -- union
-select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from VisaChaseTXs
+select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source, balance from VisaChaseTXs
 union 
 -- select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, source from MastercardCitibankShellTXs
 -- UNION
-select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from CheckingStarOneTXs
+select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source, balance from CheckingStarOneTXs
 union
-select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from SavingsStarOneTXs
+select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source, balance from SavingsStarOneTXs
 -- union
 -- select TransactionDate, Description, Amount, BudgetCat, XclFrmCshFlw, source from CheckingWellsFargoTXs
 -- union
