@@ -5,7 +5,7 @@ A&A,Transportation/Auto
 ALBERTSONS,Food/Groceries
 AMZN,Other
 Amzn,Other
-APPLE,Internet Services
+APPLE,Internet Service
 ATTRC,Food/Groceries
 Audible,Books/Education
 AUTOZONE,AutoMaintenance
@@ -37,7 +37,7 @@ FAMILYDOLLAR,Food/Groceries
 FANJOY,Clothing
 FASTRAK,Vacation/Travel
 FEDLOANSERVICINGSTDNT,Payment
-FILTERBUY,Maintenance
+FILTERBUY,HouseMaintenance
 FOXCORP,Newspaper/Magazines
 FRESHROASTED,Food/Groceries
 GAZOS,Gas
@@ -46,12 +46,12 @@ GOLDIES,DiningOut
 GOOGLE,Internet Service
 google,Internet Service
 GSUITE_pacific,Internet Service
-HEALTHFULHOMEALEXETER,Maintenance
+HEALTHFULHOMEALEXETER,HouseMaintenance
 helppay#CA,Internet Service
 helppay#CA,Internet Service
 HOME2,Vacation/Travel
-HTTPSFILTERBUAL,Maintenance
-HTTPSHEALTHFUIL,Maintenance
+HTTPSFILTERBUAL,HouseMaintenance
+HTTPSHEALTHFUIL,HouseMaintenance
 HTTPSSHOPIFY,Internet Service
 INTEREST,Bank/CardFees
 Jiffy,AutoMaintenance
@@ -82,7 +82,7 @@ PrimeVideo,Movies/Entertainment
 PUNCHBOWL,DiningOut
 PYRAMIDGAS,Gas
 QUESTIONMARK,Payment
-QuickBooks,Internet Services
+QuickBooks,Internet Service
 QUIK,Gas
 RALEY,Food/Groceries
 Safeway,Food/Groceries
@@ -120,7 +120,7 @@ TRANFR,Transfer
 ACROPRO,Internet Service
 ALTEON,Doctor/Hospital
 BARCLAYCARD,Payment
-BRANDS-REG,Maintenance
+BRANDS-REG,HouseMaintenance
 CARMAX,Transportation/Auto
 CULPEPPER,Doctor/Hospital
 DROPBOX,Internet Service
@@ -142,7 +142,7 @@ EMERGENCY,Doctor/Hospital
 PHARMACY,Doctor/Hospital
 RADIOLOGY,Doctor/Hospital
 RADIOLOGICAL,Doctor/Hospital
-SPECTRUM,Internet
+SPECTRUM,Utilities : Internet
 HEALTH,Medical/Dental/Vision Insurance
 DMV,Transportation/Auto
 eBay O*07-08278-02378,AutoMaintenance
@@ -154,3 +154,6 @@ Payment Thank You,Chase CC Payment
 GLOBAL GHLLC,Legal/Debt
 ATM,CASH
 CHIROPRACTIC,Doctor/Hospital
+ERNEST MADEIRA,Food/Groceries
+eBay O*10-08243-06852,ComputerSoftware/Hardware
+SHARE CHECK 888049,Doctor/Hospital
