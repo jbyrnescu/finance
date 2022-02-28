@@ -5,11 +5,10 @@ A&A,Transportation/Auto
 ALBERTSONS,Food/Groceries
 AMZN,Other
 Amzn,Other
-APPLE,ComputerSoftware/Hardware
-ATM,Withdrawal
+APPLE,Internet Services
 ATTRC,Food/Groceries
 Audible,Books/Education
-AUTOZONE,Auto/Maintenance
+AUTOZONE,AutoMaintenance
 BARCLAYCARD,Payment
 BestBuy,ComputerSoftware/Hardware
 billWA,Tools
@@ -17,7 +16,7 @@ BLUEMOON,DiningOut
 BROWNELLS,Lessons/Sports
 BUTCHERBOX,Food/Groceries
 CARDCCPYMT,Payment
-CareerBuilder,Service
+CareerBuilder,Internet Service
 CarMax,Transportation/Auto
 CHEVRON,Gas
 CHEWY,PetCare
@@ -30,7 +29,7 @@ DINE,diningout
 DIVIDEND,Income
 DOLLARGENERAL,Food/Groceries
 DREAMSPING,Payment
-Dropbox,Service
+Dropbox,Internet Service
 EDWARDJONES,Withdrawal
 EXXONMOBIL,Gas
 EZPAY,Utilities
@@ -44,16 +43,16 @@ FRESHROASTED,Food/Groceries
 GAZOS,Gas
 GEICO,AutoInsurance
 GOLDIES,DiningOut
-GOOGLE,Service
-google,Service
-GSUITE_pacific,Service
+GOOGLE,Internet Service
+google,Internet Service
+GSUITE_pacific,Internet Service
 HEALTHFULHOMEALEXETER,Maintenance
-helppay#CA,Service
-helppay#CA,Service
+helppay#CA,Internet Service
+helppay#CA,Internet Service
 HOME2,Vacation/Travel
 HTTPSFILTERBUAL,Maintenance
 HTTPSHEALTHFUIL,Maintenance
-HTTPSSHOPIFY,Service
+HTTPSSHOPIFY,Internet Service
 INTEREST,Bank/CardFees
 Jiffy,AutoMaintenance
 JJS,DiningOut
@@ -63,7 +62,7 @@ LOVE,Gas
 LOWES,Housekeeping
 MASTERCARDONLINE,Payment
 MAVERIK,Gas
-MSFT,Service
+MSFT,Internet Service
 NETFLIX,Movies/Entertainment
 Netflix,Movies/Entertainment
 NON-WELLS,Bank/CardFees
@@ -83,29 +82,29 @@ PrimeVideo,Movies/Entertainment
 PUNCHBOWL,DiningOut
 PYRAMIDGAS,Gas
 QUESTIONMARK,Payment
-QuickBooks,ComputerSoftare/Hardware
+QuickBooks,Internet Services
 QUIK,Gas
 RALEY,Food/Groceries
 Safeway,Food/Groceries
 SENDFLOWERS,Miscellaneous
 SFCHRONICLE,Newspaper/Magazines
 SHOPNGO,Gas
-SHOPIFY,Service
+SHOPIFY,Internet Service
 SINCLAIR,Gas
 SMSOPTICAL,ComputerSoftware/Hardware
-SOLIDMARKE,Service
+SOLIDMARKE,Internet Service
 SPECIALTEES,Clothing
 SPRINGNV,Food/Groceries
 STARBUCKS,DiningOut
 Subway,DiningOut
 SUPERCENTER,Food/Groceries
 TACO,DiningOut
-TEAMHEALTH,Medical/Dental/Vision
+TEAMHEALTH,Medical/Dental/Vision Insurance
 TESORO,Gas
 TMOBILE,Telephone
 TRANF,AutoMaintenance
 TRANF,Withdrawal
-TRUACH,Income
+TRUACH,Reimbursement
 UNITEDSCOPE,Tools
 USPS,Miscellaneous
 VETERI,PetCare
@@ -116,33 +115,42 @@ WALMART,Food/Groceries
 WENDYS,DiningOut
 WINRED,CharitableContributions
 XXSOC,Income
-YouTube,Service
+YouTube,Internet Service
 TRANFR,Transfer
-ACROPRO,Service
-ALTEON,Medical/Dental/Vision
+ACROPRO,Internet Service
+ALTEON,Doctor/Hospital
 BARCLAYCARD,Payment
 BRANDS-REG,Maintenance
 CARMAX,Transportation/Auto
-CULPEPPER,Medical/Dental/Vision
-DROPBOX,Service
+CULPEPPER,Doctor/Hospital
+DROPBOX,Internet Service
 EPAYMENT,Payment
 GHLLC,Payment
-HEALTHPRIMARY,Medical/Dental/Vision
-HOLROYD,Medical
+HEALTHPRIMARY,Medical/Dental/Vision Insurance
+HOLROYD,Doctor/Hospital
 MASTERCARDONLINE,Payment
-MSFT,Service
-PATIENTCO,Medical
+PATIENTCO,Doctor/Hospital
 PURCELL,AutoMaintenance
 SSA,Income
 TMOBILE,CellPhone
 UDEMY:,Books/Education
-VSP,Medical/Dental/Vision
+VSP,Medical/Dental/Vision Insurance
 XXSOC,Income
-BEHAVIORAL,Medical/Dental/Vision
-OMAHA,Insurance
-EMERGENCY,Medical/Dental/Vision
-PHARMACY,Medical/Dental/Vision
-RADIOLOGY,Medical/Dental/Vision
+BEHAVIORAL,Doctor/Hospital
+OMAHA,Life Insurance
+EMERGENCY,Doctor/Hospital
+PHARMACY,Doctor/Hospital
+RADIOLOGY,Doctor/Hospital
+RADIOLOGICAL,Doctor/Hospital
 SPECTRUM,Internet
-HEALTH,Medical/Dental/Vision
+HEALTH,Medical/Dental/Vision Insurance
 DMV,Transportation/Auto
+eBay O*07-08278-02378,AutoMaintenance
+NV ENERGY,Utilities : Electricity
+FAMILY DOLLAR,Food/Groceries
+NORTHEASTERN NV REG,Doctor/Hospital
+ONLINE BILL PAY,Doctor/Hospital
+Payment Thank You,Chase CC Payment
+GLOBAL GHLLC,Legal/Debt
+ATM,CASH
+CHIROPRACTIC,Doctor/Hospital
