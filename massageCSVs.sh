@@ -1,6 +1,8 @@
-#!/bin/sh
+#!/bin/sh -x
 
 # we change directory to where the csv files have been copied
+
+baseDir="$HOME/Dropbox/finance"
 
 #echo Ive been given a directory to change to where the csv files are:
 echo Changing directory to: $1
@@ -11,15 +13,18 @@ echo massageCSVs.sh
 curDir=`pwd`
 
 sed -i -e '1 d' CheckingStarOneTXs.csv
-
 sed -i -e '1 i \
 TransactionNumber,TransactionDate,Memo,Description,DebitAmount,CreditAmount,Balance,CheckNumber,Fees,BudgetCat\
 ' CheckingStarOneTXs.csv
+awk -f ${baseDir}/Massage/starOneDateStrConversion.awk CheckingStarOneTXs.csv > .tmp
+mv .tmp CheckingStarOneTXs.csv
+
 
 sed -i -e '1 d' SavingsStarOneTXs.csv
-
 sed -i -e '1 i \
 TransactionNumber,TransactionDate,Memo,Description,DebitAmount,CreditAmount,Balance,CheckNumber,Fees,BudgetCat' SavingsStarOneTXs.csv
+awk -f ${baseDir}/Massage/starOneDateStrConversion.awk SavingsStarOneTXs.csv > .tmp
+mv .tmp SavingsStarOneTXs.csv
 
 # remove 1st 4 lines of Barclays because it's header info
 #sed -i -e "1,4 d" MastercardBarclaysJetsTXs.csv
@@ -31,8 +36,8 @@ TransactionNumber,TransactionDate,Memo,Description,DebitAmount,CreditAmount,Bala
 
 sed -i -e 's/Transaction Date/TransactionDate/' VisaChaseTXs.csv
 sed -i -e 's/Post Date/PostDate/' VisaChaseTXs.csv
-
-
+awk -f ${baseDir}/Massage/chaseDateStrConversion.awk VisaChaseTXs.csv > .tmp
+mv .tmp VisaChaseTXs.csv
 
 #add column labels/names to WellsFargo
 #sed -i -e '1 i \
