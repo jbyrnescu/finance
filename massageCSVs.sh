@@ -36,6 +36,7 @@ mv .tmp SavingsStarOneTXs.csv
 
 sed -i -e 's/Transaction Date/TransactionDate/' VisaChaseTXs.csv
 sed -i -e 's/Post Date/PostDate/' VisaChaseTXs.csv
+${baseDir}/Massage/chaseCutNPasteForDateStr.sh VisaChaseTXs.csv
 awk -f ${baseDir}/Massage/chaseDateStrConversion.awk VisaChaseTXs.csv > .tmp
 mv .tmp VisaChaseTXs.csv
 
