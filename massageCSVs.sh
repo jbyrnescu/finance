@@ -16,6 +16,7 @@ sed -i -e '1 d' CheckingStarOneTXs.csv
 sed -i -e '1 i \
 TransactionNumber,TransactionDate,Memo,Description,DebitAmount,CreditAmount,Balance,CheckNumber,Fees,BudgetCat\
 ' CheckingStarOneTXs.csv
+${baseDir}/Massage/starOneCutNPasteForDateStr.sh CheckingStarOneTXs.csv
 awk -f ${baseDir}/Massage/starOneDateStrConversion.awk CheckingStarOneTXs.csv > .tmp
 mv .tmp CheckingStarOneTXs.csv
 
@@ -23,6 +24,7 @@ mv .tmp CheckingStarOneTXs.csv
 sed -i -e '1 d' SavingsStarOneTXs.csv
 sed -i -e '1 i \
 TransactionNumber,TransactionDate,Memo,Description,DebitAmount,CreditAmount,Balance,CheckNumber,Fees,BudgetCat' SavingsStarOneTXs.csv
+${baseDir}/Massage/starOneCutNPasteForDateStr.sh SavingsStarOneTXs.csv
 awk -f ${baseDir}/Massage/starOneDateStrConversion.awk SavingsStarOneTXs.csv > .tmp
 mv .tmp SavingsStarOneTXs.csv
 

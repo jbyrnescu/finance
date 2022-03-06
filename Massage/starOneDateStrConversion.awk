@@ -1,5 +1,5 @@
 #!/bin/awk -x
-BEGIN { FS="[,/]" }
+BEGIN { FS="[,~]" }
 NR==1 {
     print
     next
