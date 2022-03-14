@@ -103,6 +103,7 @@ cp $starOneChecking ${rootTaxesFolder}CheckingStarOneTXs.csv
 
 #mv TXs.db TXs_${dateSuffix}.db
 
+
 # make sure there's a database
 dateSuffix=`date "+%Y%m%d%H%M"`
 # This doesn't work on the command line
@@ -117,6 +118,17 @@ done
 #echo ".schema VisaChaseTXs" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
 cat ${subfolderLoc}/GMrkNnCshFlwTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+
+# We're going to categorize initially from the Categorize directory
+# It used to take 3 runs of a program to get everything setup it should take 1
+./Categorize/generateCategorization.sh
+cat ${subfolderLoc}/GCategorizeTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+
+
+echo "select count(*) from BigTXView where BudgetCat IS NOT \"\" and BudgetCat is not null; \
+select \"OUT OF:\"; \
+select count(*) from BigTXView where 1=1 ; \
+select \"RECORDS\";" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
 echo .save >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 echo .quit >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
@@ -135,6 +147,4 @@ cat GimportCSVs${dateSuffix}.sql | sqlite3 -echo -batch &2> Gerrors.txt
 #./createWordList.sh
 
 #./createCategoryTableListing.sh
-
-
 

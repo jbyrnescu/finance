@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 stmt1="update $tble1 set BudgetCat="
 stmt2="where Description like \"%"
@@ -6,7 +6,7 @@ stmt3="%\""
 
 generatedDir=`ls -C1 -rtd ../Gcsvs* | tail -1`
 
-#echo generatedDir = $generatedDir
+echo generatedDir = $generatedDir
 
 tble1="CheckingStarOneTXs"
 tble2="SavingsStarOneTXs"
