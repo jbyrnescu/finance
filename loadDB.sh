@@ -119,6 +119,11 @@ done
 
 cat ${subfolderLoc}/GMrkNnCshFlwTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
+# We're going to mark mandatory from the correct directory
+# It used to take 3 runs of a program to get everything setup it should take 1 after this
+./MarkMandatory/generateMandatoryMarks.sh
+cat ${subfolderLoc}/GMarkAsMandTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+
 # We're going to categorize initially from the Categorize directory
 # It used to take 3 runs of a program to get everything setup it should take 1
 ./Categorize/generateCategorization.sh
