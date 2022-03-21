@@ -4,7 +4,9 @@ stmt1="update $tble1 set BudgetCat="
 stmt2="where Description like \"%"
 stmt3="%\""
 
-generatedDir=`ls -C1 -rtd ../Gcsvs* | tail -1`
+generatedDir=`ls -C1 -rtd ${HOME}/Dropbox/finance/Gcsvs* | tail -1`
+
+categoryFile="${HOME}/Dropbox/finance/Categorize/Categorized.csv"
 
 echo generatedDir = $generatedDir
 
@@ -24,10 +26,7 @@ rm ${generatedDir}/GCategorizeTXs.sql
 
 for curBankAcct in $tble1 $tble2 $tble3
 do
-    cat Categorized.csv | sed -E -e "s/^([^,]*),(.*)$/update $curBankAcct set BudgetCat=\"\\2\" where Description like \"%\\1%\";/" >> ${generatedDir}/GCategorizeTXs.sql
+    cat ${categoryFile} | sed -E -e "s/^([^,]*),(.*)$/update $curBankAcct set BudgetCat=\"\\2\" where Description like \"%\\1%\";/" >> ${generatedDir}/GCategorizeTXs.sql
     echo --------------------------------------------- >> ${generatedDir}/GCategorizeTXs.sql
 done
-
-# now do this inside the generated directory with the file you just GENERATED!
-cat ${generatedDir}/GCategorizeTXs.sql | sqlite3 -echo -batch ${generatedDir}/TXs.db
 
