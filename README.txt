@@ -19,3 +19,9 @@ Then take on the budget calcs.  (Or do the budget calcs first... I don't
 care)
 
 
+There may in the future be enhancements with receipts in the database.
+To do this (Possibly)  Otherwise writefile will need to be used somehow:
+
+sqlite> insert into myblob values (readfile('README.txt'));
+sqlite> .output READMETest.txt
+sqlite> select * from myblob;
