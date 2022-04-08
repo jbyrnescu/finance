@@ -101,7 +101,6 @@ SUPERCENTER,Food/Groceries
 TACO,DiningOut
 TEAMHEALTH,Medical/Dental/Vision Insurance
 TESORO,Gas
-TMOBILE,Telephone
 TRANF,AutoMaintenance
 TRANF,Withdrawal
 TRUACH,Reimbursement
@@ -132,7 +131,7 @@ MASTERCARDONLINE,Payment
 PATIENTCO,Doctor/Hospital
 PURCELL,AutoMaintenance
 SSA,Income
-TMOBILE,CellPhone
+TMOBILE,Utilities : Internet
 UDEMY:,Books/Education
 VSP,Medical/Dental/Vision Insurance
 XXSOC,Income
