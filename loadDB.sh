@@ -129,6 +129,9 @@ cat ${subfolderLoc}/GMarkAsMandTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffi
 ./Categorize/generateCategorization.sh
 cat ${subfolderLoc}/GCategorizeTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
+echo ".output output.csv" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+echo "select * from BigTXView;" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+echo ".output" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
 echo "select count(*) from BigTXView where BudgetCat IS NOT \"\" and BudgetCat is not null; \
 select \"OUT OF:\"; \
@@ -141,6 +144,10 @@ echo .quit >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 cd ${subfolderLoc}
 
 cat GimportCSVs${dateSuffix}.sql | sqlite3 -echo -batch &2> Gerrors.txt
+
+echo `pwd`
+wait
+sed -i -e "1 d" output.csv
 
 # BEFOE
 # sqlite3 -bail -batch -init getBagOfWords.sql
