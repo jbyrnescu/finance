@@ -130,6 +130,7 @@ cat ${subfolderLoc}/GMarkAsMandTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffi
 cat ${subfolderLoc}/GCategorizeTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
 echo ".output output.csv" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+echo ".separator \"|\"" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 echo "select * from BigTXView;" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 echo ".output" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
