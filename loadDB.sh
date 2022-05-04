@@ -149,6 +149,7 @@ cat GimportCSVs${dateSuffix}.sql | sqlite3 -echo -batch &2> Gerrors.txt
 echo `pwd`
 wait
 sed -i -e "1 d" output.csv
+cp output.csv ..
 
 # BEFOE
 # sqlite3 -bail -batch -init getBagOfWords.sql
