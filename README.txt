@@ -35,3 +35,12 @@ To do this (Possibly)  Otherwise writefile will need to be used somehow:
 sqlite> insert into myblob values (readfile('README.txt'));
 sqlite> .output READMETest.txt
 sqlite> select * from myblob;
+
+
+Notes:
+the "y" in exclude from cash flow column is due to the transaction being:
+- (Refunds cancel out so it wouldn't be one of these usually
+1) a payment to Chase (a cc)
+2) a transfer to or from another account
+3) Interest
+usually an expense isn't more than 0 too, it's less.
