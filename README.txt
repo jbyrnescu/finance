@@ -44,3 +44,4 @@ the "y" in exclude from cash flow column is due to the transaction being:
 2) a transfer to or from another account
 3) Interest
 usually an expense isn't more than 0 too, it's less.
+Also, this column is null if it's not "y" (at this point in development)
