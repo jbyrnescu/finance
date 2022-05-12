@@ -17,7 +17,6 @@ BROWNELLS,Lessons/Sports
 BUTCHERBOX,Food/Groceries
 CARDCCPYMT,Payment
 CareerBuilder,Internet Service
-CarMax,Auto Payment
 CHEVRON,Gas
 CHEWY,PetCare
 CHINAKING,DiningOut
@@ -27,7 +26,7 @@ CREDITCARD,Payment
 DEERFIELD,Payment
 DINE,diningout
 DIVIDEND,Income
-DOLLARGENERAL,Food/Groceries
+DOLLAR GENERAL,Food/Groceries
 DREAMSPRING,Payment
 Dropbox,Internet Service
 EDWARDJONES,Withdrawal
@@ -120,7 +119,7 @@ ACROPRO,Internet Service
 ALTEON,Doctor/Hospital
 BARCLAYCARD,Payment
 BRANDS-REG,HouseMaintenance
-CARMAX,Auto Payment
+CARMAX,Auto Financing
 CULPEPPER,Doctor/Hospital
 DROPBOX,Internet Service
 EPAYMENT,Payment
@@ -161,3 +160,5 @@ ST MARY,Doctor/Hospital
 TURBOTAX,Taxes
 24 Seven,Food/Groceries
 eBay%21-08566-55941,clothing
+DESERT VALLEY DENTAL,Doctor/Hospital
+FERNLEY PHYSICAL THERAPY,Doctor/Hospital

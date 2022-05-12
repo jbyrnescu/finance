@@ -129,9 +129,16 @@ cat ${subfolderLoc}/GMarkAsMandTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffi
 ./Categorize/generateCategorization.sh
 cat ${subfolderLoc}/GCategorizeTXs.sql >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
+# output the transactions automatically for interface to Excel
 echo ".output output.csv" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 echo ".separator \"|\"" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 echo "select * from BigTXView;" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+echo ".output" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+
+# output the data for interface to Excel Pie Chart on another sheet
+echo ".output pieChart.csv" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+echo ".separator \"|\"" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
+cat Queries/budgetByCategory.sql >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 echo ".output" >> ${subfolderLoc}/GimportCSVs${dateSuffix}.sql
 
 echo "select count(*) from BigTXView where BudgetCat IS NOT \"\" and BudgetCat is not null; \
@@ -150,6 +157,9 @@ echo `pwd`
 wait
 sed -i -e "1 d" output.csv
 cp output.csv ..
+
+sed -i -e "1 d" pieChart.csv
+cp pieChart.csv ..
 
 # BEFOE
 # sqlite3 -bail -batch -init getBagOfWords.sql
