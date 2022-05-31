@@ -1,1 +1,1 @@
-select BudgetCat,sum(amount) from BigTXView where budgetCat not like "%ayment%" and budgetCat not like "%Income%" group by BudgetCat order by sum(amount) asc;
+select BudgetCat,sum(amount) from BigTXView where budgetCat not like "%ayment%"       and budgetCat not like "%Income%"       and budgetCat not like "%Transfer%" group by BudgetCat order by sum(amount) asc;
