@@ -36,7 +36,7 @@ FAMILYDOLLAR,Food/Groceries
 FANJOY,Clothing
 FASTRAK,Vacation/Travel
 FEDLOANSERVICINGSTDNT,Payment
-FILTERBUY,HouseMaintenance
+FILTERBUY,Household
 FOXCORP,Newspaper/Magazines
 FRESHROASTED,Food/Groceries
 GAZOS,Gas
@@ -45,12 +45,12 @@ GOLDIES,DiningOut
 GOOGLE,Internet Service
 google,Internet Service
 GSUITE_pacific,Internet Service
-HEALTHFULHOMEALEXETER,HouseMaintenance
+HEALTHFULHOMEALEXETER,Household
 helppay#CA,Internet Service
 helppay#CA,Internet Service
 HOME2,Vacation/Travel
-HTTPSFILTERBUAL,HouseMaintenance
-HTTPSHEALTHFUIL,HouseMaintenance
+HTTPSFILTERBUAL,Household
+HTTPSHEALTHFUIL,Household
 HTTPSSHOPIFY,Internet Service
 INTEREST,Bank/CardFees
 Jiffy,AutoMaintenance
@@ -58,7 +58,7 @@ JJS,DiningOut
 LIFE&HEALTHPRIMARY,HealthInsurance
 liquor,Food/Groceries
 LOVE,Gas
-LOWES,Housekeeping
+LOWES,Household
 MASTERCARDONLINE,Payment
 MAVERIK,Gas
 MSFT,Internet Service
@@ -69,10 +69,10 @@ NON-WF,Bank/CardFees
 NUNES,CharitableContributions
 OBDEV,CellPhone
 OCENTURE,ComputerSoftare/Hardware
-OREILLY,Movies/Entertainment
+OREILLY,AutoMaintenance
 OVERDRAFT,Bank/CardFees
 PAYPAL,Payment
-PEST,Housekeeping
+PEST,Household
 PILOT,Gas
 PIZZA,DiningOut
 PORTOFSUBS,DiningOut
@@ -118,7 +118,7 @@ TRANFR,Transfer
 ACROPRO,Internet Service
 ALTEON,Doctor/Hospital
 BARCLAYCARD,Payment
-BRANDS-REG,HouseMaintenance
+BRANDS-REG,Household
 CARMAX,Auto Financing
 CULPEPPER,Doctor/Hospital
 DROPBOX,Internet Service
@@ -164,7 +164,29 @@ FERNLEY PHYSICAL THERAPY,Doctor/Hospital
 SBI 0514 1148 489055,Doctor/Hospital
 THE COMPUTER MER,Income
 RENOWN HEALTH,Doctor/Hospital
+Transfer Savings,Transfer Savings
 Online%5/29/2022%12:13:54,Transfer Savings
 AMZN Mktp US*1X34A9JR2,Household
 AMZN Mktp US*1X4EV4T12,Household
 Transfer to Savings,Transfer Savings
+AMZN Mktp US*UU0GS7B63,Food/Groceries
+Amazon.com*4Y9LV5YL3,Clothing
+SP KIZIK,Clothing
+Amazon.com*709SR7FR3,Food/Groceries
+Transfer to Wants,Transfer Wants
+PEETS.COM,Food/Groceries
+GLACIER WATER VENDING,Food/Groceries
+ALAND FAMILY DENTISTRY,Doctor/Hospital
+ATM 0619 1335 652931 1000 US HWY 95A S,Household
+WINDSWEPT ACRES HARDWARE,Household
+AMZN Mktp US*EJ6WX3OJ3,Clothing
+OFFICE DEPOT,Household
+Amazon.com*U14SM23F3,Household
+Amazon Prime,Internet Service
+JACK IN THE BOX,DiningOut
+THE BRIDGE,Tithe
+MULTIPLEX CINEMAS,Movies/Entertainment
+SPRING MARKET,Gas
+GAZETTEJRN,Internet Service
+FREE SOFTWARE FOUNDATION,Gifts/Donations
+USATAXPYMT,Taxes
