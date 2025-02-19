@@ -29,7 +29,7 @@ public class Incomes extends BigViewAccount {
 		String query = "select * from BigTXView where BudgetCat like \"%ncome%\" "
 				+ and1
 				+ and2
-				+ "and amount > 0;";
+				+ " and amount > 0;";
 		
 		Logger.out.print("statement for income line: " + query + "\n");
 
