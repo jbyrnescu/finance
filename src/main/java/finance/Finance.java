@@ -110,6 +110,7 @@ public class Finance {
 		Logger.out.println("driver.toString()... " + driver.toString());
 
 		finance.createAccountDatabase();
+		Logger.out.println("writing out csv files for the following date range: " + dateStr1 + " " + dateStr2);
 		finance.writeTransactionsToCSV("output.csv", dateStr1, dateStr2);
 		finance.writeDatabaseToCSV("output2.csv");
 		

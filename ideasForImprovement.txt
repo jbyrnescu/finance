@@ -1,0 +1,9 @@
+1. Have a program read the Excel file and update the configuration files automatically.
+   (That would be cool!)
+
+2. Discover and ask users about whether certain transactions that haven't been seen before are categorized properly.
+
+3. Instead of just using Descriptions for Mandatory status, how about using a category?
+
+4. Do a query that looks for Transactions without categories and alert user.
+
