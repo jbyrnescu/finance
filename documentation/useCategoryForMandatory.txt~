@@ -1,0 +1,13 @@
+This project would create the ability to mark as mandatory based on a category
+not just a description.  For example, this would allow the user to mark all "gas"
+category transactions as mandatory.
+
+This would require that a new column be added to the MarkAsMandatory.csv
+configuration file.  The column added would be to define the type of classification
+it's for.
+
+for example:
+category,gas,y
+description,CHEVRON,y
+
+
