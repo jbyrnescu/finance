@@ -7,3 +7,5 @@
 
 4. Do a query that looks for Transactions without categories and alert user.
 
+5. Create a column for normalized description.  This would search for a recognizable word or words in the description that does not include the numbers of the transaction or store number.
+
