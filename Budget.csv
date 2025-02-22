@@ -1,35 +1,27 @@
-﻿ActualSpendingCategory1, amount, AllowedSpending Category2, amount, difference, dailyAllowedAmount, days to go,,,,,,,,,,,
-Education,-3011.73999,Education,0,-3011.73999,0,#NAME?,,,,,,,,,,,
-Gas,-1930.26001,Gas,1487.7,-442.5600098,1.9,-232.9263209,,,,,,,,,,,
-Shopping,-1084.219971,Shopping,0,-1084.219971,0,#NAME?,,,,,,,,,,,
-Automotive,-1015,Automotive,900,-521.71,0.63,-828.1111111,,,,,,,,,,,
-Travel,-741.210022,Travel,0,-741.210022,0,#NAME?,,,,,,,,,,,
-AutoMaintenance,-578.710022,AutoMaintenance,0,3524.209978,5.24,672.5591561,,,,,,,,,,,
-Food/Groceries,-504.7999878,Food/Groceries,500,7622.740012,10.38,734.3680166,,,,,,,,,,,
-Internet Service,-427.8299866,Internet Service,119,1748.910013,2.78,629.1043214,,,,,,,,,,,
-Doctor/Hospital,-309.3399963,Doctor/Hospital,100,5336.090004,7.21,740.0957009,,,,,,,,,,,
-CASH,-285.75,CASH,200,-74.34,0.27,-275.3333333,,,,,,,,,,,
-Household,-181.0099945,Household,504.9,4470.010005,5.94,752.526937,,,,,,,,,,,
-Utilities : Internet,-169.980011,Utilities : Internet,100,3431.819989,4.6,746.0478237,,,,,,,,,,,
-Food & Drink,-151,Food & Drink,0,-151,0,#NAME?,,,,,,,,,,,
-Utilities : Electricity,-144.8200073,Utilities : Electricity,72.76,1710.889993,2.37,721.8945117,,,,,,,,,,,
-AutoInsurance,-116.2399979,AutoInsurance,116.24,1755.130002,2.39,734.3640176,,,,,,,,,,,
-Groceries,-113.2799988,Groceries,0,-113.2799988,0,#NAME?,,,,,,,,,,,
-Gifts & Donations,-97,Gifts & Donations,0,-97,0,#NAME?,,,,,,,,,,,
-Bills & Utilities,-86.69999695,Bills & Utilities,54.81,-31.88999695,0.07,-455.571385,,,,,,,,,,,
-PetCare,-83.98999786,PetCare,84,3048.010002,4,762.0025005,,,,,,,,,,,
-DiningOut,-74.86000061,DiningOut,15,387.1099994,0.59,656.118643,,,,,,,,,,,
-Health & Wellness,-69.23999786,Health & Wellness,0,-69.23999786,0,#NAME?,,,,,,,,,,,
-Medical/Dental/Vision Insurance,-60.45999908,Medical/Dental/Vision Insurance,37.15,4058.120001,5.26,771.5057036,,,,,,,,Income ,,,
-Transportation/Auto,-41.25,Transportation/Auto,0,741.75,1,741.75,,,,,,,,per week,Per Month,,
-Gifts/Donations,-32,Gifts/Donations,10,202.9,0.3,676.3333333,,,,,,,,,4892,,
-Professional Services,-20,Professional Services,0,-20,0,#NAME?,,,,,,,,,,,
-Entertainment,-14.98999977,Entertainment,0,-14.98999977,0,#NAME?,,,,,,,,,,,
-,,,,,,,,,,,,,,,4892,,
-,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,approximate daily income,,,,
-,,,,,,,,,,,,,160.3934426,,,,
-,,,,,,,,,,,,,160.3934426,daily savings,,,
-,,,,,,,,,,,,,,,,,
-,,,,,,,,,,expense/month,,,,,,,
-,,,,,,,,,,0,,,,,,,
+﻿ActualSpendingCategory1, amount, AllowedSpending Category2, amount_1, difference, dailyAllowedAmount, days to go
+Education,-3011.73999,Education,0,-3011.73999,0,-Infinity
+Gas,-1930.26001,Gas,500,-442.5600098,1.9,-232.92632092927641
+Shopping,-1084.219971,Shopping,0,-1084.219971,0,-Infinity
+Automotive,-1015,Automotive,900,-521.71,0.63,-828.1111111111112
+Travel,-741.210022,Travel,0,-741.210022,0,-Infinity
+AutoMaintenance,-578.710022,AutoMaintenance,0,3524.209978,5.24,672.5591561120885
+Food/Groceries,-504.7999878,Food/Groceries,500,7622.740012,10.38,734.3680165902728
+Internet Service,-427.8299866,Internet Service,110,1748.910013,2.78,629.1043213768828
+Doctor/Hospital,-309.3399963,Doctor/Hospital,100,5336.090004,7.21,740.0957009240096
+CASH,-285.75,CASH,205,-74.34,0.27,-275.3333333333332
+Household,-181.0099945,Household,500,4470.010005,5.94,752.5269369517111
+Utilities : Internet,-169.980011,Utilities : Internet,170,3431.819989,4.6,746.0478236986244
+Food & Drink,-151,Food & Drink,30,-151,0,-Infinity
+Utilities : Electricity,-144.8200073,Utilities : Electricity,155,1710.889993,2.37,721.8945116775449
+AutoInsurance,-116.2399979,AutoInsurance,117,1755.130002,2.39,734.364017630222
+Groceries,-113.2799988,Groceries,0,-113.2799988,0,-Infinity
+Gifts & Donations,-97,Gifts & Donations,50,-97,0,-Infinity
+Bills & Utilities,-86.69999695,Bills & Utilities,484,-31.88999695,0.07,-455.5713849748883
+PetCare,-83.98999786,PetCare,120,3048.010002,4,762.0025005340576
+DiningOut,-74.86000061,DiningOut,30,387.1099994,0.59,656.1186430333024
+Health & Wellness,-69.23999786,Health & Wellness,0,-69.23999786,0,-Infinity
+Medical/Dental/Vision Insurance,-60.45999908,Medical/Dental/Vision Insurance,38,4058.120001,5.26,771.5057035961079
+Transportation/Auto,-41.25,Transportation/Auto,0,741.75,1,741.75
+Gifts/Donations,-32,Gifts/Donations,0,202.9,0.3,676.3333333333333
+Professional Services,-20,Professional Services,0,-20,0,-Infinity
+Entertainment,-14.98999977,Entertainment,15,-14.98999977,0,-Infinity
