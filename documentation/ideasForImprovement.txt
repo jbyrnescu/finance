@@ -9,3 +9,6 @@
 
 5. Create a column for normalized description.  This would search for a recognizable word or words in the description that does not include the numbers of the transaction or store number.
 
+6. Create a program that queries Amazon's system/databases to figure out which
+transactions were for what do something based on this information, like
+automatically categorize them.

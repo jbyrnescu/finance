@@ -14,18 +14,28 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import SqliteDBUtils.ColumnMap;
 import accounts.Account;
 import accounts.BigViewAccount;
 import accounts.ChaseAccount;
 import accounts.Expenses;
 import accounts.StarOneAccount;
+import accounts.Transaction;
+
 //import db.Tables;
 import db.Tables;
 import finance.reports.model.BudgetModel;
 import finance.reports.model.PieChartModel;
 import finance.reports.model.SuggestedSavingsModel;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
 
 public class Finance {
 	
@@ -33,7 +43,7 @@ public class Finance {
 	String downloadsDirectory;
 	ArrayList<Account> accounts = new ArrayList<Account>();
 
-	ColumnMap<String, String> categoriesMap ;
+	Map<String, String> categoriesMap ;
 
 	Finance() {
 	}
@@ -42,8 +52,8 @@ public class Finance {
 	ArrayList<ArrayList<Object>> table = new ArrayList<ArrayList<Object>>();
 
 	ArrayList<Object> row = new ArrayList<Object>();
-	private ColumnMap<String, String> mandatoryMap;
-	private ColumnMap<String, String> excludedTransactionsMap;
+	private Map<String, String> mandatoryMap;
+	private Map<String, String> excludedTransactionsMap;
 
 
 	public static void main(String[] args) throws SQLException, IOException, ParseException {
@@ -139,6 +149,62 @@ public class Finance {
 		SuggestedSavingsModel ssm = new SuggestedSavingsModel(finance.connection, basePath);
 		ssm.loadBudgetFromFile("SavingsPercentages.csv");
 		ssm.writeEntries("SuggestedSavings.csv");
+
+		// Check for transactions with no category and print them out in a errors.csv file
+		// Also, check for categories that are not part of Categorized.csv and list those as errors in the errors.csv file
+		
+		// for each account, query for transactions with no category.
+		// Print those transactions in the errors list
+
+		// for each account, search for distinct categories within the account.
+		//   for each distinct category, search for that category in the category map.
+		//   if it's not found, query the account for the distinct category, and place the results in the errors.csv file
+
+		BufferedWriter errorFile = new BufferedWriter(new FileWriter("errors.csv"));
+
+		BigViewAccount account = new BigViewAccount();
+		account.loadTransactionsFromDatabase(finance.connection, "2000-01-01", "3000-01-01");
+		Transaction curTransaction;
+		errorFile.write("No Category Transactions\n");
+		int numTransactions = account.getNumberTransactions();
+		for (int transactionNum = 0; transactionNum < numTransactions; transactionNum++)
+		{
+			curTransaction = account.getTransactions().get(transactionNum);
+			String curCategory = curTransaction.getBudgetCat();
+			if (curCategory == null || curCategory.equals(""))
+			{
+				curTransaction.writeTransaction(errorFile);
+			}
+		}
+
+		// Now, for each transaction in the current account, search for that category in the category map
+		// if the category doesn's exist print the transaction to the errors list
+		errorFile.write("No matching Category Transactions\n");
+		for (int transactionNum = 0; transactionNum < account.getNumberTransactions(); transactionNum++)
+		{
+			curTransaction = account.getTransactions().get(transactionNum);
+			String lingeringCategory = null;
+			String curCategory = curTransaction.getBudgetCat();
+			Map<String, String> categoriesMap = finance.getCategoriesMap();   // From Categories configuration
+			for(String category : categoriesMap.keySet())
+			{
+				lingeringCategory = categoriesMap.get(category);
+				if (curCategory.equals(lingeringCategory))
+				{
+					break;
+				}
+			}
+			if (!curCategory.equals(lingeringCategory))
+			{
+				//  They're still not equal and we reached the end...
+				// so, we didn't find a match... Write this transaction in the errors.csv file
+				curTransaction.writeTransaction(errorFile); 
+			}
+
+		}
+
+		errorFile.close();
+
 		
 		finance.closeAll();
 	}
@@ -219,15 +285,15 @@ public class Finance {
 		chaseAccount.printTransactions();
 
 
-		// use columnMap to rename categories
+		// use Map to rename categories
 		this.readCategoriesMap("Categorized.csv");
 		this.remapCategories();
 
-		// use columnMap to change mandatory
+		// use Map to change mandatory
 		this.readMandatoryMap("MandatoryMap.csv");
 		this.markMandatory();
 		
-		// use columnMap to change XcludeFromCashFlow
+		// use Map to change XcludeFromCashFlow
 		this.readExcludeFromCashFlowMap("XcldFrmCshFlw.csv");
 		this.markExcludedTransactions();
 
@@ -248,10 +314,17 @@ public class Finance {
 		}
 	}
 
-	private void readExcludeFromCashFlowMap(String file) throws IOException {
+	private void readExcludeFromCashFlowMap(String file) throws IOException 
+	{
+		excludedTransactionsMap = new HashMap<String, String>();
 
-		excludedTransactionsMap = new ColumnMap<String, String>(baseProjectPath + "/" + file);
-
+		Path path = Paths.get(baseProjectPath + "/" + file);
+		List<String> lines = Files.readAllLines(path);
+		for (String line : lines)
+		{
+			String[] columns = line.split(",");
+			excludedTransactionsMap.put(columns[0], columns[1]);
+		}
 //			mandatoryMap.printMap();
 	}
 
@@ -283,18 +356,35 @@ public class Finance {
 		}
 	}
 	
-	private void readMandatoryMap(String file) throws IOException {
+	private void readMandatoryMap(String file) throws IOException 
+	{
 
 //		Column column = new Column(this.getConnection(),999); 
-		mandatoryMap = new ColumnMap<String, String>(baseProjectPath + "/MarkMandatory/" + file);
+		Path path = Paths.get(baseProjectPath + "/MarkMandatory/" + file);
+		mandatoryMap = new HashMap<String, String>();
 
+		List<String> lines = Files.readAllLines(path);
+		for (String line : lines)
+		{
+			String[] columns = line.split(",");
+			mandatoryMap.put(columns[0], columns[1]);
+		}
+		
 //		mandatoryMap.printMap();
 	}
 
 	private void readCategoriesMap(String file) throws IOException {
 
 //		Column column = new Column(this.getConnection(),4); 
-		categoriesMap = new ColumnMap<String, String>(baseProjectPath + "/Categorize/" + file);
+		Path path = Paths.get(baseProjectPath + "/Categorize/" + file);
+		categoriesMap = new HashMap<String, String>();
+
+		List<String> lines = Files.readAllLines(path);
+		for (String line : lines)
+		{
+			String[] columns = line.split(",");
+			categoriesMap.put(columns[0], columns[1]);
+		}
 
 //		categoriesMap.printMap();
 	}
@@ -344,6 +434,16 @@ public class Finance {
 //				Logger.out.println(resultSet.getString(i));
 //			}
 //	}
+
+List<Account> getAccounts()
+{
+	return(accounts);
+}
+
+Map<String, String> getCategoriesMap()
+{
+	return (categoriesMap);
+}
 
 
 

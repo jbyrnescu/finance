@@ -45,10 +45,4 @@ public class ChaseAccount extends Account {
 		return;
 	}
 
-	@Override
-	public void loadTransactionsFromDatabase(Connection c, String beginDate, String endDate) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

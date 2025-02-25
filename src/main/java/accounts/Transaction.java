@@ -134,7 +134,7 @@ public abstract class Transaction {
 					+ amount + ", budgetCat=" + budgetCat + ", xcludeFromCashFlow=" + xcludeFromCashFlow
 					+ ", mandatory=" + mandatory + ", source=" + source + "]";
 		}
-		protected void writeTransaction(BufferedWriter bufferedWriter) throws IOException {
+		public void writeTransaction(BufferedWriter bufferedWriter) throws IOException {
 
 			this.changeNullsToBlanks();
 			

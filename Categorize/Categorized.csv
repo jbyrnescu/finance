@@ -25,7 +25,7 @@ CITUT,Vacation/Travel
 CRDEPAY,Payment
 CREDITCARD,Payment
 DEERFIELD,Payment
-DINE,diningout
+DINE,Diningout
 DIVIDEND,Income
 DOLLAR GENERAL,Food/Groceries
 DREAMSPRING,Payment
@@ -69,7 +69,7 @@ NON-WELLS,Bank/CardFees
 NON-WF,Bank/CardFees
 NUNES,CharitableContributions
 OBDEV,CellPhone
-OCENTURE,ComputerSoftare/Hardware
+OCENTURE,ComputerSoftware/Hardware
 OREILLY,AutoMaintenance
 OVERDRAFT,Bank/CardFees
 PAYPAL,Payment
@@ -196,3 +196,75 @@ CARSHIELD,AutoMaintenance
 Amazon.com*TT23696S3,Food/Groceries
 SHARE CHECK 888050,Taxes
 Prime Video,Entertainment
+SCOOTER S COFFEE,DiningOut
+ADOBE *ADOBE,ComputerSoftware/Hardware
+AMAZON MKTPL*M27EF25P3,Household
+AMAZON MKTPL*YU9L186J3,Household
+AMAZON MKTPL*Z56EJ47D0,Household
+AMAZON MKTPL*Z71S925F2,Household
+AMAZON MKTPL*Z71XO5LP2,Household
+AMAZON MKTPL*Z74973LO1,Household
+AMAZON MKTPL*ZD2192Q51,Household
+AMAZON MKTPL*ZD43H64E0,Household
+AMAZON MKTPL*ZG0R119F1,Household
+AMAZON MKTPL*ZG0SU74R1,Household
+AMAZON MKTPL*ZG1FT5FT0,Household
+AMAZON MKTPL*ZG9ZU82V0,Household
+ARBYS,DiningOut
+BANNER HEALTH,Doctor/Hospital
+BASS PRO,Household
+BOSTON GLOBE MEDIA,Newspaper/Magazines
+BURGER KING,DiningOut
+CALVINKLEIN.COM,clothing
+CENTRO MARKET,DiningOut
+CERTUS FUSION TRAINING,Books/Education
+CMS MEDICARE    PREMIUMS,Medical/Dental/Vision
+COMFORT SUITES FERNLEY,Vacation/Travel
+CORWIN FORD RENO,Transfer
+COURTREC.COM,Internet Service
+CSC SERVICEWORK,DiningOut
+Coinbase.com,Transfer
+DINIS LUCKY CLUB,DiningOut
+Dayton Valley F Dayton,DiningOut
+DoorDash  Inc.  DoorDash,Income
+EDWARD JONES,Transfer
+ELKO DAILY FREE PRESS,Newspaper/Magazines
+EMERITUS* MIT XPRO,Books/Education
+ENTERPRISE RENT-A-CAR,Transportation/Auto
+FAMILY DO,Food/Groceries
+FERNLEY TOUCHLESS CAR,Transportation/Auto
+FYF*FROMYOUFLOWERS,Gifts/Donations
+GAINWELL TECHNOLDIRECT,Income
+GARDNERS WATER SERV STAGECOACH NV,Household
+ACE HARDWARE,Household
+GOLDEN GATE,Gas
+GRANITE PROPANE,Utilities
+HOLBROOK STATION MINI MAR,Food/Groceries
+IEEE PRODUCTS,ComputerSoftware/Hardware
+JACKSONS FOOD,DiningOut
+MCDONALD,DiningOut
+MING'S RESTAURANT,DiningOut
+Mobile 02/05/2025 12:44:09 Ref# 6CF1E,Transfer
+NUGGET CASINO RESORT,Transportation/Auto
+NYTIMES,Newspaper/Magazines
+O REILLY,Transportation/Auto
+PRICELINE.COM,Vacation/Travel
+SHARE CHECK 1073,Household
+SHARE CHECK 1075,Transfer
+SKIPS MARKET,Food/Groceries
+SMITHS FO,Food/Groceries
+BULLY'SSPORTSBAR,DiningOut
+SQ *4 CORNERS COFFEE,DiningOut
+SQ *TELEGRAPH COFFEE,Diningout
+STAGECOACH COUNTRY MARKE,Food/Groceries
+STAGECOACH RANCH,Food/Groceries
+T-MOBILE,Utilities : Internet
+TAYLOR MART,Food/Groceries
+TITHE.LY,Tithe
+TST* HUMAN BEAN,Diningout
+UBER,Transportation/Auto
+Calvary Baptist,Tithe
+WM.COM,Utilities
+YAHOO  *Mail Plus,Internet Service
+ZALES,Gifts/Donations
+homeyogas.com,Miscellaneous

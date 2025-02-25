@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import java.sql.*;
+
 public abstract class Account {
 
 	ArrayList<Transaction> transactions;
@@ -93,6 +95,37 @@ public abstract class Account {
 
 	public abstract void loadDatabaseWithTransactions(Connection connection) throws SQLException;
 	public abstract void loadTransactionsFromFile(String filename) throws IOException, ParseException;
-	public abstract void loadTransactionsFromDatabase(Connection c, String date1, String date2) throws SQLException;
+
+	public void loadTransactionsFromDatabase(Connection c, String beginDate, String endDate) throws SQLException
+	{	
+			String and1 ="", and2 = "";
+			String endQuote = "'";
+			if (beginDate == null) 
+			{
+				beginDate = "";
+			} else and1 = " where transactionDate >= '" +beginDate+ endQuote;
+			if (endDate == null)
+			{ 
+				endDate = ""; 
+			} else and2 = " and transactionDate <= '" + endDate + endQuote;
+			
+			String queryString = "select * from BigTXView " + and1 + and2 + ";";
+	
+			System.out.println("query is: " + queryString);
+			Statement s = c.createStatement();
+			ResultSet rs = s.executeQuery(queryString);
+			try 
+			{
+				while (rs.next()) 
+				{
+					Transaction t = new BigViewTransaction();
+					t.loadTransactionFromDatabase(rs);
+					this.addTransaction(t);
+				}
+			} catch (SQLException e) 
+			{
+					System.out.println("problem reading transactions from Database into memory");
+			}
+	}
 
 }
