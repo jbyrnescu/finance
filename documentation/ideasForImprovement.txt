@@ -1,14 +1,46 @@
 1. Have a program read the Excel file and update the configuration files automatically.
-   (That would be cool!)
+   (That would be cool!).  The first file that can be used/converted could be the
+   DollarsPerDayExpenditures.  
 
-2. Discover and ask users about whether certain transactions that haven't been seen before are categorized properly.
+2. Instead of just using Descriptions for Mandatory status, how about using a category?
 
-3. Instead of just using Descriptions for Mandatory status, how about using a category?
+3. Create a column for normalized description.  This would search for a recognizable word or words in the description that does not include the numbers of the transaction or store number.
+(This is hard to do because some descriptions of transactions contain numbers.)
 
-4. Do a query that looks for Transactions without categories and alert user.
-
-5. Create a column for normalized description.  This would search for a recognizable word or words in the description that does not include the numbers of the transaction or store number.
-
-6. Create a program that queries Amazon's system/databases to figure out which
+4. Create a program that queries Amazon's system/databases to figure out which
 transactions were for what do something based on this information, like
-automatically categorize them.
+automatically categorize them.  Or just list the description from Amazon so the user
+can decide what to categorize them as.
+
+5. Make DollarsPerDayExpenditures a monthly thing.  (just include monthly in there and
+ignore it.  You can calculate one based on the other.  For example, if daily doesn't exist
+use the monthly for the budget numbers.
+
+6. Make DollarsPerDayExpenditures and maybe some other configuration files tables inside
+the database including:
+1) Budget.csv
+2) MarkMandatoryMap.csv
+3) Categorized.csv
+4) (Maybe errors? - probably not though)
+5) DollarsPerDayExpenditures.csv
+6) allCategories.csv
+7) SavingsPercentages.csv (although I don't remember how this one works at this point)
+8) SuggestedSavings.csv (although I don't remember how this one works at this point - ditto from above)
+9) pieChart.csv (spending percentages)
+10) XcldFrmCshFlw.csv
+
+7. Put the range in the budget so user knows what days are being accounted for (or whare
+it started)
+
+----------------------------------------------------------------
+
+Completed ideas:
+
+- Discover and ask users about whether certain transactions that haven't been seen before are categorized properly.
+- Do a query that looks for Transactions without categories and alert user.
+
+-- Both of these were implemented.  Essentially if a category inside the database (or read in
+files from banks/cards) is not recognized from the categories list
+(Categorize/Categorized.csv), the transaction is listed inside of the errors.csv
+file.
+-- Also, if there is no category at all, it is listed inside of the errors.csv file.
