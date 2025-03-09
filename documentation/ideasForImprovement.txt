@@ -50,6 +50,16 @@ so that the user knows and can use that information if he/she needs to.)
 
 12. Put columns headers in files that don't have them.  Like output.csv and output2.csv. (There may be more)
 
+----------------------------------------------------------------
+
+Not new ideas, but existing functionality I need to get working again.
+
+1) Budget all Txns.  Get working.  (Right now the Allowed spending column looks wrong)
+   (There are a lot of '0's)
+2) Get mandatory calcs going
+   It needs the data file generated imported.  The spreadsheet needs to be cleaned up.
+3) Flat needs needs to be worked on and filled out
+
 
 18bce3c (Ideas for John)
 ----------------------------------------------------------------
