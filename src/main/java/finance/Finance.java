@@ -388,6 +388,7 @@ public class Finance {
 		for (String line : lines)
 		{
 			String[] columns = line.split(",");
+			System.out.println("Mapping " + columns[0] + ":" + columns[1]);
 			categoriesMap.put(columns[0], columns[1]);
 		}
 
