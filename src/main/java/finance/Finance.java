@@ -24,7 +24,6 @@ import accounts.ChaseAccount;
 import accounts.Expenses;
 import accounts.StarOneAccount;
 import accounts.Transaction;
-import accounts.MandatoryTransactions;
 
 //import db.Tables;
 import db.Tables;
@@ -206,11 +205,6 @@ public class Finance {
 			
 			
 			// Now look for categories that don't have an equivalent in the 
-			
-			// write out the mandatory transactions.  Load them first though
-			MandatoryTransactions mt = new MandatoryTransactions();
-			mt.loadTransactionsFromDatabase(finance.connection, dateStr1, dateStr2);
-			mt.printTransactions();
 
 		}
 
@@ -307,8 +301,6 @@ public class Finance {
 		// use Map to change XcludeFromCashFlow
 		this.readExcludeFromCashFlowMap("XcldFrmCshFlw.csv");
 		this.markExcludedTransactions();
-
-		
 
 	}
 
