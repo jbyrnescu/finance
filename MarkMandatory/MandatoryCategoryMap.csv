@@ -1,7 +1,7 @@
 Category,Mandatory
-Gas,M
-AutoInsurance,M
-HealthInsurance,M
-Medical/Dental/Vision Insurance,M
-Utilities : Electricity,M
-Utilities : Internet,M
+GAS,M
+AUTOINSURANCE,M
+HEALTHINSURANCE,M
+MEDICAL/DENTAL/VISION INSURANCE,M
+UTILITIES : ELECTRICITY,M
+UTILITIES : INTERNET,M
