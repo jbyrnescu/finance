@@ -302,6 +302,11 @@ public class Finance {
 		this.readExcludeFromCashFlowMap("XcldFrmCshFlw.csv");
 		this.markExcludedTransactions();
 
+		// use Map to change certain categories to mandatory
+		this.readMandatoryMap("MandatoryCategoryMap.csv");
+		this.markMandatory();
+
+
 	}
 
 	private void markExcludedTransactions() throws SQLException {
@@ -339,6 +344,20 @@ public class Finance {
 			for (String key : mandatoryMap.keySet()) {
 				String queryString = "update " + source + " set Mandatory=\"" + mandatoryMap.get(key) +
 						"\" where Description like \"%" + key + "%\";";
+				Logger.out.println("updating: " + queryString);
+				Statement statement = connection.createStatement();
+				int numUpdated = statement.executeUpdate(queryString);
+				Logger.out.print(numUpdated);
+			}
+		}
+	}
+
+	private void markCategoriesMandatory() throws SQLException {
+		for (int accountNum = 0; accountNum < accounts.size(); accountNum++) {
+			String source = accounts.get(accountNum).getSourceName();
+			for (String key : mandatoryMap.keySet()) {
+				String queryString = "update " + source + " set Mandatory=\"" + mandatoryMap.get(key) +
+						"\" where BudgetCat like \"%" + key + "%\";";
 				Logger.out.println("updating: " + queryString);
 				Statement statement = connection.createStatement();
 				int numUpdated = statement.executeUpdate(queryString);
