@@ -62,7 +62,6 @@ Not new ideas, but existing functionality I need to get working again.
 
 
 18bce3c (Ideas for John)
-----------------------------------------------------------------
 
 Completed ideas:
 
