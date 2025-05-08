@@ -66,16 +66,6 @@ so that the user knows and can use that information if he/she needs to.)
 13. I need a script that takes MONTHLY budget data (like DollarsPerDay... but for monthly data) and turns it into
     DollarsPerDayExpenditures.csv.
 
-14. I need a program (or part of this program), that:
-    given a specific date (10 days back, 20 days back, etc.)
-    	  Can be specified with a date (not necessarily a number of days back)
-    measures what has been spent and compares to the specified MONTHLY budget.
-    Then, it gives a status on how much has been spent on what to
-    	  guide the user on what to stop spending on.
-
-15. I need a script that takes MONTHLY budget data (like DollarsPerDay... but for monthly data) and turns it into
-    DollarsPerDayExpenditures.csv.
-
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
