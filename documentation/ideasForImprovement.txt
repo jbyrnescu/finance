@@ -1,22 +1,24 @@
 1. Have a program read the Excel file and update the configuration files automatically.
    (That would be cool!).  The first file that can be used/converted could be the
    DollarsPerDayExpenditures.  
+   Not so sure this is a good idea because Excel is bailing out, and we don't want to
+       tie ourselves to a product/software that isn't going to be supported in the future.
 
-2. Instead of just using Descriptions for Mandatory status, how about using a category?
-
-3. Create a column for normalized description.  This would search for a recognizable word or words in the description that does not include the numbers of the transaction or store number.
+2. Create a column for normalized description.  This would search for a recognizable word or words in the description that does not include the numbers of the transaction or store number.
 (This is hard to do because some descriptions of transactions contain numbers.)
 
-4. Create a program that queries Amazon's system/databases to figure out which
+3. Create a program that queries Amazon's system/databases to figure out which
 transactions were for what do something based on this information, like
 automatically categorize them.  Or just list the description from Amazon so the user
 can decide what to categorize them as.
+    I may be able to get ChatGPT or some other AI to create a program to do this for me.  That would be super cool.
 
-5. Make DollarsPerDayExpenditures a monthly thing.  (just include monthly in there and
+4. Make DollarsPerDayExpenditures a monthly thing.  (just include monthly in there and
 ignore it.  You can calculate one based on the other.  For example, if daily doesn't exist
 use the monthly for the budget numbers.
+    Monthly is really the standard for measuring.  DollarsPerDay is really difficult to deal with.
 
-6. Make DollarsPerDayExpenditures and maybe some other configuration files tables inside
+5. Put DollarsPerDayExpenditures and maybe some other configuration files tables inside
 the database including:
 1) Budget.csv
 2) MarkMandatoryMap.csv
@@ -29,26 +31,40 @@ the database including:
 9) pieChart.csv (spending percentages)
 10) XcldFrmCshFlw.csv
 
-7. Put the range in the budget so user knows what days are being accounted for (or whare
+6. Put the range in the budget so user knows what days are being accounted for (or where
 it started)
+   This is known from the DollarsPerDayExpenditures.csv date on the first line of the file.
 
-8. Put a notes column in the transaction for notes that help remember what the transaction was for.
+7. Put a notes column in the transaction for notes that help remember what the transaction was for.
+>>>>>>> 2025_04_18
 Sometimes, for example, with AMAZON MKTPLC transactions, I have to look up what the transaction
 was for to figure out how to categorize it.  Then, I go back and have to look it up again for
 some other reason, like, "What was that money for?"
 If I add a notes section, I can add notes to transactions and see the notes I gathered about the
 transaction for later.
 
-9. Put a blob in there for receipts.  (This one is obvious, but I'll probably never do it
+8. Put a blob in there for receipts.  (This one is obvious, but I'll probably never do it
 because it's really for tax purposes, and I'll never be able to itemize. - I don't spend
 enough on other things to itemize.)
 
-10. Specify in the "Budget Last X days" (in the Excel spreadsheet, how many days have been specified
+9. Specify in the "Budget Last X days" (in the Excel spreadsheet, how many days have been specified
 so that the user knows and can use that information if he/she needs to.)
+   This is currently hard-coded in the program.  I think it's 31 or 30 days.
 
-11. Specify in "Budget of all Txns" (in the Excel spreadsheet) when the budget started (what the start date of the transactions is)
+10. Specify in "Budget of all Txns" (in the Excel spreadsheet) when the budget started (what the start date of the transactions is)
+    (Again, see #8)
 
-12. Put columns headers in files that don't have them.  Like output.csv and output2.csv. (There may be more)
+11. Put columns headers in files that don't have them.  Like output.csv and output2.csv. (There may be more)
+
+12. I need a program (or part of this program), that:
+    given a specific date (10 days back, 20 days back, etc.)
+    	  Can be specified with a date (not necessarily a number of days back)
+    measures what has been spent and compares to the specified MONTHLY budget.
+    Then, it gives a status on how much has been spent on what to
+    	  guide the user on what to stop spending on.
+
+13. I need a script that takes MONTHLY budget data (like DollarsPerDay... but for monthly data) and turns it into
+    DollarsPerDayExpenditures.csv.
 
 ----------------------------------------------------------------
 
@@ -59,11 +75,22 @@ Not new ideas, but existing functionality I need to get working again.
 2) Get mandatory calcs going
    It needs the data file generated imported.  The spreadsheet needs to be cleaned up.
 3) Flat needs needs to be worked on and filled out
+4) Suggested Savings is actually an output of the program.  But, I need to understand it and get it working as well.
+5) SuggestedDeductionsNTransfers (This is really if I'm saving money)  (Once I get stable, maybe I could add to this.)
 
+----------------------------------------------------------------
 
-18bce3c (Ideas for John)
+Completed ideas (existing functionality I need to figure out):
 
-Completed ideas:
+Debt Projection.  This is a HUGE one.  I should give this one priority.
+
+(was) 2. Instead of just using Descriptions for Mandatory status, how about using a category?
+      Instead of creating a new format to read, a new file was created that had just
+      	      the category, and the Mandatory type (I.E. (T)ithe, (M)andatory... etc.)
+	      
+----------------------------------------------------------------
+
+Completed ideas (functionality):
 
 - Discover and ask users about whether certain transactions that haven't been seen before are categorized properly.
 - Do a query that looks for Transactions without categories and alert user.
@@ -73,3 +100,9 @@ files from banks/cards) is not recognized from the categories list
 (Categorize/Categorized.csv), the transaction is listed inside of the errors.csv
 file.
 -- Also, if there is no category at all, it is listed inside of the errors.csv file.
+
+- I created a script that turns DollarsPerDayExpenditures.csv into a MONTHLY budget.
+  This will (or helps) with comparing the budget (Dollars...) to the current spending
+  for the last N days. (like around (or less than) a month).  This comparison, referred to in the last
+  2 sentences, helps users know whether they can spend on something, like a trip to
+  Dayton, considering their budget.

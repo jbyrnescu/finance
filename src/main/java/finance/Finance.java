@@ -110,7 +110,8 @@ public class Finance {
 		Date date1 = calendar1.getTime();
 		String dateStr2 = simpleDateFormat.format(date1);
 
-		calendar1.add(Calendar.DATE, -40);
+		// We use a RANDOM 40 days to search back through for our budget queries.
+		calendar1.add(Calendar.DATE, -31);
 		Date date2 = calendar1.getTime();
 		String dateStr1 = simpleDateFormat.format(date2);
 		
@@ -200,6 +201,10 @@ public class Finance {
 				// so, we didn't find a match... Write this transaction in the errors.csv file
 				curTransaction.writeTransaction(errorFile); 
 			}
+
+			
+			
+			// Now look for categories that don't have an equivalent in the 
 
 		}
 
