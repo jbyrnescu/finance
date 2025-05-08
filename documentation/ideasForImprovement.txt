@@ -32,6 +32,26 @@ the database including:
 7. Put the range in the budget so user knows what days are being accounted for (or whare
 it started)
 
+8. Put a notes column in the transaction for notes that help remember what the transaction was for.
+Sometimes, for example, with AMAZON MKTPLC transactions, I have to look up what the transaction
+was for to figure out how to categorize it.  Then, I go back and have to look it up again for
+some other reason, like, "What was that money for?"
+If I add a notes section, I can add notes to transactions and see the notes I gathered about the
+transaction for later.
+
+9. Put a blob in there for receipts.  (This one is obvious, but I'll probably never do it
+because it's really for tax purposes, and I'll never be able to itemize. - I don't spend
+enough on other things to itemize.)
+
+10. Specify in the "Budget Last X days" (in the Excel spreadsheet, how many days have been specified
+so that the user knows and can use that information if he/she needs to.)
+
+11. Specify in "Budget of all Txns" (in the Excel spreadsheet) when the budget started (what the start date of the transactions is)
+
+12. Put columns headers in files that don't have them.  Like output.csv and output2.csv. (There may be more)
+
+
+18bce3c (Ideas for John)
 ----------------------------------------------------------------
 
 Completed ideas:
