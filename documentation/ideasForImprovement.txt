@@ -73,6 +73,9 @@ so that the user knows and can use that information if he/she needs to.)
     Then, it gives a status on how much has been spent on what to
     	  guide the user on what to stop spending on.
 
+15. I need a script that takes MONTHLY budget data (like DollarsPerDay... but for monthly data) and turns it into
+    DollarsPerDayExpenditures.csv.
+
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
