@@ -13,7 +13,7 @@ chomp ($line);
 
 my ($date, $title) = split(',',$line);
 
-printf("Date: %s - Title: %s - Converted to MONTHLY (dollars per month)\n", $date, $title);
+printf("Date: %s , Title: %s - Converted to MONTHLY (dollars per month)\n", $date, $title);
 
 chomp(my @lines = <$fh>);
 
