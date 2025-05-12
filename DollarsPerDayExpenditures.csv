@@ -1,32 +1,25 @@
-﻿2025-01-01,Set Dollars Per Day Budget
-Tithe,0
-Doctor/Hospital,4.918032787
-Food/Groceries,16.39344262
-AutoFinancing,29.50819672
-Household,16.39344262
-AutoMaintenance,0
-Prescriptions,0.655737705
-Utilities : Gas,0
-Utilities : Internet,5.573770492
-Medical/Dental/Vision Insurance,1.245901639
-PetCare,3.93442623
-Movies/Entertainment,0.491803279
-AutoInsurance,3.836065574
-Utilities : Electricity,5.081967213
-Internet Service,3.606557377
-Legal/Debt,0
-Gas,16.39344262
-Clothing,0.983606557
-Utilities,0
-Automotive,0
-DiningOut,0.983606557
-ComputerSoftware/Hardware,0
-Gifts/Donations,1.639344262
-CASH,6.557377049
-Personal,0
-Bills & Utilities,15.86885246
-Vacation/Travel,0
-Other,0
-Transportation/Auto,0
-Medical Facility,0
-Household Cleaning,0
+Date: Date: 2025-01-01  , Title: MONTHLY (dollars per month) - Converted to DAILY (dollars per day)
+GAS,-34.56
+AUTOINSURANCE,-5.25
+UTILITIES : INTERNET,-5.61
+MEDICAL/DENTAL/VISION,-5.97
+HEALTHINSURANCE,-0.62
+GIFTS/DONATIONS,-0.71
+HOUSEHOLD,-9.77
+NEWSPAPER/MAGAZINES,-0.13
+FOOD/GROCERIES,-16.72
+DOCTOR/HOSPITAL,-21.33
+UTILITIES : ELECTRICITY,-2.24
+PETCARE,-2.47
+INTERNET SERVICE,-2.84
+AUTO FINANCE,-28.51
+AUTOMAINTENANCE,0.00
+BANK/CARDFEES,0.00
+BOOKS/EDUCATION,0.00
+CHARITABLECONTRIBUTIONS,0.00
+COMPUTERSOFTWARE/HARDWARE,0.00
+DININGOUT,0.00
+MEDICAL/DENTAL/VISION INSURANCE,0.00
+TITHE,0.00
+TRAVEL,0.00
+VACATION/TRAVEL,0.00

@@ -64,7 +64,20 @@ so that the user knows and can use that information if he/she needs to.)
     	  guide the user on what to stop spending on.
 
 13. I need a script that takes MONTHLY budget data (like DollarsPerDay... but for monthly data) and turns it into
-    DollarsPerDayExpenditures.csv.
+    DollarsPerDayExpenditures.csv.  The end result should look like pieChart.csv.  This way, the results can be
+    subtracted _with_ (not from) pieChart.csv for a comparison and detail on what I can spend on without going over budget.
+
+    It may be nice to have a spreadsheet to dictate how much I have to spend in each category.
+
+    The other option is to have a program subtract pieChart.csv from DollarsPerMonth.csv to see how much I have to spend
+    in each category.
+
+    It would also be nice to create an imaginary side fund that deposits imaginary money into an imaginary "want" fund
+    that will eventually be used to buy something that is "wanted".  This way, money can be set aside for later purchases
+    if the amount is too great for a single month to accomodate.  This may be a bit complicated though.  I'm not really sure
+    how it would work.  Potentially, Star One could be used to deposit money into an account like this and a "transfer"
+    can be used to fund it.  Also, any unused budget money could go into this account to save for later use if not
+    used during the month.
 
 ----------------------------------------------------------------
 
