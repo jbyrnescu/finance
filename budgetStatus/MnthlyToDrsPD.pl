@@ -16,7 +16,7 @@ my $title;
 
 (my $date, $title) = split(',',$line);
 
-printf("Date: %s , %s - Converted to DAILY (dollars per day)\n", $date, $title);
+printf("%s, %s - Converted to DAILY (dollars per day)\n", $date, $title);
 
 chomp(my @lines = <$fh>);
 
@@ -26,6 +26,6 @@ my @sorted_lines = sort @lines;
 foreach $line (@sorted_lines) {
     my ( $amount, $category ) = split (',',$line);
     $amount =~ s/\"//g;
-    printf("%s,%-.2f\n", uc $category, $amount/31);
+    printf("%-.2f,%s\n", $amount/31, uc $category);
 }
 

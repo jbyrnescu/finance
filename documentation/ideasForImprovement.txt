@@ -79,6 +79,12 @@ so that the user knows and can use that information if he/she needs to.)
     can be used to fund it.  Also, any unused budget money could go into this account to save for later use if not
     used during the month.
 
+    The Monthly Budget Status is different (Initially implemented using PERL).
+    The Monthly Budget is a "Baby Steps" approach that allows the user to use the BEGINNING of the 40 day period (or whatever specified)
+      	to see, during that month, whether they have enough money to pay for something.  Suggested Savings is taken out of that and set
+      	aside in another account to pay for long term items that may not fit in a single month.
+
+
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
@@ -119,3 +125,8 @@ file.
   for the last N days. (like around (or less than) a month).  This comparison, referred to in the last
   2 sentences, helps users know whether they can spend on something, like a trip to
   Dayton, considering their budget.
+
+- Explanation of Budget.csv
+  This file represents the budget since the date specified in DollarsPerDayExpenditures.csv
+  It is SUPPOSED to say how the budget is going given ALL the data from the point specified in DollarsPerDayExpenditures.csv
+
