@@ -3,7 +3,6 @@
 use warnings;
 use strict;
 
-my $dailyAmountFilename = "../DollarsPerDayExpenditures.csv";
 my $mnthlyAmountFilename = "../DollarsPerMonth.csv";
 
 open(my $fh,"<",$mnthlyAmountFilename) or die "Can't open $mnthlyAmountFilename";
@@ -26,6 +25,6 @@ my @sorted_lines = sort @lines;
 foreach $line (@sorted_lines) {
     my ( $amount, $category ) = split (',',$line);
     $amount =~ s/\"//g;
-    printf("%-.2f,%s\n", $amount/31, uc $category);
+    printf("%s,%-.2f\n", uc $category, $amount/31);
 }
 
