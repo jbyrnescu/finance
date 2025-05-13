@@ -36,12 +36,11 @@ it started)
    This is known from the DollarsPerDayExpenditures.csv date on the first line of the file.
 
 7. Put a notes column in the transaction for notes that help remember what the transaction was for.
->>>>>>> 2025_04_18
-Sometimes, for example, with AMAZON MKTPLC transactions, I have to look up what the transaction
-was for to figure out how to categorize it.  Then, I go back and have to look it up again for
-some other reason, like, "What was that money for?"
-If I add a notes section, I can add notes to transactions and see the notes I gathered about the
-transaction for later.
+   Sometimes, for example, with AMAZON MKTPLC transactions, I have to look up what the transaction
+   was for to figure out how to categorize it.  Then, I go back and have to look it up again for
+   some other reason, like, "What was that money for?"
+   If I add a notes section, I can add notes to transactions and see the notes I gathered about the
+   transaction for later.
 
 8. Put a blob in there for receipts.  (This one is obvious, but I'll probably never do it
 because it's really for tax purposes, and I'll never be able to itemize. - I don't spend
@@ -63,26 +62,57 @@ so that the user knows and can use that information if he/she needs to.)
     Then, it gives a status on how much has been spent on what to
     	  guide the user on what to stop spending on.
 
-13. I need a script that takes MONTHLY budget data (like DollarsPerDay... but for monthly data) and turns it into
-    DollarsPerDayExpenditures.csv.  The end result should look like pieChart.csv.  This way, the results can be
+13. Another nice thing to have would be to be able to compare current actual spending to the MONTHLY budget.    
+    The end result should look like pieChart.csv.  This way, the results can be
     subtracted _with_ (not from) pieChart.csv for a comparison and detail on what I can spend on without going over budget.
 
     It may be nice to have a spreadsheet to dictate how much I have to spend in each category.
 
     The other option is to have a program subtract pieChart.csv from DollarsPerMonth.csv to see how much I have to spend
     in each category.
+       To implement this, DollarsPerMonth.csv is compared to pieChart.csv.Suggested Savings can be taken out later (or accounted for)
+       but for now, I just want it to work without that.  (See #14.)
+       Unfortunately, the same categories may not be available in each file.  So, a comparison of like categories needs to be
+       		      done. (I don't want to do this in Perl.)
+    DollarsPerMonth.csv probably will need to be edited manually.
 
-    It would also be nice to create an imaginary side fund that deposits imaginary money into an imaginary "want" fund
+    (Same idea written differently)
+    The Monthly Budget Status is different (Initially implemented using PERL).
+    The Monthly Budget is a "Baby Steps" (each "step" being a month) approach that allows the user to use the
+    	BEGINNING of the 40 day period (or whatever specified)
+      	to see, during that month, whether they have enough money to pay for something.  Suggested Savings is taken out of that and set
+      	aside in another account to pay for long term items that may not fit in a single month.
+     A report could be made after the comparison that itemizes the errors (unrecognized categories in pieChart.csv a sign that there are
+       uncategorized items, or items that weren't categorized properly), or missing Categories in
+       pieChart.csv.  (Something money wasn't spent on) which should be a normal occurence, but alerting may be useful.
+
+       DollarsPerMonth.csv should be set at budget creation time (and hence set in stone).
+       pieChart.csv is generated each time the program is run with the script.
+
+       The algorithm for this would be as follows:
+       read both pieChart.csv and DollarsPerMonth.csv into memory.  (If they're not already in memory).
+       The memory structure of DollarsPerMonth.csv will have a slot for remembering that it was used for comparison in addition
+       	   to the category and amount.
+       for each item in: the pieChart map
+       	   look for a similarly named item (ALL CAPS CATEGORIES) in DollarsPerMonth memory structure (map with usedForComparison addition)
+	   if one if found:
+	      subtract the amount of pieChart from DollarsPerMonth (DollarsPerMonth.category.value - pieChart.category.value)
+	      to get a POSITIVE value of what is left to SPEND in that category.
+	      (If the value is NEGATIVE the budget was overspent and not obeyed)
+	      Mark the DollarsPerMonth category as USED.
+	For the report:
+	    print out all UNUSED categories in DollarsPerMonth as nothing spent in this category
+	    print out all UNRECOGNIZED categories in pieChart (actual spending) as errors.  (Everything should be recognized.)
+
+14. It would also be nice to create an imaginary side fund that deposits imaginary money into an imaginary "want" fund
     that will eventually be used to buy something that is "wanted".  This way, money can be set aside for later purchases
     if the amount is too great for a single month to accomodate.  This may be a bit complicated though.  I'm not really sure
     how it would work.  Potentially, Star One could be used to deposit money into an account like this and a "transfer"
     can be used to fund it.  Also, any unused budget money could go into this account to save for later use if not
-    used during the month.
+    used during the month.  I think this is what SUGGESTEDSAVINGS is for.
 
-    The Monthly Budget Status is different (Initially implemented using PERL).
-    The Monthly Budget is a "Baby Steps" approach that allows the user to use the BEGINNING of the 40 day period (or whatever specified)
-      	to see, during that month, whether they have enough money to pay for something.  Suggested Savings is taken out of that and set
-      	aside in another account to pay for long term items that may not fit in a single month.
+
+
 
 
 ----------------------------------------------------------------
@@ -129,4 +159,9 @@ file.
 - Explanation of Budget.csv
   This file represents the budget since the date specified in DollarsPerDayExpenditures.csv
   It is SUPPOSED to say how the budget is going given ALL the data from the point specified in DollarsPerDayExpenditures.csv
+
+- I need a script that takes MONTHLY budget data (like DollarsPerDay... but for monthly data) and turns it into
+    DollarsPerDayExpenditures.csv.  This way I can take a Monthly budget and use it in this program
+    to generate the Budget.csv data. (This is done... MnthlyDrsPD.pl) (converts DollarsPerMonth.csv
+       and turns into DollarsPerDayExpenditures.csv - if redirected to that file. (uses stdout)).
 
