@@ -230,20 +230,117 @@ public class Finance {
 		PieChartModel actualSpending = new PieChartModel(finance.connection, "." );
 		Calendar firstOfMonth = Calendar.getInstance();
 		firstOfMonth.set(Calendar.DAY_OF_MONTH, 1); 
+        
+        System.out.println("The first of the month appears to be: " + simpleDateFormat.format(firstOfMonth) + " and today is: " +
+            simpleDateFormat.format(Calendar.getInstance()));
 		/* load the PieChart (Actual spending categorized) */		
 		actualSpending.loadPieChartEntriesFromDatabase(simpleDateFormat.format(firstOfMonth),simpleDateFormat.format(Calendar.getInstance()));
 		
 		/* now read in the Monthly Budget numbers */
-		Path path = Paths.get(finance.baseProjectPath + "/DollarsPerMonth.csv");
-		
-
-
+		String path = finance.baseProjectPath + "/DollarsPerMonth.csv";
+	    MonthlyBudgetModel mbm = new MonthlyBudgetModel(path);
+        
+        /* we now have both a Monthly budget model and the actual spending. */
+        finance.printMonthlyStatus(mbm, actualSpending);    
 
 		errorFile.close();
 
 		
 		finance.closeAll();
 	}
+
+    public void printMonthlyStatus(MonthlyBudgetModel mbm, PieChartModel actualSpending)
+    {
+        /* open our output file */
+        String monthlyStatusFilename = "monthlyStatus.csv";
+        PrintWriter printWriter = null;
+        try 
+        {
+            printWriter = new PrintWriter(monthlyStatusFilename);
+        } catch (FileNotFoundException fnfe)
+        {
+            /* do nothing */
+            System.err.println("Couldn't open file: " + monthlyStatusFilename);
+        }
+        /* print the title, then the data */
+
+        printWriter.println("Category, Monthly Budgeted Amount, Actual Amount Spent, Difference");
+        /* get the entries so we can cycle through them */
+        ArrayList<PieChartEntry> entries = actualSpending.getItems();
+        ArrayList<BudgetItem> noCorrespondingBudgetItem = new ArrayList<>();
+
+        for (int i = 0; i < entries.size(); i++)
+        {
+            String category = entries.get(i).getCategory();  
+            Double budgetedAmountDouble = mbm.findCategory(category).getAmount();
+            double budgetedAmount = 0.0;
+            // record this as an item without a budget entry if it returns null (no entry in mbm)
+            if (budgetedAmountDouble == null)
+            {
+                // we'll store the actual amount spent for this non-budgeted item in the amount of a budget Item.
+                // this may be a little confusing, but it'll save a ton of time.  (Shortcut)  (No-one is paying me
+                // to be clean here.)
+                BudgetItem budgetItem = new BudgetItem(category, entries.get(i).getAmount(), null);
+                noCorrespondingBudgetItem.add(budgetItem); 
+            } else
+            {
+               budgetedAmount = budgetedAmountDouble; // unboxing/boxing used here. 
+            }
+
+            double actualSpentAmount = entries.get(i).getAmount();
+            double difference = budgetedAmount - actualSpentAmount;
+
+            /* now print that line item */
+            printWriter.println(category + "," + budgetedAmount + "," + actualSpentAmount
+                + difference);
+        }
+
+        /* Now let's print a report of 
+            1) What categories weren't spent on in the budget (that's ok).
+                This is essentially budget items in the mbm that don't have "used" as the used section.
+            2) Categories that AREN'T in the budget.  This is bad categorization.  The 
+                categories need to be fixed. (This isn't ok.)
+            We'll use this order because hopefully good data is at the beginning
+                of the report.  #1 is good data, and #2 is about bad data.
+                We're keeping the good data together.
+       
+
+            1) algorithm (with some variable names)
+            Cycle through MonthlyBudgetModel.allowedAmounts or in this instantiation mbm.allowedAmounts
+            to itemize all categories possible.
+            This data structure is loaded using loadBudgetFromFile(...) the file DollarsPerMonth.csv and has all the entries
+            the monthly budget has.
+            For each category, see if it has an entry in MonthlyBudgetModel's used HashMap.
+                If it doesn't, it's not used.
+
+            2) Cycle through noCorrespondingBudgetItem list/print them   
+
+        */
+
+        printWriter.println("\nCategories that nothing was spent in:");
+
+        HashMap<String, Double> allowedAmounts;
+        allowedAmounts = mbm.getAllowedAmounts();
+        Set<Map.Entry<String, Double>> entrySet = allowedAmounts.entrySet(); 
+        Iterator<Map.Entry<String, Double>> iterator = entrySet.iterator();
+        Map.Entry<String, Double> entry = iterator.next();
+        for (;iterator.hasNext();entry = iterator.next())
+        {
+           printWriter.println(entry.getKey() + "," + entry.getValue());
+        }
+
+        printWriter.println("\nSpent amounts in categories that aren't in the budget:");
+
+        for (int i = 0; i < noCorrespondingBudgetItem.size(); i++)
+        {
+            printWriter.println(noCorrespondingBudgetItem.get(i).getCategory() + "," +
+                noCorrespondingBudgetItem.get(i).getAmount() + "," + "not found in budget");
+        }
+
+        printWriter.close();
+        
+    }
+        
 
 	private void writeDatabaseToCSV(String filename) throws SQLException, IOException {
 		BigViewAccount bva = new BigViewAccount();		
