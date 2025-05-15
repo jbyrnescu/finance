@@ -29,14 +29,20 @@ import finance.Logger;
 
 public class BudgetModel extends PieChartModel {
 	
-	HashMap<String, Double> allowedAmounts = new HashMap<String, Double>();
+	protected HashMap<String, Double> allowedAmounts = new HashMap<String, Double>();
 	Date startDate = null;
 
 	public BudgetModel(Connection connection, String basePath) {
 		super(connection, basePath);
 		this.basePath = basePath;
 	}
-	
+
+	public BudgetModel(String basePath)
+	{
+		super(basePath);
+		this.basePath = basePath;
+	}
+
 	public long getDaysSinceStart() {
 		if (startDate == null)
 			return 0;

@@ -27,6 +27,11 @@ public class PieChartModel {
 		this.connection = connection;
 		this.basePath = basePath;
 	}
+
+	public PieChartModel(String basePath)
+	{
+		this.basePath = basePath;
+	}	
 	
 	public void writePieChartEntries() throws IOException {
 		PrintWriter file = new PrintWriter(new File(basePath+"/pieChart.csv"));
