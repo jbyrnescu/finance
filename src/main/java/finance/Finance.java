@@ -239,10 +239,11 @@ public class Finance {
 		Calendar firstOfMonth = Calendar.getInstance();
 		firstOfMonth.set(Calendar.DAY_OF_MONTH, 1); 
         
-        System.out.println("The first of the month appears to be: " + simpleDateFormat.format(firstOfMonth) + " and today is: " +
-            simpleDateFormat.format(Calendar.getInstance()));
+        System.out.println("The first of the month appears to be: " + simpleDateFormat.format(firstOfMonth.getTime()) + " and today is: " +
+            simpleDateFormat.format(Calendar.getInstance().getTime()));
 		/* load the PieChart (Actual spending categorized) */		
-		actualSpending.loadPieChartEntriesFromDatabase(simpleDateFormat.format(firstOfMonth),simpleDateFormat.format(Calendar.getInstance()));
+		actualSpending.loadPieChartEntriesFromDatabase(simpleDateFormat.format(firstOfMonth.getTime()),
+            simpleDateFormat.format(Calendar.getInstance().getTime()));
 		
 		/* now read in the Monthly Budget numbers */
 		String path = finance.baseProjectPath + "/DollarsPerMonth.csv";
@@ -280,19 +281,20 @@ public class Finance {
         for (int i = 0; i < entries.size(); i++)
         {
             String category = entries.get(i).getCategory();  
-            Double budgetedAmountDouble = mbm.findCategory(category).getAmount();
+            BudgetItem budgetItem = mbm.findCategory(category);
             double budgetedAmount = 0.0;
             // record this as an item without a budget entry if it returns null (no entry in mbm)
-            if (budgetedAmountDouble == null)
+            if (budgetItem == null)
             {
+                System.out.println("Found non-budgeted item!: " + category);
                 // we'll store the actual amount spent for this non-budgeted item in the amount of a budget Item.
                 // this may be a little confusing, but it'll save a ton of time.  (Shortcut)  (No-one is paying me
                 // to be clean here.)
-                BudgetItem budgetItem = new BudgetItem(category, entries.get(i).getAmount(), null);
+                budgetItem = new BudgetItem(category, entries.get(i).getAmount(), null);
                 noCorrespondingBudgetItem.add(budgetItem); 
             } else
             {
-               budgetedAmount = budgetedAmountDouble; // unboxing/boxing used here. 
+               budgetedAmount = budgetItem.getAmount(); // unboxing/boxing used here. 
             }
 
             double actualSpentAmount = entries.get(i).getAmount();
