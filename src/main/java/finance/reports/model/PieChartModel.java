@@ -105,5 +105,10 @@ public class PieChartModel {
 
 	}
 
+    public ArrayList getItems()
+    {
+        return chartEntries; 
+    }
+
 }
 
