@@ -4,6 +4,11 @@ public class BudgetItem {
 	
 	double amount = 0.0;
 	String category = "";
+    /* used is to store an extra something about the budget Item.
+        I'm specifically using it to store whether the item was found
+        in a search.  If it wasn't found, in my case, that signifies
+        that no money was spent in that particular category for the
+        specified period. */
 	String used;
 	
 	public BudgetItem() {
@@ -38,4 +43,18 @@ public class BudgetItem {
 		this.used = used;
 	}
 
+    public String getCategory()
+    {
+        return(category);
+    }
+
+    public double getAmount()
+    {
+        return(amount);
+    }
+
+    public String getUsed()
+    {
+        return(used);
+    }
 }

@@ -1,6 +1,8 @@
 package finance;
 
 import java.io.IOException;
+import java.io.FileNotFoundException;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -17,6 +19,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Iterator;
 
 import accounts.Account;
 import accounts.BigViewAccount;
@@ -29,9 +33,13 @@ import accounts.Transaction;
 import db.Tables;
 import finance.reports.model.BudgetModel;
 import finance.reports.model.PieChartModel;
+import finance.reports.model.PieChartEntry;
 import finance.reports.model.SuggestedSavingsModel;
+import finance.reports.model.MonthlyBudgetModel;
+import finance.reports.model.BudgetItem;
 
 import java.io.BufferedWriter;
+import java.io.PrintWriter;
 import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -242,7 +250,7 @@ public class Finance {
         
         /* we now have both a Monthly budget model and the actual spending. */
         finance.printMonthlyStatus(mbm, actualSpending);    
-
+        
 		errorFile.close();
 
 		
@@ -336,7 +344,6 @@ public class Finance {
             printWriter.println(noCorrespondingBudgetItem.get(i).getCategory() + "," +
                 noCorrespondingBudgetItem.get(i).getAmount() + "," + "not found in budget");
         }
-
         printWriter.close();
         
     }

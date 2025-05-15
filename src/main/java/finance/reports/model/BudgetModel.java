@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -207,4 +208,10 @@ public class BudgetModel extends PieChartModel {
 		frame.add(jPanel);
 		frame.setVisible(true);
 	}
+
+    public HashMap<String, Double> getAllowedAmounts()
+    {
+       return(allowedAmounts);
+    }
+
 }
