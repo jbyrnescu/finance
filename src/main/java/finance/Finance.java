@@ -246,8 +246,11 @@ public class Finance {
             simpleDateFormat.format(Calendar.getInstance().getTime()));
 		
 		/* now read in the Monthly Budget numbers */
-		String path = finance.baseProjectPath + "/DollarsPerMonth.csv";
-	    MonthlyBudgetModel mbm = new MonthlyBudgetModel(path);
+		String monthlyBudgetFilename = "DollarsPerMonth.csv";
+        System.out.println("project base path: " + basePath);
+	    MonthlyBudgetModel mbm = new MonthlyBudgetModel(basePath);
+        System.out.println("Loading monthly budget from file: " + monthlyBudgetFilename);
+        mbm.loadBudgetFromFile(monthlyBudgetFilename);
         
         /* we now have both a Monthly budget model and the actual spending. */
         finance.printMonthlyStatus(mbm, actualSpending);    
@@ -302,7 +305,7 @@ public class Finance {
 
             /* now print that line item */
             printWriter.println(category + "," + budgetedAmount + "," + actualSpentAmount
-                + difference);
+                + "," + difference);
         }
 
         /* Now let's print a report of 

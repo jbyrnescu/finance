@@ -15,7 +15,7 @@ my $title;
 
 (my $date, $title) = split(',',$line);
 
-printf("%s, %s - Converted to DAILY (dollars per day)\n", $date, $title);
+printf("%s, %s\n", $date, $title);
 
 chomp(my @lines = <$fh>);
 

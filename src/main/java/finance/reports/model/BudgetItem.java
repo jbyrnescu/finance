@@ -23,6 +23,7 @@ public class BudgetItem {
 	}
 	
 	public void populateItemFromString(String line) {
+        System.out.println("loading budget item from line: " + line);
 		String[] columns = line.split(",");
 		category = columns[0];
 		amount = Double.parseDouble(columns[1]);

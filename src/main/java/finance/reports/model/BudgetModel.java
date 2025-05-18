@@ -98,8 +98,6 @@ public class BudgetModel extends PieChartModel {
 		
 		try {
 		List<String> lines = Files.readAllLines(Paths.get(basePath+"/"+filename));
-
-
 		
 		String startDateStr[] = lines.get(0).split(",");
 		String dateArray[] = startDateStr[0].split("-");
@@ -114,6 +112,7 @@ public class BudgetModel extends PieChartModel {
 		// UTF-8 has a character 16 bit character code which istn' interpretted properly here
 		// So, I try to fix that.
 //		char a;
+        System.out.println("getting dateString from: " + startDateStr[0]);
 		if ((dateArray[0].charAt(0)) != '2') {
 			yearStr = dateArray[0].substring(1);
 			year = Integer.parseInt(yearStr);
@@ -137,7 +136,7 @@ public class BudgetModel extends PieChartModel {
 	
 		// we skip the first line
 		for (String line : lines) {
-			
+            System.out.println("loading budget Item from string: " + line);
 			BudgetItem item = new BudgetItem();
 			item.populateItemFromString(line);
 			allowedAmounts.put(item.category, item.amount);
