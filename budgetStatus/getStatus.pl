@@ -22,6 +22,6 @@ my @sorted_lines = sort @lines;
 
 foreach $line (@sorted_lines) {
     my ($category, $amount) = split (',',$line);
-    printf("%-.2f,%s\n", 31*$amount, uc $category);
+    printf("%-.2f,%s\n", 30.4167*$amount, uc $category);
 }
 
