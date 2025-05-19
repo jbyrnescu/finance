@@ -71,7 +71,10 @@ so that the user knows and can use that information if he/she needs to.)
 
 14. Get rid of all "TRANSFER/transfer" items from pieChart.csv (and any positive values?).
 
-15. Fix Monthly Budget status.  The "Cateories that nothing was spent on".  Is WRONG!
+15. In Monthly Budget report, show the transactions that 1. (are possibly Mandatory?) and 2.
+    that recur frequently (like the past 3 months, if history is available?).
+    To show the types of expenditures that could throw off budget and make you overspend thinking
+    that you have the money to spend up front.
 
 ----------------------------------------------------------------
 
@@ -84,6 +87,7 @@ Not new ideas, but existing functionality I need to get working again.
 3) Flat needs needs to be worked on and filled out
 4) Suggested Savings is actually an output of the program.  But, I need to understand it and get it working as well.
 5) SuggestedDeductionsNTransfers (This is really if I'm saving money)  (Once I get stable, maybe I could add to this.)
+
 
 ----------------------------------------------------------------
 
@@ -164,3 +168,5 @@ file.
 	For the report:
 	    print out all UNUSED categories in DollarsPerMonth as nothing spent in this category
 	    print out all UNRECOGNIZED categories in pieChart (actual spending) as errors.  (Everything should be recognized.)
+
+- xx. Fix Monthly Budget status.  The "Cateories that nothing was spent on".  Is WRONG!
