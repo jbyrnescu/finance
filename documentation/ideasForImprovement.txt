@@ -90,7 +90,6 @@ Not new ideas, but existing functionality I need to get working again.
 4) Suggested Savings is actually an output of the program.  But, I need to understand it and get it working as well.
 5) SuggestedDeductionsNTransfers (This is really if I'm saving money)  (Once I get stable, maybe I could add to this.)
 
-
 ----------------------------------------------------------------
 
 Completed ideas (existing functionality I need to figure out):
@@ -103,7 +102,7 @@ Debt Projection.  This is a HUGE one.  I should give this one priority.
 	      
 ----------------------------------------------------------------
 
-Completed ideas (functionality):
+Completed ideas (new functionality or modification to existing functionality):
 
 - Discover and ask users about whether certain transactions that haven't been seen before are categorized properly.
 - Do a query that looks for Transactions without categories and alert user.
