@@ -170,4 +170,7 @@ file.
 	    print out all UNUSED categories in DollarsPerMonth as nothing spent in this category
 	    print out all UNRECOGNIZED categories in pieChart (actual spending) as errors.  (Everything should be recognized.)
 
-- xx. Fix Monthly Budget status.  The "Cateories that nothing was spent on".  Is WRONG!
+- xx. Fix Monthly Budget status.  The "Categories that nothing was spent on".  Is WRONG!
+
+- Fix the fact that pieChart uses the last 40 days, instead of last 30 days (or since the first of the month).
+
