@@ -76,6 +76,8 @@ so that the user knows and can use that information if he/she needs to.)
     To show the types of expenditures that could throw off budget and make you overspend thinking
     that you have the money to spend up front.
 
+16. Replace all System.out.printlns with Log statements instead.
+
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
