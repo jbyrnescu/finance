@@ -59,14 +59,24 @@ public class MonthlyBudgetModel extends BudgetModel
     {
         System.out.println("Looking for category that was \"used\" or actually spent in: " + category);
 
-	System.out.println("AUTO FINANCE category found?: " + used.get("AUTO FINANCE"));
+        System.out.println("AUTO FINANCE category found?: " + used.get("AUTO FINANCE"));
 
         String wasUsedStringValue = used.get(category);
         if (wasUsedStringValue == null) 
         {
             return false;
         } else
-        return(used.get(category).equals("used"));
+        {
+            if (wasUsedStringValue.equals("used"))
+            {
+                System.out.println("used value was \"used\"");
+                return(true);
+            } else
+            {
+                System.out.println("used value was " + wasUsedStringValue);
+                return(false);
+            }
+        }
     }
 
     public void printUsedTable()

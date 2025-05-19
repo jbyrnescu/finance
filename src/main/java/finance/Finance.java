@@ -348,7 +348,7 @@ public class Finance {
 			 entry = iterator.next())
 			{
 			    System.out.println("Currently checking category " + entry.getKey() + "for used");
-			    if (!mbm.wasUsed(entry.getKey()))
+			    if (mbm.wasUsed(entry.getKey()))
 				{
 				    System.out.println("Found! Category was spent in.");
 				} else
