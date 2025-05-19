@@ -332,15 +332,45 @@ public class Finance {
 
         printWriter.println("\nCategories that nothing was spent in:");
 
+        // print out used map to for debugging purposes:
+        mbm.printUsedTable();
+
         HashMap<String, Double> allowedAmounts;
         allowedAmounts = mbm.getAllowedAmounts();
         Set<Map.Entry<String, Double>> entrySet = allowedAmounts.entrySet(); 
         Iterator<Map.Entry<String, Double>> iterator = entrySet.iterator();
-        Map.Entry<String, Double> entry = iterator.next();
-        for (;iterator.hasNext();entry = iterator.next())
+        try
         {
-           printWriter.println(entry.getKey() + "," + entry.getValue());
+	    if (iterator.hasNext())
+		{
+		    for (Map.Entry<String, Double> entry = iterator.next();
+			 iterator.hasNext();
+			 entry = iterator.next())
+			{
+			    System.out.println("Currently checking category " + entry.getKey() + "for used");
+			    if (!mbm.wasUsed(entry.getKey()))
+				{
+				    System.out.println("Found! Category was spent in.");
+				} else
+				{
+				    System.out.println("Not Found. Category was not spent in.");
+				    printWriter.println(entry.getKey() + "," + entry.getValue());
+				}
+			}
+		}
+	    System.out.println("last element of \"used\" allowedAmounts a problem?");
+	    // // get the last one!
+	    // Map.Entry<String, Double> entry = null;
+	    // entry = iterator.next();
+	    // if (entry == null)
+	    // 	System.out.println("last entry is null");
+	    // else
+	    // 	System.out.println("last entry is NOT null - this is BAD.");
+        } catch (java.util.NoSuchElementException nsee)
+        {
+            System.out.println("all categories were spent in");
         }
+
 
         printWriter.println("\nSpent amounts in categories that aren't in the budget:");
 

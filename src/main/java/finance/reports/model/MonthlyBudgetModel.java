@@ -31,16 +31,57 @@ public class MonthlyBudgetModel extends BudgetModel
 	{
 		super(basePath);
 	}
+
+    public HashMap<String, String> getUsed()
+    {
+        return(used);
+    }
 		
 	public BudgetItem findCategory(String category) 
 	{
 		Double amount = allowedAmounts.get(category);
 		if (amount != null)
 		{
-			BudgetItem item = new BudgetItem(category, allowedAmounts.get(category), "used");
-			return(item);
+		    System.out.println("Found Category: " + category + " marking it as used");
+		    BudgetItem item = new BudgetItem(category, allowedAmounts.get(category), "used");
+		    used.put(category, "used");
+		    // String autoFinanceEntry = used.get("AUTO FINANCE");
+		    // if (autoFinanceEntry == null)
+		    // 	System.out.println("test AUTO FINANCE entry missing");
+		    // else
+		    // 	System.out.println("test AUTO FINANCE entry exists, at this point.");
+		    return(item);
 		}
 		else return null;
 	}
+
+    public boolean wasUsed(String category)
+    {
+        System.out.println("Looking for category that was \"used\" or actually spent in: " + category);
+
+	System.out.println("AUTO FINANCE category found?: " + used.get("AUTO FINANCE"));
+
+        String wasUsedStringValue = used.get(category);
+        if (wasUsedStringValue == null) 
+        {
+            return false;
+        } else
+        return(used.get(category).equals("used"));
+    }
+
+    public void printUsedTable()
+    {
+	Set<Map.Entry<String, String>> entrySet = used.entrySet();
+	Map.Entry<String, String> entry = null;
+	Iterator<Map.Entry<String, String>> iterator = entrySet.iterator();
+	System.out.println("Printing used table.");
+	entry = iterator.next();
+	for (;iterator.hasNext(); entry = iterator.next())
+	    {
+		String category = entry.getKey();
+		String usedValue = entry.getValue();
+		System.out.println("category: " + category + " value: " + usedValue);
+	    }
+    }
 
 }
