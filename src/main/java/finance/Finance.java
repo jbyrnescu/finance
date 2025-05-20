@@ -301,7 +301,7 @@ public class Finance {
             }
 
             double actualSpentAmount = entries.get(i).getAmount();
-            double difference = budgetedAmount - actualSpentAmount;
+            double difference = budgetedAmount - Math.abs(actualSpentAmount);
 
             /* now print that line item */
             printWriter.println(category + "," + budgetedAmount + "," + actualSpentAmount

@@ -22,8 +22,12 @@ chomp(my @lines = <$fh>);
 my @sorted_lines = sort @lines;
 #{ lines->[1] cmp lines->[1] } 
 
+printf STDERR ("First line is: %s\n", $sorted_lines[0]);
+printf STDERR ("\e[31mIf there is an error... try deleting all blank lines because when they're sorted they\e[0m\n");
+printf STDERR ("\e[31mtrickle up to the top and there is nothing in the line after they're 'chomped'\e[0m\n");
+
 foreach $line (@sorted_lines) {
-    my ( $amount, $category ) = split (',',$line);
+    my ( $category, $amount ) = split (',',$line);
     $amount =~ s/\"//g;
     printf("%s,%-.2f\n", uc $category, $amount/30.4167);
 }

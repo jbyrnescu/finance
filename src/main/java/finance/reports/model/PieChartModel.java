@@ -58,6 +58,7 @@ public class PieChartModel {
 				+ " and "
 				+ " budgetCat not like \"%ayment%\" "
 				+ " and budgetCat not like \"%Income%\" "
+                + " and budgetCat not like \"transfer\" "
 				+ and1
 				+ and2
 				+ " group by BudgetCat "

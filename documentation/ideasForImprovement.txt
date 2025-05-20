@@ -69,14 +69,13 @@ so that the user knows and can use that information if he/she needs to.)
     can be used to fund it.  Also, any unused budget money could go into this account to save for later use if not
     used during the month.  I think this is what SUGGESTEDSAVINGS is for.
 
-14. Get rid of all "TRANSFER/transfer" items from pieChart.csv (and any positive values?).
 
-15. In Monthly Budget report, show the transactions that 1. (are possibly Mandatory?) and 2.
+14. In Monthly Budget report, show the transactions that 1. (are possibly Mandatory?) and 2.
     that recur frequently (like the past 3 months, if history is available?).
     To show the types of expenditures that could throw off budget and make you overspend thinking
     that you have the money to spend up front.
 
-16. Replace all System.out.printlns with Log statements instead.
+15. Replace all System.out.printlns with Log statements instead.
 
 ----------------------------------------------------------------
 
@@ -174,3 +173,4 @@ file.
 
 - Fix the fact that pieChart uses the last 40 days, instead of last 30 days (or since the first of the month).
 
+- Get rid of all "TRANSFER/transfer" items from pieChart.csv (and any positive values?).
