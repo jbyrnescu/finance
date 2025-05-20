@@ -7,18 +7,7 @@
 2. Create a column for normalized description.  This would search for a recognizable word or words in the description that does not include the numbers of the transaction or store number.
 (This is hard to do because some descriptions of transactions contain numbers.)
 
-3. Create a program that queries Amazon's system/databases to figure out which
-transactions were for what do something based on this information, like
-automatically categorize them.  Or just list the description from Amazon so the user
-can decide what to categorize them as.
-    I may be able to get ChatGPT or some other AI to create a program to do this for me.  That would be super cool.
-
-4. Make DollarsPerDayExpenditures a monthly thing.  (just include monthly in there and
-ignore it.  You can calculate one based on the other.  For example, if daily doesn't exist
-use the monthly for the budget numbers.
-    Monthly is really the standard for measuring.  DollarsPerDay is really difficult to deal with.
-
-5. Put DollarsPerDayExpenditures and maybe some other configuration files tables inside
+3. Put DollarsPerDayExpenditures and maybe some other configuration files tables inside
 the database including:
 1) Budget.csv
 2) MarkMandatoryMap.csv
@@ -31,80 +20,26 @@ the database including:
 9) pieChart.csv (spending percentages)
 10) XcldFrmCshFlw.csv
 
-6. Put the range in the budget so user knows what days are being accounted for (or where
+4. Put the range in the budget so user knows what days are being accounted for (or where
 it started)
    This is known from the DollarsPerDayExpenditures.csv date on the first line of the file.
 
-7. Put a notes column in the transaction for notes that help remember what the transaction was for.
-   Sometimes, for example, with AMAZON MKTPLC transactions, I have to look up what the transaction
-   was for to figure out how to categorize it.  Then, I go back and have to look it up again for
-   some other reason, like, "What was that money for?"
-   If I add a notes section, I can add notes to transactions and see the notes I gathered about the
-   transaction for later.
-
-8. Put a blob in there for receipts.  (This one is obvious, but I'll probably never do it
+5. Put a blob in there for receipts.  (This one is obvious, but I'll probably never do it
 because it's really for tax purposes, and I'll never be able to itemize. - I don't spend
 enough on other things to itemize.)
 
-9. Specify in the "Budget Last X days" (in the Excel spreadsheet, how many days have been specified
+6. Specify in the "Budget Last X days" (in the Excel spreadsheet, how many days have been specified
 so that the user knows and can use that information if he/she needs to.)
    This is currently hard-coded in the program.  I think it's 31 or 30 days.
 
-10. Specify in "Budget of all Txns" (in the Excel spreadsheet) when the budget started (what the start date of the transactions is)
+7. Specify in "Budget of all Txns" (in the Excel spreadsheet) when the budget started (what the start date of the transactions is)
     (Again, see #8)
 
-11. Put columns headers in files that don't have them.  Like output.csv and output2.csv. (There may be more)
+8. Put columns headers in files that don't have them.  Like output.csv and output2.csv. (There may be more)
 
-12. I need a program (or part of this program), that:
-    given a specific date (10 days back, 20 days back, etc.)
-    	  Can be specified with a date (not necessarily a number of days back)
-    measures what has been spent and compares to the specified MONTHLY budget.
-    Then, it gives a status on how much has been spent on what to
-    	  guide the user on what to stop spending on.
+9. Change code such that javadoc doesn't create so many warnings.  (Get rid of all the warnings).
 
-13. Another nice thing to have would be to be able to compare current actual spending to the MONTHLY budget.    
-    The end result should look like pieChart.csv.  This way, the results can be
-    subtracted _with_ (not from) pieChart.csv for a comparison and detail on what I can spend on without going over budget.
-
-    It may be nice to have a spreadsheet to dictate how much I have to spend in each category.
-
-    The other option is to have a program subtract pieChart.csv from DollarsPerMonth.csv to see how much I have to spend
-    in each category.
-       To implement this, DollarsPerMonth.csv is compared to pieChart.csv.Suggested Savings can be taken out later (or accounted for)
-       but for now, I just want it to work without that.  (See #14.)
-       Unfortunately, the same categories may not be available in each file.  So, a comparison of like categories needs to be
-       		      done. (I don't want to do this in Perl.)
-    DollarsPerMonth.csv probably will need to be edited manually.
-
-    (Same idea written differently)
-    The Monthly Budget Status is different (Initially implemented using PERL).
-    The Monthly Budget is a "Baby Steps" (each "step" being a month) approach that allows the user to use the
-    	BEGINNING of the 40 day period (or whatever specified)
-      	to see, during that month, whether they have enough money to pay for something.  Suggested Savings is taken out of that and set
-      	aside in another account to pay for long term items that may not fit in a single month.
-     A report could be made after the comparison that itemizes the errors (unrecognized categories in pieChart.csv a sign that there are
-       uncategorized items, or items that weren't categorized properly), or missing Categories in
-       pieChart.csv.  (Something money wasn't spent on) which should be a normal occurence, but alerting may be useful.
-
-       DollarsPerMonth.csv should be set at budget creation time (and hence set in stone).
-       pieChart.csv is generated each time the program is run with the script.
-
-       The algorithm for this would be as follows:
-       read both pieChart.csv and DollarsPerMonth.csv into memory.  (If they're not already in memory).
-       The memory structure of DollarsPerMonth.csv will have a slot for remembering that it was used for comparison in addition
-       	   to the category and amount.
-       for each item in: the pieChart map
-       	   look for a similarly named item (ALL CAPS CATEGORIES) in DollarsPerMonth memory structure (map with usedForComparison addition)
-	   if one if found:
-	      subtract the amount of pieChart from DollarsPerMonth (DollarsPerMonth.category.value - pieChart.category.value)
-	      to get a POSITIVE value of what is left to SPEND in that category.
-	      (If the value is NEGATIVE the budget was overspent and not obeyed)
-	      Mark the DollarsPerMonth category as USED.
-	For the report:
-	    print out all UNUSED categories in DollarsPerMonth as nothing spent in this category
-	    print out all UNRECOGNIZED categories in pieChart (actual spending) as errors.  (Everything should be recognized.)
-
-14. Change code such that javadoc doesn't create so many warnings.  (Get rid of all the warnings).
+10. Create a GUI for crying out loud.  Spring, sqlite3, hibernate (with sqlite3 dialect), etc. etc.
 
 ----------------------------------------------------------------
 
@@ -130,7 +65,7 @@ Debt Projection.  This is a HUGE one.  I should give this one priority.
 	      
 ----------------------------------------------------------------
 
-Completed ideas (new functionality or modification to existing functionality):
+Completed ideas (new functionality or modification to existing functionality) (also rejected ideas):
 
 - Discover and ask users about whether certain transactions that haven't been seen before are categorized properly.
 - Do a query that looks for Transactions without categories and alert user.
@@ -173,4 +108,78 @@ file.
     how it would work.  Potentially, Star One could be used to deposit money into an account like this and a "transfer"
     can be used to fund it.  Also, any unused budget money could go into this account to save for later use if not
     used during the month.  I think this is what SUGGESTEDSAVINGS is for.
+
+- Another nice thing to have would be to be able to compare current actual spending to the MONTHLY budget.    
+    The end result should look like pieChart.csv.  This way, the results can be
+    subtracted _with_ (not from) pieChart.csv for a comparison and detail on what I can spend on without going over budget.
+
+    It may be nice to have a spreadsheet to dictate how much I have to spend in each category.
+
+    The other option is to have a program subtract pieChart.csv from DollarsPerMonth.csv to see how much I have to spend
+    in each category.
+       To implement this, DollarsPerMonth.csv is compared to pieChart.csv.Suggested Savings can be taken out later (or accounted for)
+       but for now, I just want it to work without that.  (See #14.)
+       Unfortunately, the same categories may not be available in each file.  So, a comparison of like categories needs to be
+       		      done. (I don't want to do this in Perl.)
+    DollarsPerMonth.csv probably will need to be edited manually.
+
+    (Same idea written differently)
+    The Monthly Budget Status is different (Initially implemented using PERL).
+    The Monthly Budget is a "Baby Steps" (each "step" being a month) approach that allows the user to use the
+    	BEGINNING of the 40 day period (or whatever specified)
+      	to see, during that month, whether they have enough money to pay for something.  Suggested Savings is taken out of that and set
+      	aside in another account to pay for long term items that may not fit in a single month.
+     A report could be made after the comparison that itemizes the errors (unrecognized categories in pieChart.csv a sign that there are
+       uncategorized items, or items that weren't categorized properly), or missing Categories in
+       pieChart.csv.  (Something money wasn't spent on) which should be a normal occurence, but alerting may be useful.
+
+       DollarsPerMonth.csv should be set at budget creation time (and hence set in stone).
+       pieChart.csv is generated each time the program is run with the script.
+
+       The algorithm for this would be as follows:
+       read both pieChart.csv and DollarsPerMonth.csv into memory.  (If they're not already in memory).
+       The memory structure of DollarsPerMonth.csv will have a slot for remembering that it was used for comparison in addition
+       	   to the category and amount.
+       for each item in: the pieChart map
+       	   look for a similarly named item (ALL CAPS CATEGORIES) in DollarsPerMonth memory structure (map with usedForComparison addition)
+	   if one if found:
+	      subtract the amount of pieChart from DollarsPerMonth (DollarsPerMonth.category.value - pieChart.category.value)
+	      to get a POSITIVE value of what is left to SPEND in that category.
+	      (If the value is NEGATIVE the budget was overspent and not obeyed)
+	      Mark the DollarsPerMonth category as USED.
+	For the report:
+	    print out all UNUSED categories in DollarsPerMonth as nothing spent in this category
+	    print out all UNRECOGNIZED categories in pieChart (actual spending) as errors.  (Everything should be recognized.)
+- Similar idea as before.
+  I need a program (or part of this program), that:
+    given a specific date (10 days back, 20 days back, etc.)
+    	  Can be specified with a date (not necessarily a number of days back)
+    measures what has been spent and compares to the specified MONTHLY budget.
+    Then, it gives a status on how much has been spent on what to
+    	  guide the user on what to stop spending on.
+
+
+- Put a notes column in the transaction for notes that help remember what the transaction was for.
+   Sometimes, for example, with AMAZON MKTPLC transactions, I have to look up what the transaction
+   was for to figure out how to categorize it.  Then, I go back and have to look it up again for
+   some other reason, like, "What was that money for?"
+   If I add a notes section, I can add notes to transactions and see the notes I gathered about the
+   transaction for later.
+
+   There's already a place for this in each specific account (Not BigView...).  Just do a .schema
+   and list the columns for each table (not the extended table BigView...) and you'll see a place
+   for comments.
+   
+- Create a program that queries Amazon's system/databases to figure out which
+transactions were for what do something based on this information, like
+automatically categorize them.  Or just list the description from Amazon so the user
+can decide what to categorize them as.
+    I may be able to get ChatGPT or some other AI to create a program to do this for me.  That would be super cool.
+    I tried this with AI, it didn't work.  Chase, also, has a feature that has a link to the purchase, so
+    this idea is really too little too late.
+
+- Make DollarsPerDayExpenditures a monthly thing.  (just include monthly in there and
+ignore it.  You can calculate one based on the other.  For example, if daily doesn't exist
+use the monthly for the budget numbers.
+    Monthly is really the standard for measuring.  DollarsPerDay is really difficult to deal with.
 
