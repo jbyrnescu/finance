@@ -104,16 +104,8 @@ so that the user knows and can use that information if he/she needs to.)
 	    print out all UNUSED categories in DollarsPerMonth as nothing spent in this category
 	    print out all UNRECOGNIZED categories in pieChart (actual spending) as errors.  (Everything should be recognized.)
 
-14. It would also be nice to create an imaginary side fund that deposits imaginary money into an imaginary "want" fund
-    that will eventually be used to buy something that is "wanted".  This way, money can be set aside for later purchases
-    if the amount is too great for a single month to accomodate.  This may be a bit complicated though.  I'm not really sure
-    how it would work.  Potentially, Star One could be used to deposit money into an account like this and a "transfer"
-    can be used to fund it.  Also, any unused budget money could go into this account to save for later use if not
-    used during the month.  I think this is what SUGGESTEDSAVINGS is for.
+14. Change code such that javadoc doesn't create so many warnings.  (Get rid of all the warnings).
 
-15. Get rid of all "TRANSFER/transfer" items from pieChart.csv (and any positive values?).
-
-15. Change code such that javadoc doesn't create so many warnings.  (Get rid of all the warnings).
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
@@ -165,4 +157,20 @@ file.
        and turns into DollarsPerDayExpenditures.csv - if redirected to that file. (uses stdout)).
 
 - Fix the fact that pieChart uses the last 40 days, instead of last 30 days (or since the first of the month).
+
+- Get rid of all "TRANSFER/transfer" items from pieChart.csv (and any positive values?).
+
+- This is actually done by the long term budget already.  If you establish a budget item, and watch how many
+       Days it is till you can spend on this, it'll virtually allocate money for you.
+
+       This really doesn't take into account how much money you've overspent in a month.  But, hey... beggars can't
+       be choosers!  Because it's long term, hopefully things will balance out, unless you REALLY
+       can't control your spending.
+       
+  It would also be nice to create an imaginary side fund that deposits imaginary money into an imaginary "want" fund
+    that will eventually be used to buy something that is "wanted".  This way, money can be set aside for later purchases
+    if the amount is too great for a single month to accomodate.  This may be a bit complicated though.  I'm not really sure
+    how it would work.  Potentially, Star One could be used to deposit money into an account like this and a "transfer"
+    can be used to fund it.  Also, any unused budget money could go into this account to save for later use if not
+    used during the month.  I think this is what SUGGESTEDSAVINGS is for.
 
