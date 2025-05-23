@@ -59,8 +59,12 @@ so that the user knows and can use that information if he/she needs to.)
         It's would be interesting to see what the biggest contributors are to the overall
         savings/overspending for the month.  This is already shown in dollars, just not
         percentages.
-    6) Large differences may be an indication that the budget needs to be modified, especially
+        Large differences may be an indication that the budget needs to be modified, especially
         if it's for multiple months in a row.
+
+        The calculation for this is: difference/(total monthly budgeted amount)
+        The total monthly budgeted amount would need to be calculated.
+        This would be easier if it was in a table, but can be done w/o being in a table.
 
     7) If I put the budget in the DB, I can do queries and sums REALLY easy.  With Excel
         it's a continual task because the categories may change, which would change the
