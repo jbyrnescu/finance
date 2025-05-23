@@ -62,6 +62,10 @@ so that the user knows and can use that information if he/she needs to.)
     6) Large differences may be an indication that the budget needs to be modified, especially
         if it's for multiple months in a row.
 
+    7) If I put the budget in the DB, I can do queries and sums REALLY easy.  With Excel
+        it's a continual task because the categories may change, which would change the
+        spreadsheet and the formulas would need to be moved.
+
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
