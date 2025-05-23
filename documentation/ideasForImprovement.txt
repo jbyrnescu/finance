@@ -41,6 +41,9 @@ so that the user knows and can use that information if he/she needs to.)
 
 10. Create a GUI for crying out loud.  Spring, sqlite3, hibernate (with sqlite3 dialect), etc. etc.
 
+11. For some reason, the current day isn't uploaded from output.csv into Excel.  I think it's because
+    the sql selects the day before, but I haven't looked at the code.  Fix this.
+    
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
