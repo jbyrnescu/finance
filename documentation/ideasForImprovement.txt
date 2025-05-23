@@ -44,6 +44,24 @@ so that the user knows and can use that information if he/she needs to.)
 11. For some reason, the current day isn't uploaded from output.csv into Excel.  I think it's because
     the sql selects the day before, but I haven't looked at the code.  Fix this.
     
+12. Put percentage over/under budgeted amount in MonthlyStatus.
+    It would be interesting to see what and how much each category contributes
+    to the overall savings/overspending for the month.  This wouldn't be that difficult
+    to calculate and can be easily added to the .csv file as well.
+
+13. Summary numbers for the Monthly budget would also be interesting:
+    1) days since 1st day of month
+    2) average days per month (or actual days per month for the month that we're in)
+    3) Theoretical time-based ramp/scale (the amount, if spending money linearly, I would have
+        spent up to the date of running the program for the current month.
+    4) amount over/under the targeted budget for the month
+    5) percentage over/under the tageted budget for the month.
+        It's would be interesting to see what the biggest contributors are to the overall
+        savings/overspending for the month.  This is already shown in dollars, just not
+        percentages.
+    6) Large differences may be an indication that the budget needs to be modified, especially
+        if it's for multiple months in a row.
+
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
