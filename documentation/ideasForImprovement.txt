@@ -92,6 +92,9 @@ so that the user knows and can use that information if he/she needs to.)
     for recurring.  (Maybe in the mandatory column of BigTXView?)  If I do this at the end of the
     Finance.java class/program, I could just add the 'R' to current string in that column. 
     
+16. Add overall budget amount and actual spent amount (for all categories) to monthly budget
+    reporting.  This way, if a user wants to spend to match the overall budget he or she can.
+    (i.e. if they underspend in one category this likely gives them the freedom to spend more in another).
 
 ----------------------------------------------------------------
 
