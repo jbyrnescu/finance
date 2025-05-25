@@ -91,6 +91,13 @@ so that the user knows and can use that information if he/she needs to.)
     It would also be nice if I could add a column for 'recurring', OR, mark the transaction as 'R'
     for recurring.  (Maybe in the mandatory column of BigTXView?)  If I do this at the end of the
     Finance.java class/program, I could just add the 'R' to current string in that column. 
+
+    The way this can be done, instead, is to query/list all transctions with the same description
+    and then compare the number of transactions returned with the number of months that
+    the comparison contains.  (This may be a better way to implement.)  Maybe that's why they
+    deleted that version of the finance program because it was a bad implementation.
+    It will certainly be much quicker to do it this way.  (They shouldn't have stolen my software
+    if they didn't want an implementation like that!)
     
 16. Add overall budget amount and actual spent amount (for all categories) to monthly budget
     reporting.  This way, if a user wants to spend to match the overall budget he or she can.
