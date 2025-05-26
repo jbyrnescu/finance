@@ -103,6 +103,27 @@ so that the user knows and can use that information if he/she needs to.)
     reporting.  This way, if a user wants to spend to match the overall budget he or she can.
     (i.e. if they underspend in one category this likely gives them the freedom to spend more in another).
 
+    Also, it would be nice if an automatic calculation of whether I would be -over/+under budget
+    if I stopped ALL spending at this point considering future TXs.  (Requires Mandatory/recurring
+    TXs functionality).  Calculations:  daysSinceFirstOfMonth (programming logic),
+    averageDaysPerMonth (constant),
+    totalBudgetedAmount SUM(amounts of each budgetCategory)
+    actualSpentAmount SUM(Each TX since beginning of month)
+    linearExtrapolationEstimatedAmountSpent (daysSinceFirstOfMonth/avgDaysPerMonth*totalBudgetedAmount)
+    amount -over/+under linearExtrapolationEstimatedAmountSpent
+    percentageDifferenceOfAmountOverUnderBudgetedAmount = 100* (linearExtrapolationEstimatedAmountSpent - actualSpentAmount) / linearExtrapolationEstimatedAmountSpent
+
+    Future TXs needed.  This would be mandatory and recurring (those sets of TXs may overlap)
+    
+    If I stopped spending TOTALLY at this point,
+    would I be within budget considering future TXs?
+    wInBudget
+    I would have spent this much considering future TXs (adding in future TXs): actualSpentAmount + ABS(SUM(future TXs))
+
+    I would be (-over/+under) the budget amount by: 
+    amountOverUnderBudget = wInBudget - totalBudgetedAmount
+
+
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
