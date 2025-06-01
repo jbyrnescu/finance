@@ -281,33 +281,43 @@ public class Finance {
         ArrayList<PieChartEntry> entries = actualSpending.getItems();
         ArrayList<BudgetItem> noCorrespondingBudgetItem = new ArrayList<>();
 
-        for (int i = 0; i < entries.size(); i++)
+        System.out.println("Number of category items to process from actual spending (from pieChart.csv): " + entries.size()); 
+
+        if (entries.size() == 0)
         {
-            String category = entries.get(i).getCategory();  
-            BudgetItem budgetItem = mbm.findCategory(category);
-            double budgetedAmount = 0.0;
-            // record this as an item without a budget entry if it returns null (no entry in mbm)
-            if (budgetItem == null)
-            {
-                System.out.println("Found non-budgeted item!: " + category);
-                // we'll store the actual amount spent for this non-budgeted item in the amount of a budget Item.
-                // this may be a little confusing, but it'll save a ton of time.  (Shortcut)  (No-one is paying me
-                // to be clean here.)
-                budgetItem = new BudgetItem(category, entries.get(i).getAmount(), null);
-                noCorrespondingBudgetItem.add(budgetItem); 
-            } else
-            {
-               budgetedAmount = budgetItem.getAmount(); // unboxing/boxing used here. 
-            }
-
-            double actualSpentAmount = entries.get(i).getAmount();
-            double difference = budgetedAmount - Math.abs(actualSpentAmount);
-
-            /* now print that line item */
-            printWriter.println(category + "," + budgetedAmount + "," + actualSpentAmount
-                + "," + difference);
+            System.out.println("no data from actual spending.  Is it the beginning of the month?");
         }
+        else
+        {
 
+            for (int i = 0; i < entries.size(); i++)
+            {
+                String category = entries.get(i).getCategory();  
+                System.out.println("Trying to find category: " + category);
+                BudgetItem budgetItem = mbm.findCategory(category);
+                double budgetedAmount = 0.0;
+                // record this as an item without a budget entry if it returns null (no entry in mbm)
+                if (budgetItem == null)
+                {
+                    System.out.println("Found non-budgeted item!: " + category);
+                    // we'll store the actual amount spent for this non-budgeted item in the amount of a budget Item.
+                    // this may be a little confusing, but it'll save a ton of time.  (Shortcut)  (No-one is paying me
+                    // to be clean here.)
+                    budgetItem = new BudgetItem(category, entries.get(i).getAmount(), null);
+                    noCorrespondingBudgetItem.add(budgetItem); 
+                } else
+                {
+                   budgetedAmount = budgetItem.getAmount(); // unboxing/boxing used here. 
+                }
+
+                double actualSpentAmount = entries.get(i).getAmount();
+                double difference = budgetedAmount - Math.abs(actualSpentAmount);
+
+                /* now print that line item */
+                printWriter.println(category + "," + budgetedAmount + "," + actualSpentAmount
+                    + "," + difference);
+            }
+        }
         /* Now let's print a report of 
             1) What categories weren't spent on in the budget (that's ok).
                 This is essentially budget items in the mbm that don't have "used" as the used section.

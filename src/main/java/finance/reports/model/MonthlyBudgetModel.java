@@ -85,13 +85,20 @@ public class MonthlyBudgetModel extends BudgetModel
 	Map.Entry<String, String> entry = null;
 	Iterator<Map.Entry<String, String>> iterator = entrySet.iterator();
 	System.out.println("Printing used table.");
-	entry = iterator.next();
-	for (;iterator.hasNext(); entry = iterator.next())
-	    {
-		String category = entry.getKey();
-		String usedValue = entry.getValue();
-		System.out.println("category: " + category + " value: " + usedValue);
-	    }
+	
+        if (iterator.hasNext())
+        {
+            entry = iterator.next();
+            for (;iterator.hasNext(); entry = iterator.next())
+                {
+                String category = entry.getKey();
+                String usedValue = entry.getValue();
+                System.out.println("category: " + category + " value: " + usedValue);
+                }
+        }
+        else
+        {
+            System.out.println("No categories used in transactions");
+        } 
     }
-
 }
