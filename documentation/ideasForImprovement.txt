@@ -123,6 +123,15 @@ so that the user knows and can use that information if he/she needs to.)
     I would be (-over/+under) the budget amount by: 
     amountOverUnderBudget = wInBudget - totalBudgetedAmount
 
+17. Implement CapitalOne credit card download and addition to DB.
+
+18. Create a program to evaluate the monthly status of a previous month.
+    This could be put in the overall program at the end maybe, or not.
+    It could either operate on the previous month, and this month, or
+    allow the user to select a month to evaluate (most likely anothe program).
+
+    Unfortunately, the selection of a month would inhibit the flow of the program
+    and force the user's input on a program that used to just run by itself.
 
 ----------------------------------------------------------------
 
@@ -266,3 +275,12 @@ ignore it.  You can calculate one based on the other.  For example, if daily doe
 use the monthly for the budget numbers.
     Monthly is really the standard for measuring.  DollarsPerDay is really difficult to deal with.
 
+- Fix the fact that there was an exception when no data was available at the beginning of
+    the month.  There were 2 places this exception happened.
+
+
+-----
+
+REJECTED IDEAS
+
+-----
