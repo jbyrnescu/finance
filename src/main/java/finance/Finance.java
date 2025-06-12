@@ -53,6 +53,8 @@ public class Finance {
 
 	Map<String, String> categoriesMap ;
 
+    Logger logger;
+
 	Finance() {
 	}
 
@@ -62,7 +64,6 @@ public class Finance {
 	ArrayList<Object> row = new ArrayList<Object>();
 	private Map<String, String> mandatoryMap;
 	private Map<String, String> excludedTransactionsMap;
-
 
 	public static void main(String[] args) throws SQLException, IOException, ParseException {
 		// we have to instantiate a Logger because it throws an exception with file creation
@@ -261,6 +262,26 @@ public class Finance {
 		finance.closeAll();
 	}
 
+    public Logger getLogger()
+    {
+	// we have to instantiate a Logger because it throws an exception with file creation
+	// In other words we can't make it static
+	try
+	    {
+		logger = new Logger();
+	    }
+	catch (IOException e)
+	    {
+		e.printStackTrace();
+		System.out.println("Error instantiating Logger! Exiting.");
+		System.exit(-1);
+	    }
+		    
+	logger.toggleStdout();
+	return(logger);
+    }
+
+
     public void printMonthlyStatus(MonthlyBudgetModel mbm, PieChartModel actualSpending)
     {
         /* open our output file */
@@ -424,11 +445,11 @@ public class Finance {
 		bva.writeTransactionsToCSV(baseProjectPath+"/"+filename);
 	}
 
-	private void closeAll() throws SQLException {
+	public void closeAll() throws SQLException {
 		connection.close();
 	}
 
-	private void setBasePath(String directory) {
+	public void setBasePath(String directory) {
 		baseProjectPath=directory;
 	}
 
@@ -603,6 +624,7 @@ public class Finance {
 	 */
 	public void connect() {
 		connection = null;
+		System.out.println("Connecting to Database");
 		try {
 			// db parameters
 //			String url = "jdbc:sqlite:" + baseProjectPath + "TXs2.db";

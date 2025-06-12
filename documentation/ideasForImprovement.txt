@@ -125,14 +125,6 @@ so that the user knows and can use that information if he/she needs to.)
 
 17. Implement CapitalOne credit card download and addition to DB.
 
-18. Create a program to evaluate the monthly status of a previous month.
-    This could be put in the overall program at the end maybe, or not.
-    It could either operate on the previous month, and this month, or
-    allow the user to select a month to evaluate (most likely anothe program).
-
-    Unfortunately, the selection of a month would inhibit the flow of the program
-    and force the user's input on a program that used to just run by itself.
-
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
@@ -277,6 +269,16 @@ use the monthly for the budget numbers.
 
 - Fix the fact that there was an exception when no data was available at the beginning of
     the month.  There were 2 places this exception happened.
+
+-   Create a program to evaluate the monthly status of a previous month.
+    This could be put in the overall program at the end maybe, or not.
+    It could either operate on the previous month, and this month, or
+    allow the user to select a month to evaluate (most likely anothe program).
+
+    Unfortunately, the selection of a month would inhibit the flow of the program
+    and force the user's input on a program that used to just run by itself.
+
+
 
 
 -----
