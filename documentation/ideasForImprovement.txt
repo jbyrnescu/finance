@@ -78,7 +78,8 @@ so that the user knows and can use that information if he/she needs to.)
 
 15. Recurring functionality. This functionality was implemented before.  The code got deleted from GitHub
     though.  Essentially, this would analyze the past few months and compare each transaction in the
-    current month with the previous month to see if there is a matching transaction.
+    current month with the previous month(s) to see if there is a matching transaction
+    (same amount, same description).
     I'm guessing this could be done quarterly (yearly as well, if there's data?) as well.
     Since I usually start a new TXs2.db file each year, this would be of much use.  Maybe
     I could change the process to keep the DB?
