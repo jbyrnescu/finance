@@ -49,7 +49,12 @@ so that the user knows and can use that information if he/she needs to.)
     to the overall savings/overspending for the month.  This wouldn't be that difficult
     to calculate and can be easily added to the .csv file as well.
 
+12.5 If I put the budget in the DB, I can do queries and sums REALLY easy.  With Excel
+        it's a continual task because the categories may change, which would change the
+        spreadsheet and the formulas would need to be moved.
+
 13. Summary numbers for the Monthly budget would also be interesting:
+    (This idea is repeated in another idea - at the time of this writing idea 16)
     1) days since 1st day of month
     2) average days per month (or actual days per month for the month that we're in)
     3) Theoretical time-based ramp/scale (the amount, if spending money linearly, I would have
@@ -65,10 +70,6 @@ so that the user knows and can use that information if he/she needs to.)
         The calculation for this is: difference/(total monthly budgeted amount)
         The total monthly budgeted amount would need to be calculated.
         This would be easier if it was in a table, but can be done w/o being in a table.
-
-    7) If I put the budget in the DB, I can do queries and sums REALLY easy.  With Excel
-        it's a continual task because the categories may change, which would change the
-        spreadsheet and the formulas would need to be moved.
 
 14. I currently have a "Mandatory Calculations" worksheet in the excel file.
     However, it's pretty messed up and relies on Excel vlookup.  It would be nice to have
@@ -100,9 +101,11 @@ so that the user knows and can use that information if he/she needs to.)
     It will certainly be much quicker to do it this way.  (They shouldn't have stolen my software
     if they didn't want an implementation like that!)
     
-16. Add overall budget amount and actual spent amount (for all categories) to monthly budget
+16. Add overall (total) budget amount and actual spent amount (total for all categories)
+    to monthly budget
     reporting.  This way, if a user wants to spend to match the overall budget he or she can.
-    (i.e. if they underspend in one category this likely gives them the freedom to spend more in another).
+    (i.e. if they underspend in one category this likely gives them the freedom to spend 
+    more in another).
 
     Also, it would be nice if an automatic calculation of whether I would be -over/+under budget
     if I stopped ALL spending at this point considering future TXs.  (Requires Mandatory/recurring
@@ -124,7 +127,6 @@ so that the user knows and can use that information if he/she needs to.)
     I would be (-over/+under) the budget amount by: 
     amountOverUnderBudget = wInBudget - totalBudgetedAmount
 
-17. Implement CapitalOne credit card download and addition to DB.
 
 ----------------------------------------------------------------
 
@@ -287,3 +289,9 @@ use the monthly for the budget numbers.
 REJECTED IDEAS
 
 -----
+- Implement CapitalOne credit card download and addition to DB.
+    I tried to implement this and failed.  There was a problem with sqlite3.  It wouldn't
+    let me create a prepared statement.  The troubleshooting logs are under:
+    /Users/jbyrne/Dropbox/eclipse-workspace/finance/problems/2025_06_14
+
+
