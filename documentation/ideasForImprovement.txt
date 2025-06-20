@@ -100,6 +100,11 @@ so that the user knows and can use that information if he/she needs to.)
     deleted that version of the finance program because it was a bad implementation.
     It will certainly be much quicker to do it this way.  (They shouldn't have stolen my software
     if they didn't want an implementation like that!)
+
+    So, for example, if there is a transaction in the current month like the following:
+    2025-06-08 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
+    Then a search would be like this:
+    select * from BigTXView where description like '%FORDDATA%' and amount > -20.04 and amount < -20.02;
     
 16. Add overall (total) budget amount and actual spent amount (total for all categories)
     to monthly budget
