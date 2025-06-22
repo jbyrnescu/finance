@@ -108,9 +108,25 @@ so that the user knows and can use that information if he/she needs to.)
     for every transaction:
    	find the date 93 days before the date of the transaction
     	query for the amount and description of that transaction from the found date to now
-	      If 3 transactions are found mark them as recurring monthly and store them
+	      If exactly 3 transactions are found mark them as recurring monthly and store them
 	      for later.
-	      If transaction is found 1 time mark them as recurring quarterly and store them
+	      If transaction is found exactly 1 time mark them as recurring quarterly and store them
+	query for the description and the date specified earlier
+	      If there are EXACTLY 3 transactions and the transaction has the same
+	      	 DAY OF MONTH (within +/- 4 days),
+	      	 it's got to be recurring even though it doesn't have the same amount.
+		 (Like PG&E/NV Energy)
+		 store it for later use.
+	What will be stored?  I think I'll create a class for recurring transactions:
+	     The class will have these fields/members:
+	     	 1) AVERAGE day of purchase. (truncated - to the nearest integer) (Truncated is easier)
+		 2) The average amount
+		 3) The description of the recurring charge.
+		 4) Found date (The date the recurrence was first found)
+		 5) The last/latest a recurrence was verified (again).  (update of table if it's
+		    found again.)
+	To keep track of recurring charges (after a lot of searches are being done throughout
+	   the year) I think I'll keep a table of them.
 
 Monthly Example:    
 (Example Queried for day of 2025-06-20)
