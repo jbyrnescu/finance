@@ -106,17 +106,28 @@ so that the user knows and can use that information if he/she needs to.)
     have to use that but wind the clock back 90 days.
     Next, I will run a query for the last 90 days.  I will traverse the ResultSet and 
     for every transaction:
+      (Maximum confidence)
    	find the date 93 days before the date of the transaction
+	MONTHLY
     	query for the amount and description of that transaction from the found date to now
 	      If exactly 3 transactions are found mark them as recurring monthly and store them
 	      for later.
+	QUARTERLY
 	      If transaction is found exactly 1 time mark them as recurring quarterly and store them
+
+      (Less confidence)
+	MONTHLY
 	query for the description and the date specified earlier
 	      If there are EXACTLY 3 transactions and the transaction has the same
 	      	 DAY OF MONTH (within +/- 4 days),
+		 AND the amount is within +/-$50?
 	      	 it's got to be recurring even though it doesn't have the same amount.
 		 (Like PG&E/NV Energy)
 		 store it for later use.
+	QUARTERLY
+	      If the day is within +/- 4 days and there is exactly 1 transaction
+	      (Like GRANITE PROPANE)
+	      	 
 	What will be stored?  I think I'll create a class for recurring transactions:
 	     The class will have these fields/members:
 	     	 1) AVERAGE day of purchase. (truncated - to the nearest integer) (Truncated is easier)
@@ -128,13 +139,18 @@ so that the user knows and can use that information if he/she needs to.)
 	To keep track of recurring charges (after a lot of searches are being done throughout
 	   the year) I think I'll keep a table of them.
 
-Monthly Example:    
+Monthly Examples (2):
 (Example Queried for day of 2025-06-20)
 sqlite> select * from BigTXView where description like '%FORDDATA%' and amount < -20.02 and amount > -20.04 and transactiondate > '2025-03-19 00:00:00'
    ...> ;
 2025-04-09 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
 2025-05-09 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
 2025-06-08 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
+
+sqlite> select * from BigTXView where description like 'NV Ener%' and transactiondate > '2025-03-19 00:00:00';
+2025-04-03 00:00:00|NV ENERGY NORTH SPPC PYMT|-69.5400009155273|UTILITIES : ELECTRICITY||M|CheckingStarOneTXs
+2025-05-02 00:00:00|NV ENERGY NORTH SPPC PYMT|-65.9899978637695|UTILITIES : ELECTRICITY||M|CheckingStarOneTXs
+2025-06-02 00:00:00|NV ENERGY NORTH SPPC PYMT|-74.7900009155273|UTILITIES : ELECTRICITY||M|CheckingStarOneTXs
 
 Quarterly Example:
 sqlite> select * from BigTXView where description like 'WM.COM' and amount > -66.70 and amount < -66.69 and transactiondate > '2025-03-19 00:00:00';
