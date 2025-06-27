@@ -190,6 +190,7 @@ sqlite> select * from BigTXView where description like 'WM.COM' and amount > -66
     I would be (-over/+under) the budget amount by: 
     amountOverUnderBudget = wInBudget - totalBudgetedAmount
 
+17. Work on graphs.  Change lines to different colors representing the different things.
 
 ----------------------------------------------------------------
 
