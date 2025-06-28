@@ -19,6 +19,16 @@ public class Tables {
 		createTables();
 	}
 	
+    public static final String CREATE_RECURRING_TRANSACTIONS_TABLE =
+	    "CREATE TABLE IF NOT EXISTS \"RecurringTransactions\" (\n" +
+	    "\"description\" TEXT,\n" +
+	    "\"amount\" REAL,\n" +
+	    "\"average_day_of_purchase\" TEXT,\n" +
+	    "\"found_date\" TEXT,\n" +
+	    "\"latest_recurrence\" TEXT,\n" +
+	    "\n" +
+	    ");\n";
+
 	public void createTables() throws SQLException {
 		String statement = "CREATE TABLE IF NOT EXISTS \"CheckingStarOneTXs\" (\n" + 
 				"	\"TransactionNumber\"	INTEGER,\n" + 
@@ -86,7 +96,9 @@ public class Tables {
 		s = connection.prepareStatement(BigTXViewString);
 		iReturnValue = s.executeUpdate();
 		System.out.println("return Value of last execute of table creation: " + iReturnValue);
-		
+		s = connection.prepareStatement(CREATE_RECURRING_TRANSACTIONS_TABLE);
+		iReturnValue = s.executeUpdate();
+		System.out.println("return Value of last execute of table creation: " + iReturnValue);
 	}
 	
 }
