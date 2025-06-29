@@ -25,7 +25,7 @@ public class Tables {
 	    "\"amount\" REAL,\n" +
 	    "\"average_day_of_purchase\" TEXT,\n" +
 	    "\"found_date\" TEXT,\n" +
-	    "\"latest_recurrence\" TEXT,\n" +
+	    "\"latest_recurrence\" TEXT\n" +
 	    "\n" +
 	    ");\n";
 
