@@ -130,12 +130,13 @@ so that the user knows and can use that information if he/she needs to.)
 	      	 
 	What will be stored?  I think I'll create a class for recurring transactions:
 	     The class will have these fields/members:
-		 1) The description of the recurring charge.
+         1) AVERAGE day of purchase. (truncated - to the nearest integer) (Truncated is easier)
 		 2) The average amount
-         3) AVERAGE day of purchase. (truncated - to the nearest integer) (Truncated is easier)
+		 3) The description of the recurring charge.
 		 4) Found date (The date the recurrence was first found)
 		 5) The last/latest a recurrence was verified (again).  (update of table if it's
 		    found again.)
+         6) The type of recurring charge it is: (Monthly, Quarterly, Yearly?)
 	To keep track of recurring charges (after a lot of searches are being done throughout
 	   the year) I think I'll keep a table of them.
 
