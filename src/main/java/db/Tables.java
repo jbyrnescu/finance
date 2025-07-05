@@ -13,34 +13,6 @@ public class Tables {
 
     Connection connection;
 	
-<<<<<<< Updated upstream
-	public Tables(Connection connection) throws SQLException
-	{
-		this.connection = connection;
-		createTables();
-	}
-	
-	public void createTables() throws SQLException {
-		String statement = "CREATE TABLE IF NOT EXISTS \"CheckingStarOneTXs\" (\n" + 
-				"	\"TransactionNumber\"	INTEGER,\n" + 
-				"	\"TransactionDate\"	TEXT,\n" + 
-				"	\"Memo\"			TEXT,\n" + 
-				"	\"Description\"	TEXT,\n" + 
-				"	\"DebitAmount\"	REAL,\n" + 
-				"	\"CreditAmount\"	REAL,\n" + 
-				"	\"Balance\"	REAL,\n" + 
-				"	\"CheckNumber\"	TEXT,\n" + 
-				"	\"Fees\"		REAL,\n" + 
-				"	\"BudgetCat\"	TEXT,\n" + 
-				"	\"Amount\"	REAL,\n" + 
-				"	\"XclFrmCshFlw\"	TEXT,\n" + 
-				"	\"Mandatory\"	TEXT,\n" + 
-				"	\"Source\"	TEXT\n" + 
-				"\n" + 
-				");\n" ;
-		PreparedStatement s = connection.prepareStatement(statement);
-		Integer iReturnValue = s.executeUpdate();
-=======
     public Tables(Connection connection) throws SQLException
     {
 	this.connection = connection;
@@ -78,7 +50,6 @@ public class Tables {
 	    ");\n" ;
 	PreparedStatement s = connection.prepareStatement(statement);
 	Integer iReturnValue = s.executeUpdate();
->>>>>>> Stashed changes
 	
 	String SavingsStarOneString = "CREATE TABLE IF NOT EXISTS \"SavingsStarOneTXs\" (\n" + 
 	    "	\"TransactionNumber\"	INTEGER,\n" + 
@@ -116,20 +87,6 @@ public class Tables {
 	s = connection.prepareStatement(visaChaseString);
 	iReturnValue = s.executeUpdate();
 		
-<<<<<<< Updated upstream
-		String BigTXViewString = "CREATE VIEW IF NOT EXISTS BigTXView as\n" + 
-				"\n" + 
-				"select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from VisaChaseTXs\n" + 
-				"union \n" + 
-				"select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from CheckingStarOneTXs\n" + 
-				"union\n" + 
-				"select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from SavingsStarOneTXs\n"; 
-		s = connection.prepareStatement(BigTXViewString);
-		iReturnValue = s.executeUpdate();
-		System.out.println("return Value of last execute of table creation: " + iReturnValue);
-		
-	}
-=======
 	String BigTXViewString = "CREATE VIEW IF NOT EXISTS BigTXView as\n" + 
 	    "\n" + 
 	    "select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from VisaChaseTXs\n" + 
@@ -144,6 +101,5 @@ public class Tables {
 	iReturnValue = s.executeUpdate();
 	System.out.println("return Value of last execute of table creation: " + iReturnValue);
     }
->>>>>>> Stashed changes
 	
 }
