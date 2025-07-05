@@ -1,20 +1,15 @@
 package finance;
 
-import java.lang.Integer;
-
-import java.util.Date;
-import java.util.Calendar;
-import java.text.SimpleDateFormat;
-
-import finance.reports.model.PieChartModel;
-import finance.reports.model.MonthlyBudgetModel;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import finance.reports.model.MonthlyBudgetModel;
+import finance.reports.model.PieChartModel;
 
 public class MonthlyBudget
 {
@@ -60,10 +55,10 @@ public class MonthlyBudget
 	Calendar firstOfMonth = Calendar.getInstance();
 	int monthNumber = Integer.parseInt(args[1]);
 	System.out.println("Getting Budget Analysis for month: " + monthNumber);
-	firstOfMonth.set(Calendar.MONTH, monthNumber+1);
+	firstOfMonth.set(Calendar.MONTH, monthNumber-1);
 	firstOfMonth.set(Calendar.DAY_OF_MONTH, 1);
 	Calendar endOfMonth = Calendar.getInstance();
-	endOfMonth.set(Calendar.MONTH, monthNumber);
+	endOfMonth.set(Calendar.MONTH, monthNumber-1);
 	endOfMonth.set(Calendar.DAY_OF_MONTH, endOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
 
         System.out.println("The first of the month appears to be: " + simpleDateFormat.format(firstOfMonth.getTime()) + " and end of month is: " +
