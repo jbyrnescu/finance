@@ -3,6 +3,7 @@
 if [ "$1" == "" ];
 then
     echo "Month to run budget analysis on not specified.  Exiting."
+    echo "Month is 1 based and June would be 6"
     exit -1
 fi
 
