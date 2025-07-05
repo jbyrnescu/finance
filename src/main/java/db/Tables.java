@@ -11,8 +11,9 @@ import java.sql.SQLException;
 
 public class Tables {
 
-	Connection connection;
+    Connection connection;
 	
+<<<<<<< Updated upstream
 	public Tables(Connection connection) throws SQLException
 	{
 		this.connection = connection;
@@ -50,43 +51,83 @@ public class Tables {
 				");\n" ;
 		PreparedStatement s = connection.prepareStatement(statement);
 		Integer iReturnValue = s.executeUpdate();
+=======
+    public Tables(Connection connection) throws SQLException
+    {
+	this.connection = connection;
+	createTables();
+    }
+
+    public static final String CREATE_RECURRING_TRANSACTIONS_TABLE =
+	"CREATE TABLE IF NOT EXISTS \"RecurringTransactions\" (\n" +
+	"\"description\" TEXT,\n" +
+	"\"recurrence_type\" TEXT,\n" +
+	"\"amount\" REAL,\n" +
+	"\"average_day_of_purchase\" TEXT,\n" +
+	"\"found_date\" TEXT,\n" +
+	"\"latest_recurrence\" TEXT\n" +
+	"\n" +
+	");\n";
+
+    public void createTables() throws SQLException {
+	String statement = "CREATE TABLE IF NOT EXISTS \"CheckingStarOneTXs\" (\n" + 
+	    "	\"TransactionNumber\"	INTEGER,\n" + 
+	    "	\"TransactionDate\"	TEXT,\n" + 
+	    "	\"Memo\"			TEXT,\n" + 
+	    "	\"Description\"	TEXT,\n" + 
+	    "	\"DebitAmount\"	REAL,\n" + 
+	    "	\"CreditAmount\"	REAL,\n" + 
+	    "	\"Balance\"	REAL,\n" + 
+	    "	\"CheckNumber\"	TEXT,\n" + 
+	    "	\"Fees\"		REAL,\n" + 
+	    "	\"BudgetCat\"	TEXT,\n" + 
+	    "	\"Amount\"	REAL,\n" + 
+	    "	\"XclFrmCshFlw\"	TEXT,\n" + 
+	    "	\"Mandatory\"	TEXT,\n" + 
+	    "	\"Source\"	TEXT\n" + 
+	    "\n" + 
+	    ");\n" ;
+	PreparedStatement s = connection.prepareStatement(statement);
+	Integer iReturnValue = s.executeUpdate();
+>>>>>>> Stashed changes
 	
-		String SavingsStarOneString = "CREATE TABLE IF NOT EXISTS \"SavingsStarOneTXs\" (\n" + 
-				"	\"TransactionNumber\"	INTEGER,\n" + 
-				"	\"TransactionDate\"	TEXT,\n" + 
-				"	\"Memo\"		TEXT,\n" + 
-				"	\"Description\"	TEXT,\n" + 
-				"	\"DebitAmount\"	REAL,\n" + 
-				"	\"CreditAmount\"	REAL,\n" + 
-				"	\"Balance\"	REAL,\n" + 
-				"	\"CheckNumber\"	TEXT,\n" + 
-				"	\"Fees\"		TEXT,\n" + 
-				"	\"BudgetCat\"	TEXT,\n" + 
-				"	\"Amount\"	REAL,\n" + 
-				"	\"XclFrmCshFlw\"	TEXT,\n" + 
-				"	\"Mandatory\"	TEXT,\n" + 
-				"	\"Source\"	TEXT\n" + 
-				");";
-		s = connection.prepareStatement(SavingsStarOneString);
-		iReturnValue = s.executeUpdate();
+	String SavingsStarOneString = "CREATE TABLE IF NOT EXISTS \"SavingsStarOneTXs\" (\n" + 
+	    "	\"TransactionNumber\"	INTEGER,\n" + 
+	    "	\"TransactionDate\"	TEXT,\n" + 
+	    "	\"Memo\"		TEXT,\n" + 
+	    "	\"Description\"	TEXT,\n" + 
+	    "	\"DebitAmount\"	REAL,\n" + 
+	    "	\"CreditAmount\"	REAL,\n" + 
+	    "	\"Balance\"	REAL,\n" + 
+	    "	\"CheckNumber\"	TEXT,\n" + 
+	    "	\"Fees\"		TEXT,\n" + 
+	    "	\"BudgetCat\"	TEXT,\n" + 
+	    "	\"Amount\"	REAL,\n" + 
+	    "	\"XclFrmCshFlw\"	TEXT,\n" + 
+	    "	\"Mandatory\"	TEXT,\n" + 
+	    "	\"Source\"	TEXT\n" + 
+	    ");";
+	s = connection.prepareStatement(SavingsStarOneString);
+	iReturnValue = s.executeUpdate();
 		
-		String visaChaseString = "CREATE TABLE IF NOT EXISTS \"VisaChaseTXs\" (\n" + 
-				"	\"TransactionDate\"	TEXT,\n" + 
-				"	\"PostDate\"	TEXT,\n" + 
-				"	\"Description\"	TEXT,\n" + 
-				"	\"Category\"	TEXT,\n" + 
-				"	\"TransactionType\"		TEXT,\n" + 
-				"	\"Amount\"	REAL,\n" + 
-				"	\"BudgetCat\"	TEXT,\n" + 
-				"	\"Memo\"		TEXT,\n" + 
-				"	\"XclFrmCshFlw\"	TEXT,\n" + 
-				"	\"Mandatory\"	TEXT,\n" + 
-				"	\"balance\"	REAL,\n" + 
-				"	\"Source\"	TEXT\n" + 
-				");";
-		s = connection.prepareStatement(visaChaseString);
-		iReturnValue = s.executeUpdate();
+	String visaChaseString = "CREATE TABLE IF NOT EXISTS \"VisaChaseTXs\" (\n" + 
+	    "	\"TransactionDate\"	TEXT,\n" + 
+	    "	\"PostDate\"	TEXT,\n" + 
+	    "	\"Description\"	TEXT,\n" + 
+	    "	\"Category\"	TEXT,\n" + 
+	    "	\"TransactionType\"		TEXT,\n" + 
+	    "	\"Amount\"	REAL,\n" + 
+	    "	\"BudgetCat\"	TEXT,\n" + 
+	    "	\"Memo\"		TEXT,\n" + 
+	    "	\"XclFrmCshFlw\"	TEXT,\n" + 
+	    "	\"Mandatory\"	TEXT,\n" + 
+	    "	\"balance\"	REAL,\n" + 
+	    "	\"Source\"	TEXT\n" + 
+	    ");";
+	s = connection.prepareStatement(visaChaseString);
+	iReturnValue = s.executeUpdate();
 		
+<<<<<<< Updated upstream
 		String BigTXViewString = "CREATE VIEW IF NOT EXISTS BigTXView as\n" + 
 				"\n" + 
 				"select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from VisaChaseTXs\n" + 
@@ -101,5 +142,21 @@ public class Tables {
 		iReturnValue = s.executeUpdate();
 		System.out.println("return Value of last execute of table creation: " + iReturnValue);
 	}
+=======
+	String BigTXViewString = "CREATE VIEW IF NOT EXISTS BigTXView as\n" + 
+	    "\n" + 
+	    "select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from VisaChaseTXs\n" + 
+	    "union \n" + 
+	    "select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from CheckingStarOneTXs\n" + 
+	    "union\n" + 
+	    "select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from SavingsStarOneTXs\n"; 
+	s = connection.prepareStatement(BigTXViewString);
+	iReturnValue = s.executeUpdate();
+	System.out.println("return Value of last execute of table creation: " + iReturnValue);
+	s = connection.prepareStatement(CREATE_RECURRING_TRANSACTIONS_TABLE);
+	iReturnValue = s.executeUpdate();
+	System.out.println("return Value of last execute of table creation: " + iReturnValue);
+    }
+>>>>>>> Stashed changes
 	
 }
