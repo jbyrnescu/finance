@@ -22,6 +22,7 @@ public class Tables {
     public static final String CREATE_RECURRING_TRANSACTIONS_TABLE =
 	    "CREATE TABLE IF NOT EXISTS \"RecurringTransactions\" (\n" +
 	    "\"description\" TEXT,\n" +
+		"\"recurrence_type\" TEXT,\n" +
 	    "\"amount\" REAL,\n" +
 	    "\"average_day_of_purchase\" TEXT,\n" +
 	    "\"found_date\" TEXT,\n" +
