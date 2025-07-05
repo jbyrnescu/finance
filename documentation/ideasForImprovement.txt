@@ -107,7 +107,7 @@ so that the user knows and can use that information if he/she needs to.)
     Next, I will run a query for the last 90 days.  I will traverse the ResultSet and 
     for every transaction:
       (Maximum confidence)
-   	find the date 93 days before the date of the transaction
+   	find the date 94 days before the date of the transaction
 	MONTHLY
     	query for the amount and description of that transaction from the found date to now
 	      If exactly 3 transactions are found mark them as recurring monthly and store them
@@ -125,7 +125,10 @@ so that the user knows and can use that information if he/she needs to.)
 		 (Like PG&E/NV Energy)
 		 store it for later use.
 	QUARTERLY
-	      If the day is within +/- 4 days and there is exactly 1 transaction
+	      If the day is within +/- 4 days and there is exactly 1 transaction like the transaction in question
+          Like, meaning:
+            same amount or within +/- $50
+            same day within +/- 4 days
 	      (Like GRANITE PROPANE)
 	      	 
 	What will be stored?  I think I'll create a class for recurring transactions:
@@ -158,6 +161,9 @@ sqlite> select * from BigTXView where description like 'WM.COM' and amount > -66
 2025-04-24 00:00:00|WM.COM|-66.6999969482422|UTILITIES|||VisaChaseTXs
 
     It looks like I'll have to round down and truncate for the boundaries of the amount.
+
+Maybe I could have a method that compares transactions and deems transactions, "equivalent": description same, +/-4days, +/-$50
+    The thresholds will probably be constant, but can be changed within this method.
 
 15. I currently have a "Mandatory Calculations" worksheet in the excel file.
     However, it's pretty messed up and relies on Excel vlookup.  It would be nice to have
