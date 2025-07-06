@@ -93,8 +93,9 @@ public class RecurringTransaction
             && t2.getTransactionDate().before(upperLimitDate);
         boolean withinAmount = t2.getAmount() > lowerLimitAmount 
             && t2.getAmount() < upperLimitAmount;
+        boolean sameDescription = t1.getDescription().equals(t2.getDescription());
 
-        return(withinDate && withinAmount);
+        return(withinDate && withinAmount && sameDescription);
 
     }
    
