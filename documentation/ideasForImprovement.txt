@@ -231,6 +231,12 @@ while(rs.next())
 
 17. Work on graphs.  Change lines to different colors representing the different things.
 
+18. This is probably not a good idea, but, I had one person tell me about some functionality of seperating transactions
+    with categories.  The way this could be done is creating a seperate transaction list.  The first
+    transaction to find the one to split, the rest of them, how to split the transaction.  Another way of doing
+    this, I suppose, is to have more than one way to categorize a transaction (other than by description).  Or,
+    maybe a transaction to find, and a modification (edit) of the transaction table.
+
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
