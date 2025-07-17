@@ -74,9 +74,8 @@ so that the user knows and can use that information if he/she needs to.)
 14. Recurring functionality. This functionality was implemented before.  The code got deleted from GitHub
     though.  Essentially, this would analyze the past few months and compare each transaction in the
     current month with the previous month(s) to see if there is a matching transaction
-    (same amount, same description).
-    I'm guessing this could be done quarterly (yearly as well, if there's data?) as well.
-    Since I usually start a new TXs2.db file each year, this would be of much use.  Maybe
+    I'm guessing this could be done quarterly as well.
+    Since I usually start a new TXs2.db file each year, this wouldn't be of much use.  Maybe
     I could change the process to keep the DB?
     This could be a recurring transactions report.  Maybe I could make a table, and output it as well?
     The transactions could be marked M for monthly, and Q for Quarterly.  I know I don't pay
@@ -134,7 +133,7 @@ so that the user knows and can use that information if he/she needs to.)
 	      	 
 	What will be stored?  I think I'll create a class for recurring transactions:
 	     The class will have these fields/members:
-         1) AVERAGE day of purchase. (truncated - to the nearest integer) (Truncated is easier)
+	         1) AVERAGE day of purchase. (truncated - to the nearest integer) (Truncated is easier)
 		 2) The average amount
 		 3) The description of the recurring charge.
 		 4) Found date (The date the recurrence was first found)
@@ -170,7 +169,7 @@ There'll be 1 method called in the Finance class:
 1) printRecurringTransactionsFromToday()
 This method will be called during the monthlyBudget sequence of methods called to warn user of upcoming transactions
 
-printRecurring... will call getRecurringTransactionsFromToday() which will return an ArrayList of RecurringTransactions.
+printRecurring... will call getRecurringTransactionsFromToday() which will return an ArrayList of RecurringTransactions.  It should also fill the recurring transactions table with the latest recurring transactions.
 I can do a query of the DB directly, but they're not going to be Transactions, I'll have to convert them.
 Maybe I could pass the resultSet to Transaction and get a Transacation back?  Yes, I have functionality for that.
 
@@ -190,12 +189,17 @@ while(rs.next())
 {
     // get description
     // query the last -94 days before that for same description
+    //   (This time use  -94 days past < found date < date of transaction )
     // convert transaction to Transaction
     // go through each transaction found and see if each is similar
     // if all are similar:
-        // if it appears 3 time, mark as monthly
+        // if it appears 3 times, mark as monthly
         // if it appears once, mark as quarterly
 }
+
+case scenarios:
+a) What if a quarterly transaction happened on day -93 and it's about to happen tomorrow?
+   Day -93 would search back -94 days and find that it's quarterly.  Then it could store and report it.
 
 15. I currently have a "Mandatory Calculations" worksheet in the excel file.
     However, it's pretty messed up and relies on Excel vlookup.  It would be nice to have
