@@ -190,7 +190,8 @@ while(rs.next())
     // get description
     // query the last -94 days before that for same description
     //   (This time use  -94 days past < found date < date of transaction )
-    // convert transaction to Transaction
+    // convert transaction to Transaction (transactionsAreSimilar uses Transaction (s) to compare.)
+    //         (Use loadTransactionFromDatabase()... to do this.)
     // go through each transaction found and see if each is similar
     // if all are similar:
         // if it appears 3 times, mark as monthly

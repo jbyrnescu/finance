@@ -47,7 +47,7 @@ import java.nio.file.Files;
 
 public class Finance {
 	
-	String baseProjectPath;
+	public static String baseProjectPath;
 	String downloadsDirectory;
 	ArrayList<Account> accounts = new ArrayList<Account>();
 
@@ -57,6 +57,8 @@ public class Finance {
 
 	Finance() {
 	}
+
+	public static Connection con;
 
 	private Connection connection;
 	ArrayList<ArrayList<Object>> table = new ArrayList<ArrayList<Object>>();
@@ -88,6 +90,10 @@ public class Finance {
 		String downloadPath= System.getenv("FINANCE_DOWNLOADS_PATH");
 		String basePath = System.getenv("FINANCE_BASE_PATH");
 		Finance finance = new Finance();
+		Connection connection = finance.getConnection();
+		if (connection == null) {
+			Finance.setConnectionStatic(connection);
+		}
 		
 		if (downloadPath == null) {
 			finance.setDownloadDirectory(args[1]);
@@ -418,8 +424,8 @@ public class Finance {
 	private void writeDatabaseToCSV(String filename) throws SQLException, IOException {
 		BigViewAccount bva = new BigViewAccount();		
 		bva.loadTransactionsFromDatabase(connection, null, null);
-		Logger.out.println("writing transactions to: " + baseProjectPath + filename);
-		bva.writeTransactionsToCSV(baseProjectPath+"/"+filename);		
+		Logger.out.println("writing transactions to: " + Finance.baseProjectPath + filename);
+		bva.writeTransactionsToCSV(Finance.baseProjectPath+"/"+filename);		
 	}
 
 	private void writeTransactionsToCSV(String filename, String dateStr1, String dateStr2) throws IOException, SQLException {
@@ -441,8 +447,8 @@ public class Finance {
 //		String dateStr1 = simpleDateFormat.format(date2);
 		
 		bva.loadTransactionsFromDatabase(connection, dateStr1, dateStr2);
-		Logger.out.println("writing transactions to: " + baseProjectPath + filename);
-		bva.writeTransactionsToCSV(baseProjectPath+"/"+filename);
+		Logger.out.println("writing transactions to: " + Finance.baseProjectPath + filename);
+		bva.writeTransactionsToCSV(Finance.baseProjectPath+"/"+filename);
 	}
 
 	public void closeAll() throws SQLException {
@@ -450,7 +456,7 @@ public class Finance {
 	}
 
 	public void setBasePath(String directory) {
-		baseProjectPath=directory;
+		Finance.baseProjectPath=directory;
 	}
 
 	private void setDownloadDirectory(String directory) {
@@ -529,7 +535,7 @@ public class Finance {
 	{
 		excludedTransactionsMap = new HashMap<String, String>();
 
-		Path path = Paths.get(baseProjectPath + "/" + file);
+		Path path = Paths.get(Finance.baseProjectPath + "/" + file);
 		List<String> lines = Files.readAllLines(path);
 		for (String line : lines)
 		{
@@ -585,7 +591,7 @@ public class Finance {
 	{
 
 //		Column column = new Column(this.getConnection(),999); 
-		Path path = Paths.get(baseProjectPath + "/MarkMandatory/" + file);
+		Path path = Paths.get(Finance.baseProjectPath + "/MarkMandatory/" + file);
 		mandatoryMap = new HashMap<String, String>();
 
 		List<String> lines = Files.readAllLines(path);
@@ -601,7 +607,7 @@ public class Finance {
 	private void readCategoriesMap(String file) throws IOException {
 
 //		Column column = new Column(this.getConnection(),4); 
-		Path path = Paths.get(baseProjectPath + "/Categorize/" + file);
+		Path path = Paths.get(Finance.baseProjectPath + "/Categorize/" + file);
 		categoriesMap = new HashMap<String, String>();
 
 		List<String> lines = Files.readAllLines(path);
@@ -619,6 +625,41 @@ public class Finance {
 		return connection;
 	}
 
+	public static void setConnectionStatic(Connection con) {
+		if (con == null) {
+			System.out.println("Connecting to Database");
+			try {
+				// db parameters
+	//			String url = "jdbc:sqlite:" + Finance.baseProjectPath + "TXs2.db";
+				String url = "jdbc:sqlite:" + Finance.baseProjectPath + "/TXs2.db";
+				// create a connection to the database
+				con = (DriverManager.getConnection(url));
+
+				Logger.out.println("Connection to SQLite has been established.");
+
+			} catch (SQLException e) {
+				Logger.out.println(e.getMessage());
+			} finally {
+				/*            try {
+					if (connection != null) {
+						Logger.out.println("Connection not null... congrats!");
+	/*                    connection.close(); 
+					}
+				} catch (SQLException ex) {
+					Logger.out.println(ex.getMessage());
+				} */
+			}
+		}
+
+		Finance.con = con;
+	}
+	
+	
+	public static Connection getConnectionStatic() {
+		Finance finance = new Finance();
+		return finance.getConnection();
+	}
+
 	/**
 	 * Connect to a sample database
 	 */
@@ -627,8 +668,8 @@ public class Finance {
 		System.out.println("Connecting to Database");
 		try {
 			// db parameters
-//			String url = "jdbc:sqlite:" + baseProjectPath + "TXs2.db";
-			String url = "jdbc:sqlite:" + baseProjectPath + "/TXs2.db";
+//			String url = "jdbc:sqlite:" + Finance.baseProjectPath + "TXs2.db";
+			String url = "jdbc:sqlite:" + Finance.baseProjectPath + "/TXs2.db";
 			// create a connection to the database
 			connection = DriverManager.getConnection(url);
 
