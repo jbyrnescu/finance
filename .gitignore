@@ -1,2 +1,2 @@
-*.html
-*.js
+target/
+src/**/*.html
