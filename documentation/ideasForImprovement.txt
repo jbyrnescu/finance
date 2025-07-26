@@ -74,9 +74,8 @@ so that the user knows and can use that information if he/she needs to.)
 14. Recurring functionality. This functionality was implemented before.  The code got deleted from GitHub
     though.  Essentially, this would analyze the past few months and compare each transaction in the
     current month with the previous month(s) to see if there is a matching transaction
-    (same amount, same description).
-    I'm guessing this could be done quarterly (yearly as well, if there's data?) as well.
-    Since I usually start a new TXs2.db file each year, this would be of much use.  Maybe
+    I'm guessing this could be done quarterly as well.
+    Since I usually start a new TXs2.db file each year, this wouldn't be of much use.  Maybe
     I could change the process to keep the DB?
     This could be a recurring transactions report.  Maybe I could make a table, and output it as well?
     The transactions could be marked M for monthly, and Q for Quarterly.  I know I don't pay
@@ -100,8 +99,9 @@ so that the user knows and can use that information if he/she needs to.)
     Then a search would be like this:
     select * from BigTXView where description like '%FORDDATA%' and amount > -20.04 and amount < -20.02;
 
-    In order to do this I'll need to find some code that help me find transactions up 
-    to and including the last 3 months or last 90 days.  (Quarter will be the farthest spread there is.)
+    In order to do this I'll need to find some code that helps me find transactions up 
+    to and including the last 3 months or last 94 days.  (not 90 because it's +/- 4 days error in comparison)
+    (Quarter will be the farthest spread there is.)
     There is code that exists already that shows getting the first of the month.  I'll just
     have to use that but wind the clock back 90 days.
     Next, I will run a query for the last 90 days.  I will traverse the ResultSet and 
@@ -133,7 +133,7 @@ so that the user knows and can use that information if he/she needs to.)
 	      	 
 	What will be stored?  I think I'll create a class for recurring transactions:
 	     The class will have these fields/members:
-         1) AVERAGE day of purchase. (truncated - to the nearest integer) (Truncated is easier)
+	         1) AVERAGE day of purchase. (truncated - to the nearest integer) (Truncated is easier)
 		 2) The average amount
 		 3) The description of the recurring charge.
 		 4) Found date (The date the recurrence was first found)
@@ -164,6 +164,42 @@ sqlite> select * from BigTXView where description like 'WM.COM' and amount > -66
 
 Maybe I could have a method that compares transactions and deems transactions, "equivalent": description same, +/-4days, +/-$50
     The thresholds will probably be constant, but can be changed within this method.
+
+There'll be 1 method called in the Finance class: 
+1) printRecurringTransactionsFromToday()
+This method will be called during the monthlyBudget sequence of methods called to warn user of upcoming transactions
+
+printRecurring... will call getRecurringTransactionsFromToday() which will return an ArrayList of RecurringTransactions.  It should also fill the recurring transactions table with the latest recurring transactions.
+I can do a query of the DB directly, but they're not going to be Transactions, I'll have to convert them.
+Maybe I could pass the resultSet to Transaction and get a Transacation back?  Yes, I have functionality for that.
+
+For ease of use, I'll make Finance a singleton for the DB Connection.  This should have been done before.
+Once I have the db connection this is what it will look like:
+(Declared outside in static context)
+public static final String RECURRING_TRANSACTION_94DAY_QUERY = "select * from BigTXView where transactionDate > ?;"
+(In getRecurringTransactionsFromToday context)
+Calendar ninetyFourDaysAgo = Calendar.getInstance().add(Calendar.DATE, -94);
+Date beginSearchDate = ninetyFourDaysAgo.getTime();
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+PreparedStatement preparedStatement = conn.prepareStatement(RECURRING_TRANSACTION_94DAY_QUERY);
+preparedStatement.setString(1, simpleDateFormat.format(beginSearchDate));
+ResultSet rs = preparedStatement.executeQuery();
+
+while(rs.next())
+{
+    // get description
+    // query the last -94 days before that for same description
+    //   (This time use  -94 days past < found date < date of transaction )
+    // convert transaction to Transaction
+    // go through each transaction found and see if each is similar
+    // if all are similar:
+        // if it appears 3 times, mark as monthly
+        // if it appears once, mark as quarterly
+}
+
+case scenarios:
+a) What if a quarterly transaction happened on day -93 and it's about to happen tomorrow?
+   Day -93 would search back -94 days and find that it's quarterly.  Then it could store and report it.
 
 15. I currently have a "Mandatory Calculations" worksheet in the excel file.
     However, it's pretty messed up and relies on Excel vlookup.  It would be nice to have
@@ -198,6 +234,17 @@ Maybe I could have a method that compares transactions and deems transactions, "
     amountOverUnderBudget = wInBudget - totalBudgetedAmount
 
 17. Work on graphs.  Change lines to different colors representing the different things.
+
+18. This is probably not a good idea, but, I had one person tell me about some functionality of seperating transactions
+    with categories.  The way this could be done is creating a seperate transaction list.  The first
+    transaction to find the one to split, the rest of them, how to split the transaction.  Another way of doing
+    this, I suppose, is to have more than one way to categorize a transaction (other than by description).  Or,
+    maybe a transaction to find, and a modification (edit) of the transaction table.
+
+19. It would be nice to see how far off my budget is from the average spend for each category.
+    There is an sql statement under the scripts directory that shows how to get this for a single
+    category.  If I could put this in the program and extend it to all categories in the budget, I could
+    manage the budget more effectively. 
 
 ----------------------------------------------------------------
 
