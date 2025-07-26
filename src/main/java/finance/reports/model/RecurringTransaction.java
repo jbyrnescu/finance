@@ -10,6 +10,8 @@ public class RecurringTransaction
     String description;
     String recurrenceType;
     double amount;
+    // C - for constant, D - for dynamic
+    String amountType;
     Date averageDayOfMonthOfTransaction;
     Date firstFoundDate;
     Date lastSeenDate;

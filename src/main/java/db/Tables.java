@@ -24,6 +24,7 @@ public class Tables {
 	"\"description\" TEXT,\n" +
 	"\"recurrence_type\" TEXT,\n" +
 	"\"amount\" REAL,\n" +
+	"\"amount_type\" TEXT,\n" +
 	"\"average_day_of_purchase\" TEXT,\n" +
 	"\"found_date\" TEXT,\n" +
 	"\"latest_recurrence\" TEXT\n" +
