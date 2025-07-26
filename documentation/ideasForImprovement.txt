@@ -241,6 +241,11 @@ a) What if a quarterly transaction happened on day -93 and it's about to happen 
     this, I suppose, is to have more than one way to categorize a transaction (other than by description).  Or,
     maybe a transaction to find, and a modification (edit) of the transaction table.
 
+19. It would be nice to see how far off my budget is from the average spend for each category.
+    There is an sql statement under the scripts directory that shows how to get this for a single
+    category.  If I could put this in the program and extend it to all categories in the budget, I could
+    manage the budget more effectively. 
+
 ----------------------------------------------------------------
 
 Not new ideas, but existing functionality I need to get working again.
