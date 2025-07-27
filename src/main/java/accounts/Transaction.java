@@ -66,12 +66,6 @@ public abstract class Transaction {
 				this.source = rs.getString("Source");
 			} catch (SQLException e) {
 				Logger.out.println("Error loading transaction from database: " + e.getMessage());
-			} finally {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					Logger.out.println("Error closing ResultSet: " + e.getMessage());
-				}
 			}
 			return this;
 		}

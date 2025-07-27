@@ -511,7 +511,7 @@ public class Finance {
 
 		// use Map to change certain categories to mandatory
 		this.readMandatoryMap("MandatoryCategoryMap.csv");
-		this.markMandatory();
+		this.markCategoriesMandatory();
 
 
 	}
