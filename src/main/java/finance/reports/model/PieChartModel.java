@@ -41,7 +41,7 @@ public class PieChartModel {
 		file.close();
 	}
 	
-	public int loadPieChartEntriesFromDatabase(String beginDate, String endDate) throws SQLException {
+	public int loadPieChartEntriesFromDatabase(String beginDate, String endDate) {
 		String and1 ="", and2 = "";
 		String endQuote = "\"";
 		if (beginDate == null) {
@@ -65,17 +65,23 @@ public class PieChartModel {
 				+ " order by sum(amount) asc;";
 		
 		Logger.out.println("query for pie chart: " + query);
-		
-				Statement s = connection.createStatement();
-				ResultSet rs = s.executeQuery(query);
-				int numberOfEntries = 0;
-				while(rs.next()) {
-					PieChartEntry pce = new PieChartEntry();
-					pce.loadFromResultSet(rs);
-					chartEntries.add(pce);
-					numberOfEntries++;
-				}
-				return numberOfEntries;
+		int numberOfEntries = 0;
+
+		try {
+			Statement s = connection.createStatement();
+			ResultSet rs = s.executeQuery(query);
+
+			while(rs.next()) {
+				PieChartEntry pce = new PieChartEntry();
+				pce.loadFromResultSet(rs);
+				chartEntries.add(pce);
+				numberOfEntries++;
+			}
+		} catch (SQLException e) {
+			Logger.out.println("Error loading pie chart entries: " + e.getMessage());
+			return -1;
+		} 
+		return numberOfEntries;
 				
 	}
 	

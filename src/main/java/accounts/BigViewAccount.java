@@ -50,6 +50,9 @@ public class BigViewAccount extends Account {
 			}
 		} catch (SQLException e) {
 				Logger.out.println("problem reading transactions from Database into memory");
+			} finally {
+				rs.close();
+				s.close();
 			}
 		}
 

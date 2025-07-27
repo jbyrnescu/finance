@@ -125,6 +125,9 @@ public abstract class Account {
 			} catch (SQLException e) 
 			{
 					System.out.println("problem reading transactions from Database into memory");
+			} finally {
+				rs.close();
+				s.close();
 			}
 	}
 

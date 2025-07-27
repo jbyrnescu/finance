@@ -61,33 +61,46 @@ public class ChaseTransaction extends Transaction {
 	}
 
 	@Override
-	public int loadIntoDatabase(Connection connection) throws SQLException {
+	public int loadIntoDatabase(Connection connection) {
+		try {
 		if (super.loadIntoDatabase(connection) == Transaction.TRANSACTION_EXISTS)
 			return(NOTHING_LOADED);
-		PreparedStatement statement = connection.prepareStatement("insert or ignore into VisaChaseTXs ("
+		} catch (SQLException e) {
+			System.out.println("Error checking for existing transaction: " + e.getMessage());
+			return(NOTHING_LOADED);
+		}
+
+		try {
+			// insert into VisaChaseTXs table
+			PreparedStatement statement = connection.prepareStatement("insert or ignore into VisaChaseTXs ("
 				+ "TransactionDate, PostDate, Description, Category, TransactionType, Amount, "
 				+ "Memo, "
 				+ "budgetCat, XclFrmCshFlw, mandatory,"
 				+ "source) "
 				+ "values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-		statement.setString(8, simpleDateFormat.format(transactionDate));
-		
-		
-		statement.setString(1, getTransactionDateString());
-		statement.setString(2, simpleDateFormat.format(this.postDate));
-		statement.setString(3, this.description);
-		statement.setString(4, Category);
-		statement.setString(5, transactionType);
-		statement.setDouble(6, getAmount());
-		statement.setString(7, getMemo());
-		statement.setString(8, Category);
-		statement.setString(9, getXcludeFromCashFlow());
-		statement.setString(10, getMandatory());
-		statement.setString(11, "VisaChaseTXs");
-		
-		statement.executeUpdate();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+			statement.setString(8, simpleDateFormat.format(transactionDate));
+			
+			
+			statement.setString(1, getTransactionDateString());
+			statement.setString(2, simpleDateFormat.format(this.postDate));
+			statement.setString(3, this.description);
+			statement.setString(4, Category);
+			statement.setString(5, transactionType);
+			statement.setDouble(6, getAmount());
+			statement.setString(7, getMemo());
+			statement.setString(8, Category);
+			statement.setString(9, getXcludeFromCashFlow());
+			statement.setString(10, getMandatory());
+			statement.setString(11, "VisaChaseTXs");
+			
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e) {
+			System.out.println("Error inserting into VisaChaseTXs table: " + e.getMessage());
+			return(NOTHING_LOADED);
+		}
 		return(TRANSACTION_LOADED);
 	}
 
@@ -121,7 +134,7 @@ public class ChaseTransaction extends Transaction {
 	}
 
 	@Override
-	public Transaction loadTransactionFromDatabase(ResultSet rs) throws SQLException {
+	public Transaction loadTransactionFromDatabase(ResultSet rs) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -9,6 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
+import java.io.PrintWriter;
+import java.io.FileNotFoundException;
 
 // Import Finance class (adjust the package if needed)
 import finance.Finance;
@@ -54,16 +58,6 @@ public class RecurringTransaction extends Transaction
 
     public void setRecurrenceType(String recurrenceType) {
         this.recurrenceType = recurrenceType;
-    }
-
-    public String getDescription()
-    {
-	return(description);
-    }
-
-    public void setDescription(String description)
-    {
-	this.description = description;
     }
 
     public double getAmount()
@@ -123,43 +117,60 @@ public class RecurringTransaction extends Transaction
 
     }
 
-    public static final String RECURRING_TRANSACTION_94DAY_QUERY = "select * from BigTXView where transactionDate > ?;";
+    public static final String RECURRING_TRANSACTION_94DAY_QUERY = "select * from BigTXView where transactionDate > ? order by transactiondate asc;";
 
-    public static final String RECURRING_TRANSACTION_94DAY_QUERY4 = "select * from BigTXView where transactionDate > ? and transactionDate < ? and description = ? and amount > ? and amount < ? order by transactiondate desc;";
+    public static final String RECURRING_TRANSACTION_94DAY_QUERY4 = "select * from BigTXView where transactionDate > ? and transactionDate < ? and description = ? and amount > ? and amount < ? order by transactiondate asc;";
 
-    public static void getRecurringTransactionsFromToday() 
+    public static void getRecurringTransactionsFromToday(Connection connection) throws ParseException
     {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, -94);
         Date date = calendar.getTime();
+
+        ArrayList<RecurringTransaction> recurringTransactionsToAdd = new ArrayList<>();
 
         // Use the date to query the database for transactions
         // that are similar to the current transaction.
         // This is where you would implement the logic to retrieve
         // and process transactions from the database.
-        Connection connection = Finance.getConnectionStatic();
         try (PreparedStatement preparedStatement = connection.prepareStatement(RECURRING_TRANSACTION_94DAY_QUERY)) 
         {
-            preparedStatement.setDate(1, new java.sql.Date(date.getTime()));
+            preparedStatement.setString(1, simpleDateFormat.format(date));
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+
+
+            while (resultSet.next()) 
+            {
                 // Look for recurring transactions for this transaction
                 PreparedStatement findRecurringTransactionsStatement = connection.prepareStatement(RECURRING_TRANSACTION_94DAY_QUERY4);
                 Calendar cal = Calendar.getInstance();
-                cal.setTime(new java.util.Date(resultSet.getDate("transactionDate").getTime()));
+                String dateString = resultSet.getString("transactionDate");
+                cal.setTime(simpleDateFormat.parse(dateString));
                 cal.add(Calendar.DAY_OF_MONTH, -94);
-                Date lowerDate = cal.getTime();
-                Date upperDate = new java.util.Date(resultSet.getDate("transactionDate").getTime());
-                findRecurringTransactionsStatement.setDate(1, new java.sql.Date(lowerDate.getTime()));
-                findRecurringTransactionsStatement.setDate(2, new java.sql.Date(upperDate.getTime()));
+
+                String lowerDate = simpleDateFormat.format(cal.getTime());
+                String upperDate = resultSet.getString("transactionDate");
+                findRecurringTransactionsStatement.setString(1, lowerDate);
+                findRecurringTransactionsStatement.setString(2, upperDate);
                 findRecurringTransactionsStatement.setString(3, resultSet.getString("description"));
-                findRecurringTransactionsStatement.setDouble(4, resultSet.getDouble("amount") - 50.0);
-                findRecurringTransactionsStatement.setDouble(5, resultSet.getDouble("amount") + 50.0);
+                double lowerAmount = resultSet.getDouble("amount") - 50.0;
+                findRecurringTransactionsStatement.setDouble(4, lowerAmount);
+                double upperAmount = resultSet.getDouble("amount") + 50.0;
+                findRecurringTransactionsStatement.setDouble(5, upperAmount);
+
+                System.out.println("Executing query:");
+                System.out.println("select * from BigTXView where transactionDate > " + lowerDate + " and transactionDate < " + upperDate + " and description = " + resultSet.getString("description") 
+                    + " and amount > " + lowerAmount + " and amount < " + upperAmount + " order by transactiondate asc;");
+
                 ResultSet recurringResultSet = findRecurringTransactionsStatement.executeQuery();
+                System.out.println("Issued sql: " + findRecurringTransactionsStatement.toString());
 
                 ArrayList<RecurringTransaction> returnedTransactions = new ArrayList<>();
                 String foundDescription = null;
                 double foundAmount = 0.0;
+
                 while(recurringResultSet.next())
                 {
                     RecurringTransaction recurringTransaction = new RecurringTransaction();
@@ -174,9 +185,23 @@ public class RecurringTransaction extends Transaction
                     returnedTransactions.add(recurringTransaction);
 
                 }
-                // Quarterly transactions will return 1 result
-                if (returnedTransactions.size() == 1)
+                // Quarterly transactions will return 1 result including the original transaction
+                if (returnedTransactions.size() == 2)
                 {
+                    // Check to make sure the transactions are 90 +/- 4 days apart
+                    Date firstTransactionDate = returnedTransactions.get(0).getLastSeenDate();
+                    Date secondTransactionDate = returnedTransactions.get(1).getLastSeenDate();
+                    long diffInMillies = Math.abs(secondTransactionDate.getTime() - firstTransactionDate.getTime());
+                    long diffInDays = diffInMillies / (1000 * 60 * 60 * 24);
+                    if (diffInDays < 86 || diffInDays > 94) {
+                        System.out.println("Skipping transaction: " + returnedTransactions.get(0).getDescription() + " as it is not a quarterly transaction.");
+                        continue; // Skip this transaction
+                    }
+                    // If we get here, we have a quarterly transaction
+                    // Set the recurrence type and average day of month of transaction
+                    // and amount type
+
+                    
                     System.out.println("Found quarterly transaction: " + returnedTransactions.get(0).getDescription());
                     cal = Calendar.getInstance();
                     cal.setTime(returnedTransactions.get(0).getLastSeenDate());
@@ -185,10 +210,26 @@ public class RecurringTransaction extends Transaction
                     returnedTransactions.get(0).setAverageDayOfMonthOfTransaction(day);
                     returnedTransactions.get(0).setAmountType("Unknown");
                     returnedTransactions.get(0).loadIntoDatabase(connection);
+                    recurringTransactionsToAdd.add(returnedTransactions.get(0));
                 }
                 // Monthly transactions will return 3 results
                 if (returnedTransactions.size() == 3)
                 {
+
+                    // Check to make sure the transactions are 28 +/- 4 days apart
+                    for (int i = 0; i < returnedTransactions.size()-1; i++)
+                    {
+                        Date firstTransactionDate = returnedTransactions.get(i).getLastSeenDate();
+                        Date secondTransactionDate = returnedTransactions.get(i+1).getLastSeenDate();
+                        long diffInMillies = Math.abs(secondTransactionDate.getTime() - firstTransactionDate.getTime());
+                        long diffInDays = diffInMillies / (1000 * 60 * 60 * 24);
+                        if (diffInDays < 24 || diffInDays > 32) {
+                            System.out.println("Skipping transaction: " + returnedTransactions.get(0).getDescription() + " as it is not a monthly transaction.");
+                            continue; // Skip this transaction
+                        }
+
+                    }
+
                     System.out.println("Found monthly transaction: " + returnedTransactions.get(0).getDescription());
                     // find the average day of month of transaction
                     double days = 0.0;
@@ -213,48 +254,94 @@ public class RecurringTransaction extends Transaction
                         amountType = "Constant";
                     } else amountType = "Dynamic";
 
-                    setDescription(foundDescription);
-                    setAmount(foundAmount);
-                    setAmountType(amountType);
-                    setRecurrenceType("Monthly");
-                    setAverageDayOfMonthOfTransaction((int)(days/3.0));
-                    setLastSeenDate(returnedTransactions.get(0).getLastSeenDate());
-                    setAmount(sum/3.0);
-                    this.loadIntoDatabase(connection);
-                }
+                    RecurringTransaction rt = new RecurringTransaction();
 
-                // Enter into the database
-                
-                // System.out.println("Found transaction(s): " + resultSet.getString("description") + " on " + resultSet.getDate("TransactionDate").toString() + " with amount: " + resultSet.getDouble("amount"));
+                    rt.setDescription(foundDescription);
+                    rt.setAmount(foundAmount);
+                    rt.setAmountType(amountType);
+                    rt.setRecurrenceType("Monthly");
+                    rt.setAverageDayOfMonthOfTransaction((int)(days/3.0));
+                    rt.setLastSeenDate(returnedTransactions.get(0).getLastSeenDate());
+                    rt.setAmount(sum/3.0);
+                    rt.setTransactionDate(returnedTransactions.get(0).getLastSeenDate());
+                    // Load into the database
+                    System.out.println("Found monthly transaction: " + rt.getDescription() + " with amount: " + rt.getAmount() + " and average day of month: " + rt.getAverageDayOfMonthOfTransaction());
+                    // Load into the ArrayList for later load into database
+                    recurringTransactionsToAdd.add(rt);
+                }
+                findRecurringTransactionsStatement.close();
             }
+
+            preparedStatement.close();
+            
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+
         }
 
+        for (RecurringTransaction rt : recurringTransactionsToAdd) 
+        {
+            System.out.println("Loading recurring transaction: " + rt.getDescription() + " with amount: " + rt.getAmount() + " and average day of month: " + rt.getAverageDayOfMonthOfTransaction());
+            rt.loadIntoDatabase(connection);
+        }
+        
+        try 
+        {
+            // Write to a file, because we're retarded.
+            PrintWriter printWriter = new PrintWriter("recurring_transactions.txt");
+            for (RecurringTransaction rt : recurringTransactionsToAdd) 
+            {
+            
+                printWriter.println(rt.getDescription() + "," + 
+                    rt.getRecurrenceType() + "," + 
+                    rt.getAmount() + "," + 
+                    rt.getAmountType() + "," + 
+                    rt.getAverageDayOfMonthOfTransaction() + "," + 
+                    rt.getLastSeenDate());
+            }
+            System.out.println("Recurring transactions written to file.");
+            printWriter.close();
+                    
+        } catch (FileNotFoundException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+  
     }
 
-    @Override
-	public int loadIntoDatabase(Connection connection) throws SQLException {
-        connection = Finance.getConnectionStatic();
-		if (super.loadIntoDatabase(connection) == Transaction.TRANSACTION_EXISTS)
-			return(NOTHING_LOADED);
-		PreparedStatement statement = connection.prepareStatement("insert or replace into RecurringTransactions ("
-				+ "description, recurrence_type, amount, amount_type, average_day_of_purchase, "
-				+ "latest_recurrence) "
-				+ "values ( ?, ?, ?, ?, ?, ? );");
 
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-		statement.setString(8, simpleDateFormat.format(transactionDate));
-		
-		
-		statement.setString(1, getDescription());
-		statement.setString(2, getRecurrenceType());
-		statement.setDouble(3, getAmount());
-        statement.setString(4, getAmountType());
-		statement.setInt(5, getAverageDayOfMonthOfTransaction() );
-		statement.setDate(6, new java.sql.Date(getLastSeenDate().getTime()));
-		
-		statement.executeUpdate();
+    @Override
+	public int loadIntoDatabase(Connection connection) {
+		try {
+        // Check if the transaction already exists in the database}
+        if (super.loadIntoDatabase(connection) == Transaction.TRANSACTION_EXISTS)
+			return(NOTHING_LOADED);
+        } catch (SQLException e) {
+            System.out.println("Error checking for existing transaction: " + e.getMessage());
+            return(NOTHING_LOADED);
+        }
+        try {
+            PreparedStatement statement = connection.prepareStatement("insert or replace into RecurringTransactions ("
+                    + "description, recurrence_type, amount, amount_type, average_day_of_purchase, "
+                    + "latest_recurrence) "
+                    + "values ( ?, ?, ?, ?, ?, ? );");
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+            
+            statement.setString(1, getDescription());
+            statement.setString(2, getRecurrenceType());
+            statement.setDouble(3, getAmount());
+            statement.setString(4, getAmountType());
+            statement.setInt(5, getAverageDayOfMonthOfTransaction() );
+            statement.setString(6, simpleDateFormat.format(transactionDate));
+            
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("Error inserting into RecurringTransactions table: " + e.getMessage());
+        } finally {
+
+        }
 		return(TRANSACTION_LOADED);
 	}
 

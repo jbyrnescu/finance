@@ -13,7 +13,7 @@ public class Tables {
 
     Connection connection;
 	
-    public Tables(Connection connection) throws SQLException
+    public Tables(Connection connection) 
     {
 	this.connection = connection;
 	createTables();
@@ -21,17 +21,17 @@ public class Tables {
 
     public static final String CREATE_RECURRING_TRANSACTIONS_TABLE =
 	"CREATE TABLE IF NOT EXISTS \"RecurringTransactions\" (\n" +
-	"\"description\" TEXT,\n" +
+	"\"description\" TEXT primary key,\n" +
 	"\"recurrence_type\" TEXT,\n" +
 	"\"amount\" REAL,\n" +
 	"\"amount_type\" TEXT,\n" +
 	"\"average_day_of_purchase\" TEXT,\n" +
-	"\"found_date\" TEXT,\n" +
+	// "\"found_date\" TEXT,\n" +
 	"\"latest_recurrence\" TEXT\n" +
 	"\n" +
 	");\n";
 
-    public void createTables() throws SQLException {
+    public void createTables()  {
 	String statement = "CREATE TABLE IF NOT EXISTS \"CheckingStarOneTXs\" (\n" + 
 	    "	\"TransactionNumber\"	INTEGER,\n" + 
 	    "	\"TransactionDate\"	TEXT,\n" + 
@@ -49,8 +49,19 @@ public class Tables {
 	    "	\"Source\"	TEXT\n" + 
 	    "\n" + 
 	    ");\n" ;
-	PreparedStatement s = connection.prepareStatement(statement);
-	Integer iReturnValue = s.executeUpdate();
+		try {
+			PreparedStatement s = connection.prepareStatement(statement);
+			Integer iReturnValue = s.executeUpdate();
+			System.out.println("return Value of last execute of table creation: " + iReturnValue);
+		} catch (SQLException e) {
+			System.out.println("Error creating CheckingStarOneTXs table: " + e.getMessage());
+		} finally {
+			try {
+				connection.commit();
+			} catch (SQLException e) {
+				System.out.println("Error committing transaction: " + e.getMessage());
+			}
+		}
 	
 	String SavingsStarOneString = "CREATE TABLE IF NOT EXISTS \"SavingsStarOneTXs\" (\n" + 
 	    "	\"TransactionNumber\"	INTEGER,\n" + 
@@ -68,8 +79,18 @@ public class Tables {
 	    "	\"Mandatory\"	TEXT,\n" + 
 	    "	\"Source\"	TEXT\n" + 
 	    ");";
-	s = connection.prepareStatement(SavingsStarOneString);
-	iReturnValue = s.executeUpdate();
+		try {
+			PreparedStatement s = connection.prepareStatement(SavingsStarOneString);
+			Integer iReturnValue = s.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error creating SavingsStarOneTXs table: " + e.getMessage());
+		} finally {
+			try {
+				connection.commit();
+			} catch (SQLException e) {
+				System.out.println("Error committing transaction: " + e.getMessage());
+			}
+		}
 		
 	String visaChaseString = "CREATE TABLE IF NOT EXISTS \"VisaChaseTXs\" (\n" + 
 	    "	\"TransactionDate\"	TEXT,\n" + 
@@ -85,8 +106,13 @@ public class Tables {
 	    "	\"balance\"	REAL,\n" + 
 	    "	\"Source\"	TEXT\n" + 
 	    ");";
-	s = connection.prepareStatement(visaChaseString);
-	iReturnValue = s.executeUpdate();
+
+		try {
+			PreparedStatement s = connection.prepareStatement(visaChaseString);
+			Integer iReturnValue = s.executeUpdate();
+		} catch (SQLException e) {
+		System.out.println("Error creating VisaChaseTXs table: " + e.getMessage());
+		}
 		
 	String BigTXViewString = "CREATE VIEW IF NOT EXISTS BigTXView as\n" + 
 	    "\n" + 
@@ -95,12 +121,27 @@ public class Tables {
 	    "select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from CheckingStarOneTXs\n" + 
 	    "union\n" + 
 	    "select TransactionDate, Description, amount, BudgetCat, XclFrmCshFlw, Mandatory, source from SavingsStarOneTXs\n"; 
-	s = connection.prepareStatement(BigTXViewString);
-	iReturnValue = s.executeUpdate();
-	System.out.println("return Value of last execute of table creation: " + iReturnValue);
-	s = connection.prepareStatement(CREATE_RECURRING_TRANSACTIONS_TABLE);
-	iReturnValue = s.executeUpdate();
-	System.out.println("return Value of last execute of table creation: " + iReturnValue);
-    }
+		try {
+			PreparedStatement s = connection.prepareStatement(BigTXViewString);
+			Integer iReturnValue = s.executeUpdate();
+			System.out.println("return Value of last execute of table creation: " + iReturnValue);
+		} catch (SQLException e) {
+			System.out.println("Error creating BigTXView: " + e.getMessage());
+		} finally {
+			try {
+				connection.commit();
+			} catch (SQLException e) {
+				System.out.println("Error committing transaction: " + e.getMessage());
+			}
+		}
+
+		try {
+			PreparedStatement s = connection.prepareStatement(CREATE_RECURRING_TRANSACTIONS_TABLE);
+			Integer iReturnValue = s.executeUpdate();
+			System.out.println("return Value of last execute of table creation: " + iReturnValue);
+		} catch (SQLException e) {
+			System.out.println("Error creating RecurringTransactions table: " + e.getMessage());
+		}
+	}
 	
 }

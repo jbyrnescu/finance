@@ -134,38 +134,49 @@ public class StarOneTransaction extends Transaction {
 		this.amount = creditAmount - Math.abs(debitAmount);
 	}
 	@Override
-	public int loadIntoDatabase(Connection connection) throws SQLException {
+	public int loadIntoDatabase(Connection connection) {
+		try {
 		if (super.loadIntoDatabase(connection) == Transaction.TRANSACTION_EXISTS)
 			return(NOTHING_LOADED);
-		PreparedStatement statement = connection.prepareStatement("insert or ignore into CheckingStarOneTXs ("
-				+ "transactionNumber, memo, debitAmount, creditAmount, balance, checkNumber, "
-				+ "fees, transactionDate, description, amount, budgetCat, XclFrmCshFlw, mandatory,"
-				+ "source) "
-				+ "values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
-		statement.setInt(1, this.transactionNumber);
-		statement.setString(2, this.memo);
-		statement.setFloat(3, debitAmount);
-		statement.setFloat(4, this.creditAmount);
-		statement.setFloat(5, this.balance);
-		statement.setString(6, checkNumber);
-		statement.setFloat(7, this.fees);
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-		statement.setString(8, simpleDateFormat.format(transactionDate));
-//		statement.setDate(8, new java.sql.Date(transactionDate.getTime()));
-		statement.setString(9, description);
-		statement.setDouble(10, amount);
-		statement.setString(11, budgetCat);
-		statement.setString(12, xcludeFromCashFlow);
-		statement.setString(13, mandatory);
-		statement.setString(14, source);
-				
-		statement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error checking for existing transaction: " + e.getMessage());
+			return(NOTHING_LOADED);
+		}
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement("insert or ignore into CheckingStarOneTXs ("
+					+ "transactionNumber, memo, debitAmount, creditAmount, balance, checkNumber, "
+					+ "fees, transactionDate, description, amount, budgetCat, XclFrmCshFlw, mandatory,"
+					+ "source) "
+					+ "values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+			statement.setInt(1, this.transactionNumber);
+			statement.setString(2, this.memo);
+			statement.setFloat(3, debitAmount);
+			statement.setFloat(4, this.creditAmount);
+			statement.setFloat(5, this.balance);
+			statement.setString(6, checkNumber);
+			statement.setFloat(7, this.fees);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+			statement.setString(8, simpleDateFormat.format(transactionDate));
+	//		statement.setDate(8, new java.sql.Date(transactionDate.getTime()));
+			statement.setString(9, description);
+			statement.setDouble(10, amount);
+			statement.setString(11, budgetCat);
+			statement.setString(12, xcludeFromCashFlow);
+			statement.setString(13, mandatory);
+			statement.setString(14, source);
+					
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e) {
+			System.out.println("Error inserting into CheckingStarOneTXs table: " + e.getMessage());
+			return(NOTHING_LOADED);
+		}
 		return(TRANSACTION_LOADED);
 	}
 
 	@Override
-	public Transaction loadTransactionFromDatabase(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
+	public Transaction loadTransactionFromDatabase(ResultSet rs) {
 		return null;
 	}
 }

@@ -1,8 +1,13 @@
 package finance;
 
-import java.io.IOException;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -16,34 +21,27 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Iterator;
 
 import accounts.Account;
 import accounts.BigViewAccount;
 import accounts.ChaseAccount;
 import accounts.Expenses;
+import accounts.RecurringTransaction;
 import accounts.StarOneAccount;
 import accounts.Transaction;
-
 //import db.Tables;
 import db.Tables;
-import finance.reports.model.BudgetModel;
-import finance.reports.model.PieChartModel;
-import finance.reports.model.PieChartEntry;
-import finance.reports.model.SuggestedSavingsModel;
-import finance.reports.model.MonthlyBudgetModel;
 import finance.reports.model.BudgetItem;
-
-import java.io.BufferedWriter;
-import java.io.PrintWriter;
-import java.io.FileWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
+import finance.reports.model.BudgetModel;
+import finance.reports.model.MonthlyBudgetModel;
+import finance.reports.model.PieChartEntry;
+import finance.reports.model.PieChartModel;
+import finance.reports.model.SuggestedSavingsModel;
 
 public class Finance {
 	
@@ -58,9 +56,9 @@ public class Finance {
 	Finance() {
 	}
 
-	public static Connection con;
+	public static Connection con = null;
 
-	private Connection connection;
+	private Connection connection = null;
 	ArrayList<ArrayList<Object>> table = new ArrayList<ArrayList<Object>>();
 
 	ArrayList<Object> row = new ArrayList<Object>();
@@ -260,7 +258,9 @@ public class Finance {
         mbm.loadBudgetFromFile(monthlyBudgetFilename);
         
         /* we now have both a Monthly budget model and the actual spending. */
-        finance.printMonthlyStatus(mbm, actualSpending);    
+        finance.printMonthlyStatus(mbm, actualSpending);
+
+		RecurringTransaction.getRecurringTransactionsFromToday(finance.connection);
         
 		errorFile.close();
 
@@ -516,7 +516,7 @@ public class Finance {
 
 	}
 
-	private void markExcludedTransactions() throws SQLException {
+	private void markExcludedTransactions() {
 		for (int accountNum = 0; accountNum < accounts.size(); accountNum++) {
 			String source = accounts.get(accountNum).getSourceName();
 			for (String key : excludedTransactionsMap.keySet()) {
@@ -524,9 +524,14 @@ public class Finance {
 						+ excludedTransactionsMap.get(key) +
 						"\" where Description like \"%" + key + "%\";";
 				Logger.out.println("updating: " + queryString);
-				Statement statement = connection.createStatement();
-				int numUpdated = statement.executeUpdate(queryString);
-				Logger.out.print(numUpdated);
+				try {
+					Statement statement = connection.createStatement();
+					int numUpdated = statement.executeUpdate(queryString);
+					statement.close();
+					Logger.out.print(numUpdated);
+				} catch (SQLException e) {
+					Logger.out.println("Error updating excluded transactions: " + e.getMessage());
+				} 
 			}
 		}
 	}
@@ -545,44 +550,59 @@ public class Finance {
 //			mandatoryMap.printMap();
 	}
 
-	private void markMandatory() throws SQLException {
+	private void markMandatory() {
 		for (int accountNum = 0; accountNum < accounts.size(); accountNum++) {
 			String source = accounts.get(accountNum).getSourceName();
 			for (String key : mandatoryMap.keySet()) {
 				String queryString = "update " + source + " set Mandatory=\"" + mandatoryMap.get(key) +
 						"\" where Description like \"%" + key + "%\";";
 				Logger.out.println("updating: " + queryString);
-				Statement statement = connection.createStatement();
-				int numUpdated = statement.executeUpdate(queryString);
-				Logger.out.print(numUpdated);
+				try {
+					Statement statement = connection.createStatement();
+					int numUpdated = statement.executeUpdate(queryString);
+					statement.close();
+					Logger.out.print(numUpdated);
+				} catch (SQLException e) {
+					Logger.out.println("Error updating mandatory categories: " + e.getMessage());
+				}
 			}
 		}
 	}
 
-	private void markCategoriesMandatory() throws SQLException {
+	private void markCategoriesMandatory() {
 		for (int accountNum = 0; accountNum < accounts.size(); accountNum++) {
 			String source = accounts.get(accountNum).getSourceName();
 			for (String key : mandatoryMap.keySet()) {
 				String queryString = "update " + source + " set Mandatory=\"" + mandatoryMap.get(key) +
 						"\" where BudgetCat like \"%" + key + "%\";";
 				Logger.out.println("updating: " + queryString);
-				Statement statement = connection.createStatement();
-				int numUpdated = statement.executeUpdate(queryString);
-				Logger.out.print(numUpdated);
+				try {
+					Statement statement = connection.createStatement();
+					int numUpdated = statement.executeUpdate(queryString);
+					statement.close();
+					Logger.out.print(numUpdated);
+				} catch (SQLException e) {
+					Logger.out.println("Error updating mandatory categories: " + e.getMessage());
+				}
 			}
 		}
 	}
 
-	private void remapCategories() throws SQLException {
+	private void remapCategories() {
 		for (int accountNum = 0; accountNum < accounts.size(); accountNum++) {
 			String source = accounts.get(accountNum).getSourceName();
 			for (String key : categoriesMap.keySet()) {
 				String queryString = "update " + source + " set BudgetCat=\"" + categoriesMap.get(key) +
 						"\" where Description like \"%" + key + "%\";";
 				Logger.out.println("updating: " + queryString);
-				Statement statement = connection.createStatement();
-				int numUpdated = statement.executeUpdate(queryString);
-				Logger.out.print(numUpdated);
+				try {
+					Statement statement = connection.createStatement();
+					int numUpdated = statement.executeUpdate(queryString);
+					statement.close();
+					Logger.out.print(numUpdated);
+				} catch (SQLException e) {
+					Logger.out.println("Error updating categories: " + e.getMessage());
+				}
 			}
 		}
 	}
@@ -626,14 +646,24 @@ public class Finance {
 	}
 
 	public static void setConnectionStatic(Connection con) {
-		if (con == null) {
+		Finance.con = con;
+	}
+	
+
+
+	/**
+	 * Connect to a sample database
+	 */
+	public void connect() {
+		if (connection == null)
+		{
 			System.out.println("Connecting to Database");
 			try {
 				// db parameters
 	//			String url = "jdbc:sqlite:" + Finance.baseProjectPath + "TXs2.db";
 				String url = "jdbc:sqlite:" + Finance.baseProjectPath + "/TXs2.db";
 				// create a connection to the database
-				con = (DriverManager.getConnection(url));
+				connection = DriverManager.getConnection(url);
 
 				Logger.out.println("Connection to SQLite has been established.");
 
@@ -649,43 +679,6 @@ public class Finance {
 					Logger.out.println(ex.getMessage());
 				} */
 			}
-		}
-
-		Finance.con = con;
-	}
-	
-	
-	public static Connection getConnectionStatic() {
-		Finance finance = new Finance();
-		return finance.getConnection();
-	}
-
-	/**
-	 * Connect to a sample database
-	 */
-	public void connect() {
-		connection = null;
-		System.out.println("Connecting to Database");
-		try {
-			// db parameters
-//			String url = "jdbc:sqlite:" + Finance.baseProjectPath + "TXs2.db";
-			String url = "jdbc:sqlite:" + Finance.baseProjectPath + "/TXs2.db";
-			// create a connection to the database
-			connection = DriverManager.getConnection(url);
-
-			Logger.out.println("Connection to SQLite has been established.");
-
-		} catch (SQLException e) {
-			Logger.out.println(e.getMessage());
-		} finally {
-			/*            try {
-                if (connection != null) {
-                	Logger.out.println("Connection not null... congrats!");
-/*                    connection.close(); 
-                }
-            } catch (SQLException ex) {
-                Logger.out.println(ex.getMessage());
-            } */
 		}
 	}
 

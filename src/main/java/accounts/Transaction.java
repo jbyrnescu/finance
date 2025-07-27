@@ -48,20 +48,31 @@ public abstract class Transaction {
 			
 			Statement s = connection.createStatement();
 			ResultSet rs = s.executeQuery(queryString);
+			s.close();
 //			ResultSetMetaData rsmd = rs.getMetaData();
 			if (rs.next()) return TRANSACTION_EXISTS;
 			return NO_SIMILAR_TRANSACTIONS;
 		}
 		public abstract void populateTransactionFromString(String line) throws ParseException;
 
-		public Transaction loadTransactionFromDatabase(ResultSet rs) throws SQLException {
-			this.amount = rs.getFloat("amount");
-			this.transactionDate = rs.getDate("TransactionDate");
-			this.description = rs.getString("Description");
-			this.budgetCat = rs.getString("BudgetCat");
-			this.xcludeFromCashFlow = rs.getString("XclFrmCshFlw");
-			this.mandatory = rs.getString("Mandatory");
-			this.source = rs.getString("Source");
+		public Transaction loadTransactionFromDatabase(ResultSet rs) {
+			try {
+				this.amount = rs.getFloat("amount");
+				this.transactionDate = rs.getDate("TransactionDate");
+				this.description = rs.getString("Description");
+				this.budgetCat = rs.getString("BudgetCat");
+				this.xcludeFromCashFlow = rs.getString("XclFrmCshFlw");
+				this.mandatory = rs.getString("Mandatory");
+				this.source = rs.getString("Source");
+			} catch (SQLException e) {
+				Logger.out.println("Error loading transaction from database: " + e.getMessage());
+			} finally {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					Logger.out.println("Error closing ResultSet: " + e.getMessage());
+				}
+			}
 			return this;
 		}
 		

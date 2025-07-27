@@ -41,7 +41,7 @@ public class SuggestedSavingsModel extends PieChartModel {
 		this.basePath = basePath;
 	}
 	
-	public void writeEntries(String filename) throws FileNotFoundException, SQLException {
+	public void writeEntries(String filename) throws FileNotFoundException, SQLException, ParseException, IOException {
 		File file = new File(basePath+"/"+filename);
 		PrintWriter out = new PrintWriter(file);
 		
@@ -49,8 +49,11 @@ public class SuggestedSavingsModel extends PieChartModel {
 			Logger.out.println("Need to load a budget from a file before using writeEntries");
 		}
 		
+		loadBudgetFromFile(filename);
+
 		double incomeAmount = getIncomeFromDatabase();
 		loadPieChartEntriesFromDatabase(startStr,null);
+
 		
 		out.println("Actual Savings, amount, suggested Savings, amount, difference");
 		
@@ -96,6 +99,10 @@ public class SuggestedSavingsModel extends PieChartModel {
 		
 		try {
 		List<String> lines = Files.readAllLines(Paths.get(basePath+"/"+filename));
+		if (lines.size() < 2) {
+			Logger.out.println("File " + filename + " does not have enough lines to load a budget");
+			return;
+		}
 
 		String startDateStr[] = lines.get(0).split(",");
 		String dateArray[] = startDateStr[0].split("-");
@@ -203,7 +210,7 @@ public class SuggestedSavingsModel extends PieChartModel {
 	}
 	
 //	@override
-	public int loadPieChartEntriesFromDatabase(String beginDate, String endDate) throws SQLException {
+	public int loadPieChartEntriesFromDatabase(String beginDate, String endDate) {
 		String and1 ="", and2 = "";
 		String endQuote = "\"";
 		if (beginDate == null) {
@@ -239,17 +246,23 @@ public class SuggestedSavingsModel extends PieChartModel {
 				+ " order by sum(amount) asc;");
 		
 		Logger.out.println("query for suggested savings model: " + query);
-		
-				Statement s = connection.createStatement();
+
+		int numberOfEntries = 0;
+		try {		
+		Statement s = connection.createStatement();
 				ResultSet rs = s.executeQuery(query.toString());
-				int numberOfEntries = 0;
+
 				while(rs.next()) {
 					PieChartEntry pce = new PieChartEntry();
 					pce.loadFromResultSet(rs);
 					chartEntries.add(pce);
 					numberOfEntries++;
 				}
-				return numberOfEntries;
+			} catch (SQLException e) {
+				Logger.out.println("Error loading pie chart entries: " + e.getMessage());
+				return -1;
+			}
+			return numberOfEntries;
 				
 	}
 	

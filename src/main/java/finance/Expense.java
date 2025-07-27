@@ -33,7 +33,7 @@ public class Expense extends Transaction {
 	}
 
 	@Override
-	public Transaction loadTransactionFromDatabase(ResultSet rs) throws SQLException {
+	public Transaction loadTransactionFromDatabase(ResultSet rs) {
 		// TODO Auto-generated method stub
 		return null;
 	}
