@@ -5,6 +5,7 @@ import java.util.Date;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -117,9 +118,11 @@ public class RecurringTransaction extends Transaction
 
     }
 
-    public static final String RECURRING_TRANSACTION_94DAY_QUERY = "select * from BigTXView where transactionDate > ? order by transactiondate asc;";
+    public static final String RECURRING_TRANSACTION_94DAY_QUERY = "select * from BigTXView where transactionDate > ? order by transactiondate desc;";
 
-    public static final String RECURRING_TRANSACTION_94DAY_QUERY4 = "select * from BigTXView where transactionDate > ? and transactionDate < ? and description = ? and amount > ? and amount < ? order by transactiondate asc;";
+    public static final String RECURRING_TRANSACTION_94DAY_QUERY4 = "select * from BigTXView where transactionDate > ? and transactionDate < ? and description = ? and amount > ? and amount < ? order by transactiondate desc;";
+
+    public static final String GET_ALL_RECURRING_TRANSACTIONS = "select * from RecurringTransactions order by average_day_of_purchase desc";
 
     public static void getRecurringTransactionsFromToday(Connection connection) throws ParseException
     {
@@ -288,17 +291,34 @@ public class RecurringTransaction extends Transaction
         
         try 
         {
+            // Since the database only keeps 1 copy of recurring transactions, we're going to use the DB as a source of truth
+            // query the recurring transactions table, and get each transaction and write it out.
             // Write to a file, because we're retarded.
             PrintWriter printWriter = new PrintWriter("recurring_transactions.txt");
-            for (RecurringTransaction rt : recurringTransactionsToAdd) 
-            {
-            
-                printWriter.println(rt.getDescription() + "," + 
-                    rt.getRecurrenceType() + "," + 
-                    rt.getAmount() + "," + 
-                    rt.getAmountType() + "," + 
-                    rt.getAverageDayOfMonthOfTransaction() + "," + 
-                    rt.getLastSeenDate());
+
+            try {
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery(GET_ALL_RECURRING_TRANSACTIONS);
+                while(rs.next())
+                {
+                    RecurringTransaction rt = new RecurringTransaction();
+                    rt.setDescription(rs.getString("description"));
+                    rt.setAmount(rs.getDouble("amount"));
+                    rt.setAmountType(rs.getString("amount_type"));
+                    rt.setRecurrenceType(rs.getString("recurrence_type"));
+                    rt.setAverageDayOfMonthOfTransaction(rs.getInt("average_day_of_purchase"));
+
+                    printWriter.println(rt.getDescription() + "," + 
+                        rt.getRecurrenceType() + "," + 
+                        rt.getAmount() + "," + 
+                        rt.getAmountType() + "," + 
+                        rt.getAverageDayOfMonthOfTransaction() + "," + 
+                        rt.getLastSeenDate());
+                    
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Failed to retrieve all recurring transactions.");
             }
             System.out.println("Recurring transactions written to file.");
             printWriter.close();

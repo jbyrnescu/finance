@@ -25,7 +25,7 @@ public class Tables {
 	"\"recurrence_type\" TEXT,\n" +
 	"\"amount\" REAL,\n" +
 	"\"amount_type\" TEXT,\n" +
-	"\"average_day_of_purchase\" TEXT,\n" +
+	"\"average_day_of_purchase\" INTEGER,\n" +
 	// "\"found_date\" TEXT,\n" +
 	"\"latest_recurrence\" TEXT\n" +
 	"\n" +
