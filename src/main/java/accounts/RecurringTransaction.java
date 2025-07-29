@@ -120,7 +120,7 @@ public class RecurringTransaction extends Transaction
 
     public static final String RECURRING_TRANSACTION_94DAY_QUERY = "select * from BigTXView where transactionDate > ? order by transactiondate desc;";
 
-    public static final String RECURRING_TRANSACTION_94DAY_QUERY4 = "select * from BigTXView where transactionDate > ? and transactionDate < ? and description = ? and amount > ? and amount < ? order by transactiondate desc;";
+    public static final String RECURRING_TRANSACTION_94DAY_QUERY4 = "select * from BigTXView where transactionDate > ? and transactionDate < ? and description like ? and amount > ? and amount < ? order by transactiondate desc;";
 
     public static final String GET_ALL_RECURRING_TRANSACTIONS = "select * from RecurringTransactions order by average_day_of_purchase desc";
 
@@ -153,18 +153,31 @@ public class RecurringTransaction extends Transaction
                 cal.setTime(simpleDateFormat.parse(dateString));
                 cal.add(Calendar.DAY_OF_MONTH, -94);
 
+
+                StringBuffer cutDescription = new StringBuffer(resultSet.getString("description").trim());
+                cutDescription = new StringBuffer(cutDescription.toString().toUpperCase());
+                cutDescription = new StringBuffer(cutDescription.substring(0,6));
+                cutDescription = cutDescription.append("%");
+
                 String lowerDate = simpleDateFormat.format(cal.getTime());
                 String upperDate = resultSet.getString("transactionDate");
+                Calendar upperCalendar = Calendar.getInstance();
+                upperCalendar.setTime(simpleDateFormat.parse(upperDate));
+                upperCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                Date upperDateDate = upperCalendar.getTime();
+                upperDate = simpleDateFormat.format(upperDateDate);
+
                 findRecurringTransactionsStatement.setString(1, lowerDate);
                 findRecurringTransactionsStatement.setString(2, upperDate);
-                findRecurringTransactionsStatement.setString(3, resultSet.getString("description"));
+                findRecurringTransactionsStatement.setString(3, cutDescription.toString());
                 double lowerAmount = resultSet.getDouble("amount") - 50.0;
                 findRecurringTransactionsStatement.setDouble(4, lowerAmount);
                 double upperAmount = resultSet.getDouble("amount") + 50.0;
                 findRecurringTransactionsStatement.setDouble(5, upperAmount);
 
+
                 System.out.println("Executing query:");
-                System.out.println("select * from BigTXView where transactionDate > " + lowerDate + " and transactionDate < " + upperDate + " and description = " + resultSet.getString("description") 
+                System.out.println("select * from BigTXView where transactionDate > " + lowerDate + " and transactionDate < " + upperDate + " and description like " + cutDescription 
                     + " and amount > " + lowerAmount + " and amount < " + upperAmount + " order by transactiondate asc;");
 
                 ResultSet recurringResultSet = findRecurringTransactionsStatement.executeQuery();
@@ -188,6 +201,7 @@ public class RecurringTransaction extends Transaction
                     returnedTransactions.add(recurringTransaction);
 
                 }
+                System.out.println("Number of found transactinos: " + returnedTransactions.size());
                 // Quarterly transactions will return 1 result including the original transaction
                 if (returnedTransactions.size() == 2)
                 {
@@ -212,11 +226,12 @@ public class RecurringTransaction extends Transaction
                     returnedTransactions.get(0).setRecurrenceType("Quarterly");
                     returnedTransactions.get(0).setAverageDayOfMonthOfTransaction(day);
                     returnedTransactions.get(0).setAmountType("Unknown");
+                    returnedTransactions.get(0).setTransactionDate(returnedTransactions.get(0).getLastSeenDate());
                     returnedTransactions.get(0).loadIntoDatabase(connection);
                     recurringTransactionsToAdd.add(returnedTransactions.get(0));
                 }
-                // Monthly transactions will return 3 results
-                if (returnedTransactions.size() == 3)
+                // Monthly transactions will return 4 results 3 plus the current TXN
+                if (returnedTransactions.size() == 4)
                 {
 
                     // Check to make sure the transactions are 28 +/- 4 days apart
