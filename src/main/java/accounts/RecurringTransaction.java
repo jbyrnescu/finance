@@ -233,7 +233,7 @@ public class RecurringTransaction extends Transaction
                 // Monthly transactions will return 4 results 3 plus the current TXN
                 if (returnedTransactions.size() == 4)
                 {
-
+                    // boolean abort = false;
                     // Check to make sure the transactions are 28 +/- 4 days apart
                     for (int i = 0; i < returnedTransactions.size()-1; i++)
                     {
@@ -241,12 +241,22 @@ public class RecurringTransaction extends Transaction
                         Date secondTransactionDate = returnedTransactions.get(i+1).getLastSeenDate();
                         long diffInMillies = Math.abs(secondTransactionDate.getTime() - firstTransactionDate.getTime());
                         long diffInDays = diffInMillies / (1000 * 60 * 60 * 24);
-                        if (diffInDays < 24 || diffInDays > 32) {
+                        if (diffInDays < 24 || diffInDays > 34) {
                             System.out.println("Skipping transaction: " + returnedTransactions.get(0).getDescription() + " as it is not a monthly transaction.");
+                            // It's better to let the user throw out the slop than this program.
+                            // It's ok if we get more.  Not if we get less.  So, the below is wrong.
+                            // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                            // if even 1 transaction is out of this range, we toss it out.
+                            // abort = true;
+                            // =================
+                            // If only 1 is within 30 days, we accept it as possibly monthly.
+                            // This relaxes the rule that you must have 90 days to figure out if something is monthly.
                             continue; // Skip this transaction
                         }
 
                     }
+                    // if (abort) continue;
+                    
 
                     System.out.println("Found monthly transaction: " + returnedTransactions.get(0).getDescription());
                     // find the average day of month of transaction
@@ -309,6 +319,9 @@ public class RecurringTransaction extends Transaction
             // Since the database only keeps 1 copy of recurring transactions, we're going to use the DB as a source of truth
             // query the recurring transactions table, and get each transaction and write it out.
             // Write to a file, because we're retarded.
+
+            // If the description has a date in it.  It may be found multiple times.
+            // Since the primary key is the description, it’s a separate record.
             PrintWriter printWriter = new PrintWriter("recurring_transactions.txt");
 
             try {
