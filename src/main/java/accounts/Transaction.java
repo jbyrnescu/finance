@@ -38,7 +38,7 @@ public abstract class Transaction {
 			// description can't have any double quotes in it.  So we'll strip them.
 			description = description.replace("\"","");
 			
-			Logger.out.println("Checking for existing transaction");
+			// Logger.out.println("Checking for existing transaction");
 			String queryString = "select * from BigTXView where "
 					+ " transactionDate = \"" + transactionDateString + "\""
 					+ " and description = \"" + description + "\""

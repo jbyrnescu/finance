@@ -1,3 +1,5 @@
 target/
 src/**/*.html
-bin/
+bin/*
+src/**/*.woff
+src/**/*.woff2

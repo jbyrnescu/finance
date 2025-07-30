@@ -195,7 +195,7 @@ public class RecurringTransaction extends Transaction
                     foundAmount = recurringResultSet.getDouble("amount");
                     recurringTransaction.setDescription(recurringResultSet.getString("description"));
                     recurringTransaction.setAmount(recurringResultSet.getDouble("amount"));
-                    recurringTransaction.setLastSeenDate(new java.util.Date(recurringResultSet.getDate("transactionDate").getTime()));
+                    recurringTransaction.setLastSeenDate(recurringResultSet.getDate("transactionDate"));
 
                     // Add to a list or process as needed
                     returnedTransactions.add(recurringTransaction);
@@ -322,7 +322,8 @@ public class RecurringTransaction extends Transaction
 
             // If the description has a date in it.  It may be found multiple times.
             // Since the primary key is the description, it’s a separate record.
-            PrintWriter printWriter = new PrintWriter("recurring_transactions.txt");
+            PrintWriter printWriter = new PrintWriter("recurring_transactions.csv");
+            printWriter.println("Description, Recurrence Type, amount, Amount Type, Average Day Of Month, Last Seend Date");
 
             try {
                 Statement statement = connection.createStatement();
@@ -335,6 +336,7 @@ public class RecurringTransaction extends Transaction
                     rt.setAmountType(rs.getString("amount_type"));
                     rt.setRecurrenceType(rs.getString("recurrence_type"));
                     rt.setAverageDayOfMonthOfTransaction(rs.getInt("average_day_of_purchase"));
+                    rt.setLastSeenDate(rs.getDate("latest_recurrence"));
 
                     printWriter.println(rt.getDescription() + "," + 
                         rt.getRecurrenceType() + "," + 
@@ -381,7 +383,7 @@ public class RecurringTransaction extends Transaction
             statement.setDouble(3, getAmount());
             statement.setString(4, getAmountType());
             statement.setInt(5, getAverageDayOfMonthOfTransaction() );
-            statement.setString(6, simpleDateFormat.format(transactionDate));
+            statement.setString(6, simpleDateFormat.format(getLastSeenDate()));
             
             statement.executeUpdate();
             statement.close();
