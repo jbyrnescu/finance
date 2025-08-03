@@ -48,7 +48,7 @@ public abstract class Transaction {
 			
 			Statement s = connection.createStatement();
 			ResultSet rs = s.executeQuery(queryString);
-			s.close();
+
 //			ResultSetMetaData rsmd = rs.getMetaData();
 			if (rs.next()) return TRANSACTION_EXISTS;
 			return NO_SIMILAR_TRANSACTIONS;
