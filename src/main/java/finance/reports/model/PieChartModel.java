@@ -10,12 +10,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 
 import finance.Logger;
-
-import org.jfree.chart.*;
-import org.jfree.data.general.DefaultPieDataset;
 
 public class PieChartModel {
 	
@@ -50,7 +53,7 @@ public class PieChartModel {
 		if (endDate == null)
 		{ 
 			endDate = ""; 
-		} else and2 = " and transactionDate <= \"" + endDate + endQuote;
+		} else and2 = " and transactionDate <= \"" + endDate + " 23:59:59" + endQuote ;
 		
 		String query = "select BudgetCat,sum(amount) as amount from BigTXView "
 				+ " where "

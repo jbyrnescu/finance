@@ -71,137 +71,6 @@ so that the user knows and can use that information if he/she needs to.)
         The total monthly budgeted amount would need to be calculated.
         This would be easier if it was in a table, but can be done w/o being in a table.
 
-14. Recurring functionality. This functionality was implemented before.  The code got deleted from GitHub
-    though.  Essentially, this would analyze the past few months and compare each transaction in the
-    current month with the previous month(s) to see if there is a matching transaction
-    I'm guessing this could be done quarterly as well.
-    Since I usually start a new TXs2.db file each year, this wouldn't be of much use.  Maybe
-    I could change the process to keep the DB?
-    This could be a recurring transactions report.  Maybe I could make a table, and output it as well?
-    The transactions could be marked M for monthly, and Q for Quarterly.  I know I don't pay
-    Waste Mangement bills every month.  Granite propane is also every quarter.
-    Another part of this could be whether the amount is constant, or is a recurring
-    expense that has differing amounts.  I could mark that as well with something like 'C'
-    for Constant and 'V' for variable (or 'D' for dynamic?) 
-    It would also be nice if I could add a column for 'recurring', OR, mark the transaction as 'R'
-    for recurring.  (Maybe in the mandatory column of BigTXView?)  If I do this at the end of the
-    Finance.java class/program, I could just add the 'R' to current string in that column. 
-
-    The way this can be done, instead, is to query/list all transctions with the same description
-    and then compare the number of transactions returned with the number of months that
-    the comparison contains.  (This may be a better way to implement.)  Maybe that's why they
-    deleted that version of the finance program because it was a bad implementation.
-    It will certainly be much quicker to do it this way.  (They shouldn't have stolen my software
-    if they didn't want an implementation like that!)
-
-    So, for example, if there is a transaction in the current month like the following:
-    2025-06-08 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
-    Then a search would be like this:
-    select * from BigTXView where description like '%FORDDATA%' and amount > -20.04 and amount < -20.02;
-
-    In order to do this I'll need to find some code that helps me find transactions up 
-    to and including the last 3 months or last 94 days.  (not 90 because it's +/- 4 days error in comparison)
-    (Quarter will be the farthest spread there is.)
-    There is code that exists already that shows getting the first of the month.  I'll just
-    have to use that but wind the clock back 90 days.
-    Next, I will run a query for the last 90 days.  I will traverse the ResultSet and 
-    for every transaction:
-      (Maximum confidence)
-   	find the date 94 days before the date of the transaction
-	MONTHLY
-    	query for the amount and description of that transaction from the found date to now
-	      If exactly 3 transactions are found mark them as recurring monthly and store them
-	      for later.
-	QUARTERLY
-	      If transaction is found exactly 1 time mark them as recurring quarterly and store them
-
-      (Less confidence)
-	MONTHLY
-	query for the description and the date specified earlier
-	      If there are EXACTLY 3 transactions and the transaction has the same
-	      	 DAY OF MONTH (within +/- 4 days),
-		 AND the amount is within +/-$50?
-	      	 it's got to be recurring even though it doesn't have the same amount.
-		 (Like PG&E/NV Energy)
-		 store it for later use.
-	QUARTERLY
-	      If the day is within +/- 4 days and there is exactly 1 transaction like the transaction in question
-          Like, meaning:
-            same amount or within +/- $50
-            same day within +/- 4 days
-	      (Like GRANITE PROPANE)
-	      	 
-	What will be stored?  I think I'll create a class for recurring transactions:
-	     The class will have these fields/members:
-	         1) AVERAGE day of purchase. (truncated - to the nearest integer) (Truncated is easier)
-		 2) The average amount
-		 3) The description of the recurring charge.
-		 4) Found date (The date the recurrence was first found)
-		 5) The last/latest a recurrence was verified (again).  (update of table if it's
-		    found again.)
-         6) The type of recurring charge it is: (Monthly, Quarterly, Yearly?)
-	To keep track of recurring charges (after a lot of searches are being done throughout
-	   the year) I think I'll keep a table of them.
-
-Monthly Examples (2):
-(Example Queried for day of 2025-06-20)
-sqlite> select * from BigTXView where description like '%FORDDATA%' and amount < -20.02 and amount > -20.04 and transactiondate > '2025-03-19 00:00:00'
-   ...> ;
-2025-04-09 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
-2025-05-09 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
-2025-06-08 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
-
-sqlite> select * from BigTXView where description like 'NV Ener%' and transactiondate > '2025-03-19 00:00:00';
-2025-04-03 00:00:00|NV ENERGY NORTH SPPC PYMT|-69.5400009155273|UTILITIES : ELECTRICITY||M|CheckingStarOneTXs
-2025-05-02 00:00:00|NV ENERGY NORTH SPPC PYMT|-65.9899978637695|UTILITIES : ELECTRICITY||M|CheckingStarOneTXs
-2025-06-02 00:00:00|NV ENERGY NORTH SPPC PYMT|-74.7900009155273|UTILITIES : ELECTRICITY||M|CheckingStarOneTXs
-
-Quarterly Example:
-sqlite> select * from BigTXView where description like 'WM.COM' and amount > -66.70 and amount < -66.69 and transactiondate > '2025-03-19 00:00:00';
-2025-04-24 00:00:00|WM.COM|-66.6999969482422|UTILITIES|||VisaChaseTXs
-
-    It looks like I'll have to round down and truncate for the boundaries of the amount.
-
-Maybe I could have a method that compares transactions and deems transactions, "equivalent": description same, +/-4days, +/-$50
-    The thresholds will probably be constant, but can be changed within this method.
-
-There'll be 1 method called in the Finance class: 
-1) printRecurringTransactionsFromToday()
-This method will be called during the monthlyBudget sequence of methods called to warn user of upcoming transactions
-
-printRecurring... will call getRecurringTransactionsFromToday() which will return an ArrayList of RecurringTransactions.  It should also fill the recurring transactions table with the latest recurring transactions.
-I can do a query of the DB directly, but they're not going to be Transactions, I'll have to convert them.
-Maybe I could pass the resultSet to Transaction and get a Transacation back?  Yes, I have functionality for that.
-
-For ease of use, I'll make Finance a singleton for the DB Connection.  This should have been done before.
-Once I have the db connection this is what it will look like:
-(Declared outside in static context)
-public static final String RECURRING_TRANSACTION_94DAY_QUERY = "select * from BigTXView where transactionDate > ?;"
-(In getRecurringTransactionsFromToday context)
-Calendar ninetyFourDaysAgo = Calendar.getInstance().add(Calendar.DATE, -94);
-Date beginSearchDate = ninetyFourDaysAgo.getTime();
-SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-PreparedStatement preparedStatement = conn.prepareStatement(RECURRING_TRANSACTION_94DAY_QUERY);
-preparedStatement.setString(1, simpleDateFormat.format(beginSearchDate));
-ResultSet rs = preparedStatement.executeQuery();
-
-while(rs.next())
-{
-    // get description
-    // query the last -94 days before that for same description
-    //   (This time use  -94 days past < found date < date of transaction )
-    // convert transaction to Transaction (transactionsAreSimilar uses Transaction (s) to compare.)
-    //         (Use loadTransactionFromDatabase()... to do this.)
-    // go through each transaction found and see if each is similar
-    // if all are similar:
-        // if it appears 3 times, mark as monthly
-        // if it appears once, mark as quarterly
-}
-
-case scenarios:
-a) What if a quarterly transaction happened on day -93 and it's about to happen tomorrow?
-   Day -93 would search back -94 days and find that it's quarterly.  Then it could store and report it.
-
 15. I currently have a "Mandatory Calculations" worksheet in the excel file.
     However, it's pretty messed up and relies on Excel vlookup.  It would be nice to have
     this done by the Java program.  This would help in determining future expenditures for
@@ -246,6 +115,8 @@ a) What if a quarterly transaction happened on day -93 and it's about to happen 
     There is an sql statement under the scripts directory that shows how to get this for a single
     category.  If I could put this in the program and extend it to all categories in the budget, I could
     manage the budget more effectively. 
+
+19. single quotes throw off the monthly budget.  See the DENTISTS' OFFICE TXn
 
 ----------------------------------------------------------------
 
@@ -401,7 +272,136 @@ use the monthly for the budget numbers.
     and force the user's input on a program that used to just run by itself.
 
 
+14. Recurring functionality. This functionality was implemented before.  The code got deleted from GitHub
+    though.  Essentially, this would analyze the past few months and compare each transaction in the
+    current month with the previous month(s) to see if there is a matching transaction
+    I'm guessing this could be done quarterly as well.
+    Since I usually start a new TXs2.db file each year, this wouldn't be of much use.  Maybe
+    I could change the process to keep the DB?
+    This could be a recurring transactions report.  Maybe I could make a table, and output it as well?
+    The transactions could be marked M for monthly, and Q for Quarterly.  I know I don't pay
+    Waste Mangement bills every month.  Granite propane is also every quarter.
+    Another part of this could be whether the amount is constant, or is a recurring
+    expense that has differing amounts.  I could mark that as well with something like 'C'
+    for Constant and 'V' for variable (or 'D' for dynamic?) 
+    It would also be nice if I could add a column for 'recurring', OR, mark the transaction as 'R'
+    for recurring.  (Maybe in the mandatory column of BigTXView?)  If I do this at the end of the
+    Finance.java class/program, I could just add the 'R' to current string in that column. 
 
+    The way this can be done, instead, is to query/list all transctions with the same description
+    and then compare the number of transactions returned with the number of months that
+    the comparison contains.  (This may be a better way to implement.)  Maybe that's why they
+    deleted that version of the finance program because it was a bad implementation.
+    It will certainly be much quicker to do it this way.  (They shouldn't have stolen my software
+    if they didn't want an implementation like that!)
+
+    So, for example, if there is a transaction in the current month like the following:
+    2025-06-08 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
+    Then a search would be like this:
+    select * from BigTXView where description like '%FORDDATA%' and amount > -20.04 and amount < -20.02;
+
+    In order to do this I'll need to find some code that helps me find transactions up 
+    to and including the last 3 months or last 94 days.  (not 90 because it's +/- 4 days error in comparison)
+    (Quarter will be the farthest spread there is.)
+    There is code that exists already that shows getting the first of the month.  I'll just
+    have to use that but wind the clock back 90 days.
+    Next, I will run a query for the last 90 days.  I will traverse the ResultSet and 
+    for every transaction:
+      (Maximum confidence)
+   	find the date 94 days before the date of the transaction
+	MONTHLY
+    	query for the amount and description of that transaction from the found date to now
+	      If exactly 3 transactions are found mark them as recurring monthly and store them
+	      for later.
+	QUARTERLY
+	      If transaction is found exactly 1 time mark them as recurring quarterly and store them
+
+      (Less confidence)
+	MONTHLY
+	query for the description and the date specified earlier
+	      If there are EXACTLY 3 transactions and the transaction has the same
+	      	 DAY OF MONTH (within +/- 4 days),
+		 AND the amount is within +/-$50?
+	      	 it's got to be recurring even though it doesn't have the same amount.
+		 (Like PG&E/NV Energy)
+		 store it for later use.
+	QUARTERLY
+	      If the day is within +/- 4 days and there is exactly 1 transaction like the transaction in question
+          Like, meaning:
+            same amount or within +/- $50
+            same day within +/- 4 days
+	      (Like GRANITE PROPANE)
+	      	 
+	What will be stored?  I think I'll create a class for recurring transactions:
+	     The class will have these fields/members:
+	         1) AVERAGE day of purchase. (truncated - to the nearest integer) (Truncated is easier)
+		 2) The average amount
+		 3) The description of the recurring charge.
+		 4) Found date (The date the recurrence was first found)
+		 5) The last/latest a recurrence was verified (again).  (update of table if it's
+		    found again.)
+         6) The type of recurring charge it is: (Monthly, Quarterly, Yearly?)
+	To keep track of recurring charges (after a lot of searches are being done throughout
+	   the year) I think I'll keep a table of them.
+
+Monthly Examples (2):
+(Example Queried for day of 2025-06-20)
+sqlite> select * from BigTXView where description like '%FORDDATA%' and amount < -20.02 and amount > -20.04 and transactiondate > '2025-03-19 00:00:00'
+   ...> ;
+2025-04-09 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
+2025-05-09 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
+2025-06-08 00:00:00|AT&amp;T FORDDATAPLAN|-20.0300006866455|INTERNET SERVICE|||VisaChaseTXs
+
+sqlite> select * from BigTXView where description like 'NV Ener%' and transactiondate > '2025-03-19 00:00:00';
+2025-04-03 00:00:00|NV ENERGY NORTH SPPC PYMT|-69.5400009155273|UTILITIES : ELECTRICITY||M|CheckingStarOneTXs
+2025-05-02 00:00:00|NV ENERGY NORTH SPPC PYMT|-65.9899978637695|UTILITIES : ELECTRICITY||M|CheckingStarOneTXs
+2025-06-02 00:00:00|NV ENERGY NORTH SPPC PYMT|-74.7900009155273|UTILITIES : ELECTRICITY||M|CheckingStarOneTXs
+
+Quarterly Example:
+sqlite> select * from BigTXView where description like 'WM.COM' and amount > -66.70 and amount < -66.69 and transactiondate > '2025-03-19 00:00:00';
+2025-04-24 00:00:00|WM.COM|-66.6999969482422|UTILITIES|||VisaChaseTXs
+
+    It looks like I'll have to round down and truncate for the boundaries of the amount.
+
+Maybe I could have a method that compares transactions and deems transactions, "equivalent": description same, +/-4days, +/-$50
+    The thresholds will probably be constant, but can be changed within this method.
+
+There'll be 1 method called in the Finance class: 
+1) printRecurringTransactionsFromToday()
+This method will be called during the monthlyBudget sequence of methods called to warn user of upcoming transactions
+
+printRecurring... will call getRecurringTransactionsFromToday() which will return an ArrayList of RecurringTransactions.  It should also fill the recurring transactions table with the latest recurring transactions.
+I can do a query of the DB directly, but they're not going to be Transactions, I'll have to convert them.
+Maybe I could pass the resultSet to Transaction and get a Transacation back?  Yes, I have functionality for that.
+
+For ease of use, I'll make Finance a singleton for the DB Connection.  This should have been done before.
+Once I have the db connection this is what it will look like:
+(Declared outside in static context)
+public static final String RECURRING_TRANSACTION_94DAY_QUERY = "select * from BigTXView where transactionDate > ?;"
+(In getRecurringTransactionsFromToday context)
+Calendar ninetyFourDaysAgo = Calendar.getInstance().add(Calendar.DATE, -94);
+Date beginSearchDate = ninetyFourDaysAgo.getTime();
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+PreparedStatement preparedStatement = conn.prepareStatement(RECURRING_TRANSACTION_94DAY_QUERY);
+preparedStatement.setString(1, simpleDateFormat.format(beginSearchDate));
+ResultSet rs = preparedStatement.executeQuery();
+
+while(rs.next())
+{
+    // get description
+    // query the last -94 days before that for same description
+    //   (This time use  -94 days past < found date < date of transaction )
+    // convert transaction to Transaction (transactionsAreSimilar uses Transaction (s) to compare.)
+    //         (Use loadTransactionFromDatabase()... to do this.)
+    // go through each transaction found and see if each is similar
+    // if all are similar:
+        // if it appears 3 times, mark as monthly
+        // if it appears once, mark as quarterly
+}
+
+case scenarios:
+a) What if a quarterly transaction happened on day -93 and it's about to happen tomorrow?
+   Day -93 would search back -94 days and find that it's quarterly.  Then it could store and report it.
 
 -----
 
