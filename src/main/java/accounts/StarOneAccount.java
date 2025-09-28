@@ -14,7 +14,7 @@ public class StarOneAccount extends Account {
 	
 	public StarOneAccount() {
 		sourceName = "CheckingStarOneTXs";
-		filenamePrefix = "statement_starone_2_.*";
+		filenamePrefix = "statement_starone_2_.*.csv";
 	}
 	
 		

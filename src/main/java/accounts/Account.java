@@ -68,6 +68,7 @@ public abstract class Account {
 		Arrays.parallelSort(listOfFiles, Comparator.comparingLong(File::lastModified));
 		
 		for (int i = 0; i < listOfFiles.length; i++) {
+			System.out.println("Now loading file: " + listOfFiles[i].getName());
 			loadTransactionsFromFile(downloadPath+listOfFiles[i].getName());
 		}
 		
